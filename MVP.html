@@ -1,0 +1,1907 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MVP — Платформа организации практик ИТМО × ГПН</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+  // Tweakable defaults, wrapped in markers so host can persist edits
+  window.TWEAKS = /*EDITMODE-BEGIN*/{
+    "role": "student",
+    "accent": "#ff882b",
+    "accentGlow": 0.9,
+    "showHeroFlame": true,
+    "heroIntensity": 1,
+    "showExplainability": true,
+    "cardStyle": "navy"
+  }/*EDITMODE-END*/;
+</script>
+
+<style>
+  :root {
+    --bg: #05070d;
+    --bg-2: #0a0e18;
+    --panel: #0d1626;
+    --panel-2: #111b2e;
+    --panel-3: #1a2438;
+    --line: #1e2a42;
+    --line-2: #2a3652;
+    --ink: #eef2f9;
+    --ink-2: #c4ccdc;
+    --ink-3: #8892a8;
+    --ink-4: #5a6278;
+    --accent: #ff7a1a;
+    --accent-2: #ffb347;
+    --accent-deep: #cc4400;
+    --ok: #22c55e;
+    --warn: #eab308;
+    --err: #ef4444;
+    --info: #60a5fa;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { min-height: 100vh; overflow-x: hidden; }
+
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .display { font-family: 'Unbounded', 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; }
+
+  button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+  input, textarea, select { font: inherit; color: inherit; }
+  a { color: inherit; }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #1a2438; border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2a3652; }
+
+  /* Orange flame hero background — abstract SVG-less, using radial + conic gradients */
+  .flame-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .flame-bg::before,
+  .flame-bg::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255, 140, 40, 0.55), transparent 60%),
+      radial-gradient(ellipse 60% 30% at 30% 10%, rgba(255, 90, 20, 0.45), transparent 70%),
+      radial-gradient(ellipse 50% 25% at 75% 15%, rgba(255, 180, 60, 0.35), transparent 70%),
+      radial-gradient(ellipse 40% 15% at 50% 25%, rgba(255, 220, 100, 0.25), transparent 70%);
+    filter: blur(20px);
+  }
+  .flame-streaks {
+    position: absolute;
+    top: -5%; left: -10%; right: -10%;
+    height: 70%;
+    background:
+      linear-gradient(100deg, transparent 0%, transparent 20%, rgba(255, 180, 60, 0.25) 30%, rgba(255, 200, 80, 0.5) 40%, rgba(255, 160, 40, 0.4) 50%, transparent 70%),
+      linear-gradient(80deg, transparent 0%, transparent 30%, rgba(255, 140, 30, 0.4) 45%, rgba(255, 200, 80, 0.6) 55%, transparent 75%);
+    mix-blend-mode: screen;
+    filter: blur(2px);
+  }
+  .flame-streaks::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(105deg, transparent 40%, rgba(255, 255, 180, 0.8) 48%, rgba(255, 200, 80, 0.6) 52%, transparent 60%),
+      linear-gradient(95deg, transparent 50%, rgba(255, 150, 40, 0.5) 58%, transparent 70%);
+    mix-blend-mode: screen;
+    filter: blur(1px);
+  }
+  .flame-vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 40%, var(--bg) 95%);
+  }
+
+  /* Btn styles */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-accent {
+    background: linear-gradient(180deg, #ffa24a 0%, var(--accent) 50%, #e05800 100%);
+    color: #fff;
+    box-shadow:
+      0 0 0 1px rgba(255, 200, 140, 0.4) inset,
+      0 10px 30px rgba(255, 122, 26, calc(var(--glow, 0.9) * 0.6)),
+      0 0 60px rgba(255, 122, 26, calc(var(--glow, 0.9) * 0.4));
+  }
+  .btn-accent:hover { box-shadow: 0 0 0 1px rgba(255, 200, 140, 0.6) inset, 0 14px 40px rgba(255, 122, 26, 0.7), 0 0 80px rgba(255, 122, 26, 0.55); }
+  .btn-ghost {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.07); border-color: var(--line-2); }
+  .btn-sm { padding: 9px 14px; font-size: 12px; }
+  .btn-lg { padding: 18px 34px; font-size: 15px; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .pill-accent {
+    background: linear-gradient(180deg, #ffa24a, var(--accent));
+    color: #fff;
+    box-shadow: 0 0 30px rgba(255, 122, 26, 0.5);
+  }
+  .pill-ghost { background: rgba(255,255,255,0.05); color: var(--ink-2); border: 1px solid var(--line); }
+  .pill-ok { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .pill-warn { background: rgba(234,179,8,0.12); color: #fde047; border: 1px solid rgba(234,179,8,0.3); }
+  .pill-info { background: rgba(96,165,250,0.12); color: #93c5fd; border: 1px solid rgba(96,165,250,0.3); }
+  .pill-err { background: rgba(239,68,68,0.12); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 24px;
+  }
+  .card-hover { transition: border-color .15s ease, transform .15s ease, box-shadow .2s ease; }
+  .card-hover:hover { border-color: var(--line-2); transform: translateY(-2px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+  /* focus ring */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+  /* Scroll containers */
+  .scroll-y { overflow-y: auto; }
+
+  /* Simple divider */
+  hr.sep { border: 0; height: 1px; background: var(--line); margin: 24px 0; }
+
+  /* Inputs */
+  .input, .textarea, .select {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 14px;
+    color: var(--ink);
+    font-size: 14px;
+    transition: border-color .15s;
+  }
+  .input:focus, .textarea:focus, .select:focus { border-color: var(--accent); outline: none; }
+  .textarea { resize: vertical; min-height: 80px; font-family: 'Manrope', sans-serif; }
+  label.field { display: block; }
+  label.field .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); font-weight: 600; margin-bottom: 8px; display: block; }
+
+  /* Tag chip */
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+  .chip.chip-req { background: rgba(255,122,26,0.1); border-color: rgba(255,122,26,0.3); color: #ffb347; }
+  .chip.chip-match { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); color: #4ade80; }
+
+  /* Status dot */
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+  .dot-ok { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
+  .dot-warn { background: #eab308; box-shadow: 0 0 10px #eab308; }
+  .dot-err { background: #ef4444; }
+  .dot-info { background: #60a5fa; }
+  .dot-idle { background: #3a4560; }
+
+  /* Animated underline accent for links in nav */
+  .nav-link { position: relative; padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 13px; color: var(--ink-2); transition: color .15s, background .15s; }
+  .nav-link:hover { color: var(--ink); background: rgba(255,255,255,0.05); }
+  .nav-link.active { color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* Keyframes */
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 122, 26, 0.5), 0 0 30px rgba(255,122,26,0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 122, 26, 0), 0 0 50px rgba(255,122,26,0.6); }
+  }
+  .pulse { animation: pulseGlow 2.2s ease-in-out infinite; }
+
+  @keyframes slideFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .anim-in { animation: slideFadeIn .35s ease both; }
+
+  /* Tweaks panel */
+  .tweaks-panel {
+    position: fixed; right: 20px; bottom: 20px;
+    z-index: 100;
+    background: rgba(13,22,38,0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    padding: 18px;
+    width: 280px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    color: var(--ink);
+  }
+  .tweaks-panel h3 { margin: 0 0 12px; font-family: 'Unbounded', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .tweaks-panel .row { margin-bottom: 12px; font-size: 12px; color: var(--ink-2); }
+  .tweaks-panel label { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .tweaks-panel select, .tweaks-panel input[type=range] { width: 140px; }
+  .tweaks-panel input[type=color] { width: 40px; height: 28px; border: 0; border-radius: 6px; background: transparent; cursor: pointer; }
+
+  /* Kbd */
+  kbd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+  }
+
+  /* Progress / step timeline */
+  .step-timeline { display: flex; gap: 4px; }
+  .step-timeline .seg { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
+  .step-timeline .seg.done { background: var(--accent); box-shadow: 0 0 8px rgba(255,122,26,0.5); }
+  .step-timeline .seg.now { background: linear-gradient(90deg, var(--accent), #ffc570); }
+
+  /* Grid */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+  @media (max-width: 1100px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  /* Match score donut placeholder via conic-gradient */
+  .match-donut {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    position: relative;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .match-donut::before {
+    content: '';
+    position: absolute; inset: 6px;
+    background: var(--panel);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .match-donut > span { position: relative; z-index: 1; }
+
+  /* Subtle dotted grid bg for app shell */
+  .dotgrid {
+    background-image: radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  /* Small helpers */
+  .muted { color: var(--ink-3); }
+  .dim { color: var(--ink-4); }
+  .tight { letter-spacing: -0.02em; }
+
+  /* Skeleton image placeholder */
+  .img-ph {
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 8px, transparent 8px 16px),
+      var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    display: grid; place-items: center;
+    color: var(--ink-4);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Notification toast */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: rgba(13,22,38,0.95);
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 40px rgba(255,122,26,0.5);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 200;
+    animation: slideFadeIn .3s ease;
+  }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Speaker notes omitted: this is an app prototype, not a deck -->
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" data-presets="react" id="app-bundle">
+
+// ========== src/data.jsx ==========
+// Mock data for the platform
+const SKILLS_POOL = [
+  'Python', 'PyTorch', 'TensorFlow', 'scikit-learn', 'Pandas', 'NumPy',
+  'SQL', 'PostgreSQL', 'ClickHouse', 'Airflow', 'dbt', 'Spark',
+  'Docker', 'Kubernetes', 'MLOps', 'FastAPI', 'Kafka',
+  'NLP', 'BERT', 'LLM', 'RAG', 'LangChain',
+  'Computer Vision', 'Segmentation', 'YOLO',
+  'Geostatistics', 'Seismic Processing', 'Reservoir Modeling',
+  'Git', 'Linux', 'Jira', 'Confluence'
+];
+
+const STUDENT_ME = {
+  id: 'st-001',
+  name: 'Анна Дехтерева',
+  program: 'ИИ в промышленности',
+  year: '2 курс магистратуры',
+  gpa: 4.72,
+  bio: 'Интересуюсь применением LLM в задачах технического документооборота, опыт в NLP-пайплайнах и классических ML-моделях для табличных данных.',
+  avatar: 'АД',
+  skills: [
+    { name: 'Python', level: 5 },
+    { name: 'PyTorch', level: 4 },
+    { name: 'NLP', level: 4 },
+    { name: 'LLM', level: 4 },
+    { name: 'SQL', level: 4 },
+    { name: 'Pandas', level: 5 },
+    { name: 'Docker', level: 3 },
+    { name: 'FastAPI', level: 3 },
+    { name: 'LangChain', level: 3 },
+  ],
+  projects: [
+    { title: 'Поиск дубликатов в архиве НТД', stack: ['Python', 'BERT', 'Qdrant'], desc: 'Семантический поиск по 40k документам, F1 0.89' },
+    { title: 'Классификатор обращений в BI-систему', stack: ['scikit-learn', 'Pandas'], desc: 'Курсовой проект, 6 классов, ROC-AUC 0.94' },
+  ],
+  preferences: {
+    topics: ['NLP', 'Документооборот', 'LLM-ассистенты'],
+    format: 'Гибрид',
+    mentorStyle: 'Регулярные встречи, итеративная обратная связь'
+  },
+  completion: 0.86
+};
+
+const PROJECTS = [
+  {
+    id: 'p-018',
+    title: 'LLM-ассистент для поиска по нормативной документации',
+    unit: 'ДИТАТ · Департамент НТД',
+    mentor: { name: 'И. Козлов', role: 'Руководитель NLP-команды', avatar: 'ИК' },
+    slots: 2,
+    format: 'Гибрид',
+    location: 'СПб, Галерная',
+    deadline: '14 мая',
+    tags: ['NLP', 'LLM', 'RAG', 'Python'],
+    required: ['Python', 'NLP', 'LLM'],
+    preferred: ['LangChain', 'RAG', 'PyTorch', 'FastAPI'],
+    description: 'Разработка прототипа RAG-ассистента для ответа на вопросы по корпоративным нормативам. Эксперименты с гибридным поиском (BM25 + dense), оценка качества на золотом наборе.',
+    outcomes: [
+      'MVP ассистента с веб-интерфейсом',
+      'Отчёт по метрикам retrieval и generation',
+      'Публикация в блоге ГПН (опционально)'
+    ],
+    match: 94,
+    why: 'Сильное совпадение по стеку (Python, NLP, LLM) и тематическим предпочтениям студента. Проект закрывает ключевой желаемый навык: LangChain.',
+    skillMatch: { have: ['Python', 'NLP', 'LLM', 'LangChain'], missing: ['RAG-eval'] },
+    applied: false
+  },
+  {
+    id: 'p-024',
+    title: 'Автоклассификация инцидентов IT-поддержки',
+    unit: 'ДИТАТ · Центр эксплуатации',
+    mentor: { name: 'Е. Новикова', role: 'Data Scientist', avatar: 'ЕН' },
+    slots: 1,
+    format: 'Удалённо',
+    location: 'Удалённо',
+    deadline: '10 мая',
+    tags: ['NLP', 'Классификация', 'scikit-learn'],
+    required: ['Python', 'scikit-learn'],
+    preferred: ['NLP', 'Pandas', 'BERT'],
+    description: 'Модель классификации тикетов по 28 категориям, дообучение BERT на внутренних данных. Интеграция с текущим pipeline через Airflow.',
+    outcomes: ['Модель в проде', 'Дашборд метрик', 'Документация API'],
+    match: 88,
+    why: 'Совпадение по NLP и Pandas. Студент имеет релевантный курсовой проект по классификации обращений.',
+    skillMatch: { have: ['Python', 'scikit-learn', 'NLP', 'Pandas'], missing: ['Airflow'] },
+    applied: true,
+    status: 'interview-scheduled'
+  },
+  {
+    id: 'p-031',
+    title: 'Предсказание износа бурового оборудования',
+    unit: 'БРД · Цифровая буровая',
+    mentor: { name: 'А. Сидоров', role: 'ML-инженер', avatar: 'АС' },
+    slots: 1,
+    format: 'Очно',
+    location: 'Тюмень',
+    deadline: '12 мая',
+    tags: ['Predictive Maintenance', 'Time Series', 'PyTorch'],
+    required: ['Python', 'PyTorch', 'Time Series'],
+    preferred: ['Геология', 'Буровое дело'],
+    description: 'Разработка моделей для прогноза отказов буровых установок по телеметрии. Работа с реальными данными с 40+ буровых.',
+    outcomes: ['Модель прогноза', 'Пилотное внедрение на 3 буровых'],
+    match: 61,
+    why: 'Хорошее совпадение по ML-стеку, но низкое — по предметной области (нет опыта с time-series и бурением).',
+    skillMatch: { have: ['Python', 'PyTorch'], missing: ['Time Series', 'Геология'] },
+    applied: false
+  },
+  {
+    id: 'p-042',
+    title: 'Детекция аномалий на снимках трубопроводов',
+    unit: 'ИНФР · Контроль активов',
+    mentor: { name: 'М. Титова', role: 'CV-инженер', avatar: 'МТ' },
+    slots: 2,
+    format: 'Гибрид',
+    location: 'СПб',
+    deadline: '15 мая',
+    tags: ['Computer Vision', 'Segmentation', 'YOLO'],
+    required: ['Python', 'Computer Vision'],
+    preferred: ['YOLO', 'PyTorch', 'Segmentation'],
+    description: 'Сегментация коррозии и дефектов на снимках БПЛА. Разметка, обучение YOLOv8 и U-Net, сравнение подходов.',
+    outcomes: ['Pipeline разметки', 'Две модели + отчёт'],
+    match: 52,
+    why: 'Нет опыта с CV. ML-фундамент хороший, но потребуется значительная адаптация.',
+    skillMatch: { have: ['Python', 'PyTorch'], missing: ['Computer Vision', 'YOLO', 'Segmentation'] },
+    applied: false
+  },
+  {
+    id: 'p-051',
+    title: 'Ассистент аналитика: автогенерация SQL из NL-запросов',
+    unit: 'ДИТАТ · BI-платформа',
+    mentor: { name: 'Д. Воронов', role: 'Head of Analytics Eng.', avatar: 'ДВ' },
+    slots: 2,
+    format: 'Гибрид',
+    location: 'СПб',
+    deadline: '16 мая',
+    tags: ['LLM', 'Text-to-SQL', 'RAG'],
+    required: ['Python', 'SQL', 'LLM'],
+    preferred: ['LangChain', 'RAG', 'ClickHouse'],
+    description: 'Прототип NL→SQL поверх ClickHouse-витрин. Оценка точности на корпоративном бенчмарке. Интеграция с BI-порталом.',
+    outcomes: ['Прототип с веб-UI', 'Бенчмарк точности', 'Roadmap продуктизации'],
+    match: 91,
+    why: 'Идеальное сочетание LLM + SQL. Совпадает с тематическим интересом «LLM-ассистенты».',
+    skillMatch: { have: ['Python', 'SQL', 'LLM', 'LangChain'], missing: ['ClickHouse'] },
+    applied: false
+  },
+  {
+    id: 'p-067',
+    title: 'Сегментация керновых образцов по фотографиям',
+    unit: 'ГРР · Лаборатория керна',
+    mentor: { name: 'С. Ильин', role: 'Геолог-исследователь', avatar: 'СИ' },
+    slots: 1,
+    format: 'Гибрид',
+    location: 'СПб',
+    deadline: '13 мая',
+    tags: ['Computer Vision', 'Segmentation', 'Геология'],
+    required: ['Python', 'Computer Vision'],
+    preferred: ['Геостатистика', 'PyTorch', 'Segmentation'],
+    description: 'Автоматизация разметки литотипов на фотоархиве керна. Датасет: ~180k изображений.',
+    outcomes: ['Модель сегментации', 'Инструмент разметки'],
+    match: 47,
+    why: 'Слабое совпадение: нет опыта в CV и геологии. Проект подойдёт при желании сменить специализацию.',
+    skillMatch: { have: ['Python'], missing: ['Computer Vision', 'Segmentation', 'Геостатистика'] },
+    applied: false
+  },
+];
+
+const APPLICATIONS = [
+  {
+    projectId: 'p-024',
+    submitted: '03 мая, 14:21',
+    status: 'interview-scheduled',
+    statusLabel: 'Назначено интервью',
+    nextStep: 'Интервью 07 мая, 15:00 — Zoom',
+    timeline: [
+      { key: 'applied', label: 'Заявка подана', when: '03 мая', state: 'done' },
+      { key: 'reviewed', label: 'Резюме рассмотрено', when: '04 мая', state: 'done' },
+      { key: 'interview', label: 'Интервью назначено', when: '05 мая', state: 'now' },
+      { key: 'decision', label: 'Решение наставника', when: '—', state: 'idle' },
+      { key: 'assigned', label: 'Распределение', when: '—', state: 'idle' },
+    ]
+  }
+];
+
+const DOCUMENTS = [
+  { id: 'd1', name: 'Направление на практику', owner: 'ИТМО', status: 'issued', statusLabel: 'Выдано', updated: '02 мая' },
+  { id: 'd2', name: 'Согласие на обработку ПДн', owner: 'Студент', status: 'signed', statusLabel: 'Подписано', updated: '02 мая' },
+  { id: 'd3', name: 'Индивидуальное задание', owner: 'Наставник', status: 'draft', statusLabel: 'В работе', updated: '05 мая' },
+  { id: 'd4', name: 'Договор ГПХ', owner: 'ПАО ГПН', status: 'pending', statusLabel: 'Ожидает оформления', updated: '—' },
+  { id: 'd5', name: 'Отчёт по практике', owner: 'Студент', status: 'locked', statusLabel: 'Доступен с 01 июня', updated: '—' },
+  { id: 'd6', name: 'Отзыв наставника', owner: 'Наставник', status: 'locked', statusLabel: 'Доступен с 01 июня', updated: '—' },
+];
+
+const CHAT_THREADS = [
+  {
+    id: 'c1',
+    with: { name: 'Е. Новикова', role: 'Data Scientist · ДИТАТ', avatar: 'ЕН' },
+    project: 'Автоклассификация инцидентов',
+    unread: 1,
+    lastAt: '14:02',
+    messages: [
+      { from: 'them', text: 'Здравствуйте, Анна! Посмотрела ваше резюме — курсовой по классификации обращений очень в тему.', at: '11:18' },
+      { from: 'them', text: 'Можем провести интервью 07 мая в 15:00 по Zoom?', at: '11:19' },
+      { from: 'me', text: 'Здравствуйте! Да, 07 мая 15:00 подходит. Подготовить что-то заранее?', at: '12:40' },
+      { from: 'them', text: 'Будет пара вопросов по вашему проекту + короткая задачка на feature engineering. Ничего готовить не нужно.', at: '14:02' },
+    ]
+  },
+  {
+    id: 'c2',
+    with: { name: 'Координатор программы', role: 'Лиза Каспарова', avatar: 'ЛК' },
+    project: 'Организационные вопросы',
+    unread: 0,
+    lastAt: 'вчера',
+    messages: [
+      { from: 'them', text: 'Привет! Если будут сложности с оформлением — пиши сразу мне.', at: 'вчера' },
+    ]
+  }
+];
+
+// Mentor-side mock
+const MENTOR_PROJECT = {
+  id: 'p-024',
+  title: 'Автоклассификация инцидентов IT-поддержки',
+  slots: 1,
+  applicants: 7,
+  invited: 3,
+  status: 'active',
+};
+
+const MENTOR_CANDIDATES = [
+  { id: 'st-001', name: 'Анна Дехтерева', avatar: 'АД', match: 88, program: 'ИИ в промышленности · 2 курс', gpa: 4.72, strong: ['Python', 'NLP', 'scikit-learn'], gaps: ['Airflow'], status: 'interview' },
+  { id: 'st-024', name: 'Марк Волков', avatar: 'МВ', match: 81, program: 'ИИ в промышленности · 2 курс', gpa: 4.55, strong: ['Python', 'BERT', 'Pandas'], gaps: ['Airflow', 'Docker'], status: 'review' },
+  { id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', match: 76, program: 'Data Science · 2 курс', gpa: 4.9, strong: ['Python', 'NLP', 'Docker'], gaps: ['BERT'], status: 'invited' },
+  { id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', match: 72, program: 'ИИ в промышленности · 1 курс', gpa: 4.3, strong: ['Python', 'scikit-learn'], gaps: ['NLP', 'BERT'], status: 'review' },
+  { id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', match: 64, program: 'Прикладная математика · 2 курс', gpa: 4.8, strong: ['Python', 'Pandas'], gaps: ['NLP', 'scikit-learn'], status: 'new' },
+  { id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', match: 58, program: 'ИИ в промышленности · 1 курс', gpa: 4.1, strong: ['Python'], gaps: ['NLP', 'scikit-learn', 'BERT'], status: 'new' },
+  { id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', match: 49, program: 'Системный анализ · 2 курс', gpa: 4.4, strong: ['SQL'], gaps: ['Python', 'NLP'], status: 'new' },
+];
+
+// Coordinator-side KPIs
+const COORD_KPIS = [
+  { label: 'Всего студентов', value: 142, delta: '+18 к пр. циклу' },
+  { label: 'Проектов открыто', value: 58, delta: '+12' },
+  { label: 'Распределено', value: '68%', delta: '+14 пп' },
+  { label: 'Среднее время отбора', value: '6.2 дн', delta: '−3.1 дн' },
+];
+
+const COORD_FUNNEL = [
+  { stage: 'Заявка подана', count: 142 },
+  { stage: 'Рассмотрено', count: 138 },
+  { stage: 'Интервью', count: 104 },
+  { stage: 'Решение', count: 96 },
+  { stage: 'Распределено', count: 97 },
+];
+
+const COORD_ALERTS = [
+  { kind: 'warn', text: '3 студента не прошли ни одного интервью — требуется вмешательство' },
+  { kind: 'info', text: 'У 4 проектов истекает дедлайн приёма заявок в течение 48 ч' },
+  { kind: 'ok', text: 'Все направления на практику выданы своевременно' },
+];
+
+Object.assign(window, {
+  SKILLS_POOL, STUDENT_ME, PROJECTS, APPLICATIONS, DOCUMENTS, CHAT_THREADS,
+  MENTOR_PROJECT, MENTOR_CANDIDATES, COORD_KPIS, COORD_FUNNEL, COORD_ALERTS
+});
+
+
+// ========== src/ui.jsx ==========
+// Reusable UI components
+
+const { useState, useEffect, useRef, useMemo } = React;
+
+function AccentGlow({ children }) {
+  return <span style={{
+    background: 'linear-gradient(180deg, #ffa24a, #ff7a1a)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    textShadow: '0 0 40px rgba(255,122,26,0.5)'
+  }}>{children}</span>;
+}
+
+function MatchDonut({ score, size = 64 }) {
+  // score 0..100 → conic gradient
+  const hue = score >= 85 ? '#4ade80' : score >= 70 ? '#ffb347' : score >= 55 ? '#ff7a1a' : '#78808e';
+  const bg = `conic-gradient(${hue} ${score * 3.6}deg, #1e2a42 ${score * 3.6}deg 360deg)`;
+  return (
+    <div className="match-donut" style={{ width: size, height: size, background: bg }}>
+      <span style={{ fontSize: size * 0.28 }}>{score}</span>
+    </div>
+  );
+}
+
+function Avatar({ initials, size = 40, color = '#1a2438' }) {
+  const s = size;
+  return (
+    <div style={{
+      width: s, height: s, borderRadius: '50%',
+      background: color,
+      border: '1px solid #2a3652',
+      display: 'grid', placeItems: 'center',
+      fontFamily: 'Unbounded, sans-serif',
+      fontWeight: 700,
+      fontSize: s * 0.36,
+      color: '#c4ccdc',
+      flexShrink: 0
+    }}>{initials}</div>
+  );
+}
+
+function StatusDot({ state }) {
+  const map = { done: 'dot-ok', now: 'dot-warn', idle: 'dot-idle', err: 'dot-err' };
+  return <span className={`dot ${map[state] || 'dot-idle'}`}></span>;
+}
+
+function Timeline({ steps }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {steps.map((s, i) => (
+        <div key={s.key} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{
+            width: 28, height: 28, borderRadius: '50%',
+            display: 'grid', placeItems: 'center',
+            background: s.state === 'done' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : s.state === 'now' ? 'rgba(255,122,26,0.15)' : '#131e33',
+            border: s.state === 'now' ? '2px solid #ff7a1a' : '1px solid #2a3652',
+            boxShadow: s.state === 'now' ? '0 0 20px rgba(255,122,26,0.6)' : 'none',
+            flexShrink: 0,
+            fontSize: 12,
+            fontWeight: 800,
+            color: s.state === 'done' ? '#fff' : s.state === 'now' ? '#ffb347' : '#5a6278'
+          }}>
+            {s.state === 'done' ? '✓' : i + 1}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: s.state === 'idle' ? '#5a6278' : '#eef2f9' }}>{s.label}</div>
+            <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginTop: 2 }}>{s.when}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SkillBar({ name, level }) {
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+        <span style={{ fontSize: 13, fontWeight: 600 }}>{name}</span>
+        <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>{level}/5</span>
+      </div>
+      <div style={{ display: 'flex', gap: 3 }}>
+        {[1,2,3,4,5].map(i => (
+          <div key={i} style={{
+            flex: 1, height: 6, borderRadius: 3,
+            background: i <= level ? 'linear-gradient(90deg,#ff7a1a,#ffb347)' : '#1a2438'
+          }}/>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Section({ label, title, children, right }) {
+  return (
+    <section style={{ marginBottom: 48 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 20, gap: 20 }}>
+        <div>
+          {label && <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase' }}>{label}</div>}
+          <h2 className="display tight" style={{ fontSize: 32, margin: 0, lineHeight: 1 }}>{title}</h2>
+        </div>
+        {right}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function TopBar({ role, onRole, screen, onScreen, screens, onOpenTweaks }) {
+  return (
+    <header style={{
+      position: 'sticky', top: 0, zIndex: 40,
+      backdropFilter: 'blur(16px)',
+      background: 'rgba(5,7,13,0.8)',
+      borderBottom: '1px solid #1a2438'
+    }}>
+      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '14px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{
+            width: 32, height: 32, borderRadius: 10,
+            background: 'linear-gradient(135deg,#ffa24a,#ff7a1a 60%,#cc4400)',
+            boxShadow: '0 0 20px rgba(255,122,26,0.6)',
+            display: 'grid', placeItems: 'center',
+            fontFamily: 'Unbounded, sans-serif',
+            fontWeight: 900,
+            fontSize: 14,
+            color: '#fff'
+          }}>П</div>
+          <div>
+            <div className="display" style={{ fontSize: 13, lineHeight: 1 }}>ПРАКТИКУМ</div>
+            <div className="mono" style={{ fontSize: 9, letterSpacing: '0.12em', color: '#8892a8', marginTop: 2 }}>ИТМО × ГПН · MVP</div>
+          </div>
+        </div>
+
+        <nav style={{ display: 'flex', gap: 4, marginLeft: 20, flex: 1, flexWrap: 'wrap' }}>
+          {screens.map(s => (
+            <button key={s.key} className={`nav-link ${screen === s.key ? 'active' : ''}`} onClick={() => onScreen(s.key)}>
+              {s.label}
+              {s.badge ? <span style={{
+                marginLeft: 6,
+                fontSize: 10,
+                background: '#ff7a1a', color: '#fff',
+                borderRadius: 999,
+                padding: '1px 6px',
+                fontWeight: 800
+              }}>{s.badge}</span> : null}
+            </button>
+          ))}
+        </nav>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ position: 'relative' }}>
+            <select
+              className="select"
+              value={role}
+              onChange={e => onRole(e.target.value)}
+              style={{
+                padding: '9px 34px 9px 14px',
+                borderRadius: 999,
+                fontSize: 12,
+                fontWeight: 600,
+                appearance: 'none',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid #2a3652',
+                cursor: 'pointer',
+                minWidth: 0,
+                width: 'auto'
+              }}>
+              <option value="student">👤 Студент</option>
+              <option value="mentor">🧭 Наставник</option>
+              <option value="coordinator">⚙ Координатор</option>
+            </select>
+            <span style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#8892a8', fontSize: 10 }}>▾</span>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function FormatIcon({ format }) {
+  const map = { 'Гибрид': '◑', 'Удалённо': '◯', 'Очно': '●' };
+  return <span style={{ fontSize: 14, color: '#ffb347' }}>{map[format] || '●'}</span>;
+}
+
+function Toast({ message, onDone }) {
+  useEffect(() => {
+    if (!message) return;
+    const t = setTimeout(onDone, 2600);
+    return () => clearTimeout(t);
+  }, [message]);
+  if (!message) return null;
+  return <div className="toast">{message}</div>;
+}
+
+Object.assign(window, {
+  AccentGlow, MatchDonut, Avatar, StatusDot, Timeline, SkillBar, Section, TopBar, FormatIcon, Toast
+});
+
+
+// ========== src/student.jsx ==========
+// Student screens
+
+const { useState: useStateS, useMemo: useMemoS, useEffect: useEffectS } = React;
+
+function StudentHome({ onNav, toast }) {
+  const apps = APPLICATIONS;
+  const activeApp = apps[0];
+  const activeProject = PROJECTS.find(p => p.id === activeApp.projectId);
+  const topMatches = [...PROJECTS].sort((a,b) => b.match - a.match).slice(0, 3);
+
+  return (
+    <div className="anim-in">
+      {/* HERO with flame */}
+      <div style={{ position: 'relative', paddingTop: 40, paddingBottom: 60, marginBottom: 40 }}>
+        {window.TWEAKS.showHeroFlame && (
+          <div className="flame-bg" style={{ opacity: window.TWEAKS.heroIntensity }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(255,140,40,0.7), transparent 60%)' }}/>
+            <div className="flame-streaks"/>
+            <div className="flame-vignette"/>
+          </div>
+        )}
+        <div style={{ position: 'relative', maxWidth: 1100 }}>
+          <span className="pill pill-accent" style={{ marginBottom: 20 }}>Весенний цикл · 2026</span>
+          <h1 className="display tight" style={{
+            fontSize: 'clamp(44px, 6vw, 84px)',
+            lineHeight: 0.92,
+            margin: '16px 0 24px',
+            maxWidth: 960
+          }}>
+            Практика в <AccentGlow>Газпром&nbsp;нефти</AccentGlow><br/>
+            без бумажной&nbsp;волокиты
+          </h1>
+          <p style={{ maxWidth: 620, fontSize: 16, lineHeight: 1.6, color: '#c4ccdc', margin: '0 0 28px' }}>
+            ИИ‑мэтчинг находит проекты под ваши навыки, статусы видны в реальном времени, а документы и чаты собраны в одном месте.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <button className="btn btn-accent btn-lg" onClick={() => onNav('match')}>Найти проект</button>
+            <button className="btn btn-ghost btn-lg" onClick={() => onNav('profile')}>Дозаполнить профиль · {Math.round(STUDENT_ME.completion * 100)}%</button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
+        {/* Active application */}
+        <Section label="Активная заявка" title="Ваш следующий шаг" right={
+          <button className="btn btn-ghost btn-sm" onClick={() => onNav('applications')}>Все заявки →</button>
+        }>
+          <div className="card" style={{ padding: 28, background: 'linear-gradient(135deg, #0d1626 0%, #111b2e 100%)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 32 }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                  <span className="pill pill-warn pulse"><span className="dot dot-warn"/>Интервью назначено</span>
+                  <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>{activeProject.id.toUpperCase()}</span>
+                </div>
+                <h3 className="display" style={{ fontSize: 24, margin: '8px 0 14px', lineHeight: 1.05 }}>{activeProject.title}</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, color: '#c4ccdc', fontSize: 13 }}>
+                  <Avatar initials={activeProject.mentor.avatar} size={28}/>
+                  <span><strong>{activeProject.mentor.name}</strong> · {activeProject.mentor.role}</span>
+                </div>
+                <div style={{
+                  padding: '16px 20px',
+                  background: 'rgba(255,122,26,0.08)',
+                  border: '1px solid rgba(255,122,26,0.3)',
+                  borderRadius: 14,
+                  display: 'flex', alignItems: 'center', gap: 14
+                }}>
+                  <div style={{ fontSize: 28 }}>🗓</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700 }}>{activeApp.nextStep}</div>
+                    <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginTop: 2 }}>Напоминание придёт за 30 минут</div>
+                  </div>
+                  <button className="btn btn-accent btn-sm">Открыть в чате</button>
+                </div>
+              </div>
+              <div>
+                <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 14, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Прогресс</div>
+                <Timeline steps={activeApp.timeline}/>
+              </div>
+            </div>
+          </div>
+        </Section>
+
+        {/* Top matches */}
+        <Section label="ИИ‑мэтчинг" title="Подобрано для вас" right={
+          <button className="btn btn-ghost btn-sm" onClick={() => onNav('match')}>Все проекты →</button>
+        }>
+          <div className="grid-3">
+            {topMatches.map(p => <ProjectCard key={p.id} project={p} compact onOpen={() => { onNav('match'); }}/>)}
+          </div>
+        </Section>
+
+        {/* Quick stats row */}
+        <Section label="Процесс" title="Где я сейчас">
+          <div className="grid-4">
+            {[
+              { n: '1', t: 'Профиль', v: `${Math.round(STUDENT_ME.completion * 100)}%`, sub: 'заполнен', state: 'now' },
+              { n: '2', t: 'Заявки', v: `${apps.length}`, sub: 'активных', state: 'done' },
+              { n: '3', t: 'Интервью', v: '1', sub: 'на этой неделе', state: 'now' },
+              { n: '4', t: 'Документы', v: '2/6', sub: 'готовы', state: 'idle' },
+            ].map(c => (
+              <div key={c.n} className="card card-hover" style={{ padding: 22 }}>
+                <div className="display" style={{ fontSize: 32, color: c.state === 'now' ? '#ff7a1a' : '#5a6278', marginBottom: 40 }}>{c.n}</div>
+                <div className="mono" style={{ fontSize: 10, letterSpacing: '0.12em', color: '#8892a8', textTransform: 'uppercase' }}>{c.t}</div>
+                <div className="display" style={{ fontSize: 28, marginTop: 6 }}>{c.v}</div>
+                <div style={{ fontSize: 12, color: '#8892a8', marginTop: 2 }}>{c.sub}</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+      </div>
+    </div>
+  );
+}
+
+function ProjectCard({ project: p, compact = false, onOpen }) {
+  const matchColor = p.match >= 85 ? '#4ade80' : p.match >= 70 ? '#ffb347' : '#78808e';
+  return (
+    <div className="card card-hover" style={{ padding: compact ? 22 : 28, display: 'flex', flexDirection: 'column', gap: 14, cursor: 'pointer' }} onClick={onOpen}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14 }}>
+        <div style={{ flex: 1 }}>
+          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.08em', color: '#8892a8', marginBottom: 6, textTransform: 'uppercase' }}>{p.id.toUpperCase()} · {p.unit}</div>
+          <h3 className="display tight" style={{ fontSize: compact ? 17 : 20, lineHeight: 1.1, margin: 0 }}>{p.title}</h3>
+        </div>
+        <MatchDonut score={p.match} size={compact ? 52 : 62}/>
+      </div>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+        {p.tags.slice(0, 4).map(t => <span key={t} className="chip">{t}</span>)}
+      </div>
+
+      {!compact && (
+        <p style={{ fontSize: 13, color: '#c4ccdc', lineHeight: 1.5, margin: 0 }}>{p.description}</p>
+      )}
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 10, borderTop: '1px solid #1a2438' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#8892a8' }}>
+          <Avatar initials={p.mentor.avatar} size={24}/>
+          <span>{p.mentor.name}</span>
+          <span>·</span>
+          <FormatIcon format={p.format}/>
+          <span>{p.format}</span>
+        </div>
+        {p.applied ? (
+          <span className="pill pill-ok" style={{ fontSize: 10 }}>Заявка подана</span>
+        ) : (
+          <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>до {p.deadline}</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StudentMatch({ toast }) {
+  const [sort, setSort] = useStateS('match');
+  const [filter, setFilter] = useStateS('all');
+  const [open, setOpen] = useStateS(null);
+  const [applied, setApplied] = useStateS(new Set(PROJECTS.filter(p => p.applied).map(p => p.id)));
+
+  const visible = useMemoS(() => {
+    let list = [...PROJECTS];
+    if (filter === '80+') list = list.filter(p => p.match >= 80);
+    if (filter === 'remote') list = list.filter(p => p.format === 'Удалённо' || p.format === 'Гибрид');
+    if (filter === 'nlp') list = list.filter(p => p.tags.some(t => /NLP|LLM/i.test(t)));
+    if (sort === 'match') list.sort((a,b) => b.match - a.match);
+    if (sort === 'deadline') list.sort((a,b) => a.deadline.localeCompare(b.deadline));
+    return list;
+  }, [sort, filter]);
+
+  const apply = (id) => {
+    setApplied(new Set([...applied, id]));
+    toast(`Заявка на ${id.toUpperCase()} отправлена. Наставник получил уведомление.`);
+    setOpen(null);
+  };
+
+  return (
+    <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 32 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>ИИ‑мэтчинг</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 56px)', lineHeight: 0.95, margin: '0 0 14px' }}>
+          Проекты под ваш профиль
+        </h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 680, margin: 0 }}>
+          Алгоритм сопоставляет ваши навыки, курсовые проекты и предпочтения с требованиями наставников. Рекомендации прозрачные — раскройте любую, чтобы увидеть «почему».
+        </p>
+      </div>
+
+      {/* Filters */}
+      <div style={{ display: 'flex', gap: 10, marginBottom: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 6 }}>
+          {[['all', 'Все проекты'], ['80+', 'Совпадение 80+'], ['nlp', 'NLP / LLM'], ['remote', 'Удалёнка / гибрид']].map(([k, v]) => (
+            <button key={k} className={`btn btn-sm ${filter === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setFilter(k)}>{v}</button>
+          ))}
+        </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>Сортировка:</span>
+          <select className="select" style={{ width: 'auto', padding: '8px 12px', fontSize: 12 }} value={sort} onChange={e => setSort(e.target.value)}>
+            <option value="match">По совпадению</option>
+            <option value="deadline">По дедлайну</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="grid-2">
+        {visible.map(p => (
+          <div key={p.id} style={{ position: 'relative' }}>
+            <ProjectCard project={{ ...p, applied: applied.has(p.id) }} onOpen={() => setOpen(p.id)}/>
+          </div>
+        ))}
+      </div>
+
+      {open && <ProjectModal project={PROJECTS.find(p => p.id === open)} applied={applied.has(open)} onApply={() => apply(open)} onClose={() => setOpen(null)}/>}
+    </div>
+  );
+}
+
+function ProjectModal({ project: p, applied, onApply, onClose }) {
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 80,
+      background: 'rgba(5,7,13,0.85)',
+      backdropFilter: 'blur(8px)',
+      display: 'grid', placeItems: 'center',
+      padding: 20, overflowY: 'auto'
+    }} onClick={onClose}>
+      <div className="card anim-in" style={{ maxWidth: 880, width: '100%', padding: 40, maxHeight: '92vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 20, marginBottom: 20 }}>
+          <div style={{ flex: 1 }}>
+            <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{p.id.toUpperCase()} · {p.unit}</div>
+            <h2 className="display tight" style={{ fontSize: 30, lineHeight: 1.05, margin: '0 0 14px' }}>{p.title}</h2>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <span className="chip"><FormatIcon format={p.format}/> {p.format}</span>
+              <span className="chip">📍 {p.location}</span>
+              <span className="chip">👥 {p.slots} места</span>
+              <span className="chip">🕒 до {p.deadline}</span>
+            </div>
+          </div>
+          <MatchDonut score={p.match} size={88}/>
+        </div>
+
+        {window.TWEAKS.showExplainability && (
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(255,122,26,0.1), rgba(255,122,26,0.03))',
+            border: '1px solid rgba(255,122,26,0.3)',
+            borderRadius: 14,
+            padding: 18,
+            marginBottom: 22
+          }}>
+            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.12em', color: '#ffb347', marginBottom: 8, textTransform: 'uppercase', fontWeight: 700 }}>Почему этот проект</div>
+            <p style={{ margin: '0 0 14px', fontSize: 14, lineHeight: 1.55 }}>{p.why}</p>
+            <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+              <div>
+                <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 6, textTransform: 'uppercase' }}>Есть у вас</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {p.skillMatch.have.map(s => <span key={s} className="chip chip-match">✓ {s}</span>)}
+                </div>
+              </div>
+              {p.skillMatch.missing.length > 0 && (
+                <div>
+                  <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 6, textTransform: 'uppercase' }}>Стоит подтянуть</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {p.skillMatch.missing.map(s => <span key={s} className="chip">{s}</span>)}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div style={{ marginBottom: 22 }}>
+          <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Описание</div>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#c4ccdc' }}>{p.description}</p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 22 }}>
+          <div>
+            <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Обязательные навыки</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {p.required.map(s => <span key={s} className="chip chip-req">{s}</span>)}
+            </div>
+          </div>
+          <div>
+            <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Желательные</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {p.preferred.map(s => <span key={s} className="chip">{s}</span>)}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 26 }}>
+          <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ожидаемые результаты</div>
+          <ul style={{ margin: 0, paddingLeft: 18, color: '#c4ccdc', fontSize: 14, lineHeight: 1.7 }}>
+            {p.outcomes.map((o, i) => <li key={i}>{o}</li>)}
+          </ul>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, paddingTop: 22, borderTop: '1px solid #1a2438' }}>
+          <Avatar initials={p.mentor.avatar} size={44}/>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 14, fontWeight: 700 }}>{p.mentor.name}</div>
+            <div style={{ fontSize: 12, color: '#8892a8' }}>{p.mentor.role}</div>
+          </div>
+          <button className="btn btn-ghost">Задать вопрос</button>
+          {applied ? (
+            <span className="pill pill-ok">✓ Заявка подана</span>
+          ) : (
+            <button className="btn btn-accent btn-lg" onClick={onApply}>Подать заявку</button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StudentProfile({ toast }) {
+  const [s, setS] = useStateS(STUDENT_ME);
+  const addSkill = () => toast('Откройте каталог навыков и выберите нужные');
+  return (
+    <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 32 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Профиль</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>Ваш цифровой след</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Чем точнее профиль — тем релевантнее подбор проектов. Видно только наставникам, чьи проекты вы открыли.</p>
+      </div>
+
+      {/* Completion */}
+      <div className="card" style={{ padding: 22, marginBottom: 28, display: 'flex', alignItems: 'center', gap: 20 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+            <span style={{ fontSize: 13, fontWeight: 700 }}>Заполненность профиля</span>
+            <span className="mono" style={{ fontSize: 12, color: '#ffb347' }}>{Math.round(s.completion * 100)}%</span>
+          </div>
+          <div style={{ height: 8, background: '#1a2438', borderRadius: 4, overflow: 'hidden' }}>
+            <div style={{ width: `${s.completion * 100}%`, height: '100%', background: 'linear-gradient(90deg,#ff7a1a,#ffb347)', boxShadow: '0 0 20px rgba(255,122,26,0.6)' }}/>
+          </div>
+          <div style={{ fontSize: 12, color: '#8892a8', marginTop: 8 }}>Осталось: добавить ссылку на GitHub, 2 сертификата</div>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 24 }}>
+        {/* Left — identity */}
+        <div>
+          <div className="card" style={{ padding: 28, textAlign: 'center' }}>
+            <Avatar initials={s.avatar} size={96} color="linear-gradient(135deg,#ffa24a,#ff7a1a)"/>
+            <div className="display" style={{ fontSize: 20, marginTop: 16 }}>{s.name}</div>
+            <div style={{ fontSize: 12, color: '#8892a8', marginTop: 4 }}>{s.program}</div>
+            <div style={{ fontSize: 12, color: '#8892a8' }}>{s.year}</div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 18, marginTop: 20, paddingTop: 20, borderTop: '1px solid #1a2438' }}>
+              <div>
+                <div className="display" style={{ fontSize: 22, color: '#ffb347' }}>{s.gpa}</div>
+                <div className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase' }}>Ср. балл</div>
+              </div>
+              <div>
+                <div className="display" style={{ fontSize: 22 }}>{s.skills.length}</div>
+                <div className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase' }}>Навыков</div>
+              </div>
+              <div>
+                <div className="display" style={{ fontSize: 22 }}>{s.projects.length}</div>
+                <div className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase' }}>Проектов</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="card" style={{ padding: 22, marginTop: 16 }}>
+            <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Предпочтения</div>
+            <div style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 6 }}>Тематика</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {s.preferences.topics.map(t => <span key={t} className="chip chip-match">{t}</span>)}
+              </div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 6 }}>Формат</div>
+              <div style={{ fontSize: 13, fontWeight: 600 }}>{s.preferences.format}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 6 }}>Стиль наставничества</div>
+              <div style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.5 }}>{s.preferences.mentorStyle}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right — details */}
+        <div>
+          <div className="card" style={{ padding: 28, marginBottom: 20 }}>
+            <label className="field">
+              <span className="lbl">О себе</span>
+              <textarea className="textarea" value={s.bio} onChange={e => setS({ ...s, bio: e.target.value })}/>
+            </label>
+          </div>
+
+          <div className="card" style={{ padding: 28, marginBottom: 20 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+              <div>
+                <div className="display" style={{ fontSize: 18 }}>Навыки</div>
+                <div style={{ fontSize: 12, color: '#8892a8', marginTop: 2 }}>Самооценка по шкале 1–5, вес в алгоритме мэтчинга</div>
+              </div>
+              <button className="btn btn-ghost btn-sm" onClick={addSkill}>+ Добавить</button>
+            </div>
+            <div className="grid-2">
+              {s.skills.map(sk => <SkillBar key={sk.name} {...sk}/>)}
+            </div>
+          </div>
+
+          <div className="card" style={{ padding: 28 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+              <div className="display" style={{ fontSize: 18 }}>Проекты и опыт</div>
+              <button className="btn btn-ghost btn-sm">+ Добавить</button>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {s.projects.map((pr, i) => (
+                <div key={i} style={{ padding: 18, background: 'rgba(255,255,255,0.02)', border: '1px solid #1a2438', borderRadius: 14 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>{pr.title}</div>
+                  <div style={{ fontSize: 13, color: '#c4ccdc', marginBottom: 10, lineHeight: 1.5 }}>{pr.desc}</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {pr.stack.map(st => <span key={st} className="chip">{st}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StudentApplications() {
+  const apps = APPLICATIONS.map(a => ({ ...a, project: PROJECTS.find(p => p.id === a.projectId) }));
+
+  return (
+    <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 32 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Мои заявки</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: 0 }}>Все на виду</h1>
+      </div>
+
+      {apps.map(a => (
+        <div key={a.projectId} className="card" style={{ padding: 28, marginBottom: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 32, alignItems: 'start' }}>
+            <div>
+              <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{a.project.id.toUpperCase()} · {a.project.unit}</div>
+              <h3 className="display" style={{ fontSize: 22, margin: '0 0 12px', lineHeight: 1.1 }}>{a.project.title}</h3>
+              <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+                <span className="pill pill-warn"><span className="dot dot-warn"/> {a.statusLabel}</span>
+                <span className="mono" style={{ fontSize: 12, color: '#8892a8', alignSelf: 'center' }}>подана {a.submitted}</span>
+              </div>
+              <div style={{
+                padding: 16, borderRadius: 12,
+                background: 'rgba(255,122,26,0.06)',
+                border: '1px solid rgba(255,122,26,0.2)',
+                fontSize: 13,
+                color: '#ffb347',
+                fontWeight: 600
+              }}>→ {a.nextStep}</div>
+            </div>
+            <Timeline steps={a.timeline}/>
+          </div>
+        </div>
+      ))}
+
+      <div className="card" style={{ padding: 32, textAlign: 'center', marginTop: 8, borderStyle: 'dashed' }}>
+        <div style={{ fontSize: 14, color: '#8892a8' }}>Рекомендуем подать заявки ещё на 2–3 проекта, чтобы снизить риск ожидания</div>
+      </div>
+    </div>
+  );
+}
+
+function StudentDocuments() {
+  const statusMap = {
+    signed: { pill: 'pill-ok', dot: 'dot-ok' },
+    issued: { pill: 'pill-ok', dot: 'dot-ok' },
+    draft: { pill: 'pill-warn', dot: 'dot-warn' },
+    pending: { pill: 'pill-info', dot: 'dot-info' },
+    locked: { pill: 'pill-ghost', dot: 'dot-idle' },
+  };
+  return (
+    <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 32 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Документы</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>Один кабинет на весь цикл</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>От направления ИТМО до отзыва наставника. Статусы обновляются автоматически.</p>
+      </div>
+
+      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 180px 180px 140px', padding: '14px 24px', borderBottom: '1px solid #1a2438', background: 'rgba(255,255,255,0.02)' }}>
+          {['Документ', 'Ответственный', 'Статус', 'Обновлён'].map(h => (
+            <div key={h} className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
+          ))}
+        </div>
+        {DOCUMENTS.map(d => {
+          const m = statusMap[d.status];
+          return (
+            <div key={d.id} style={{
+              display: 'grid', gridTemplateColumns: '1fr 180px 180px 140px',
+              padding: '18px 24px',
+              borderBottom: '1px solid #131e33',
+              alignItems: 'center'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 32, height: 40, borderRadius: 4, background: '#1a2438', border: '1px solid #2a3652', display: 'grid', placeItems: 'center', fontSize: 9, color: '#8892a8', fontFamily: 'JetBrains Mono' }}>PDF</div>
+                <div style={{ fontSize: 14, fontWeight: 600 }}>{d.name}</div>
+              </div>
+              <div style={{ fontSize: 13, color: '#c4ccdc' }}>{d.owner}</div>
+              <div><span className={`pill ${m.pill}`}><span className={`dot ${m.dot}`}/> {d.statusLabel}</span></div>
+              <div className="mono" style={{ fontSize: 12, color: '#8892a8' }}>{d.updated}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function StudentChat({ toast }) {
+  const [active, setActive] = useStateS(CHAT_THREADS[0].id);
+  const [text, setText] = useStateS('');
+  const [threads, setThreads] = useStateS(CHAT_THREADS);
+  const thread = threads.find(t => t.id === active);
+
+  const send = () => {
+    if (!text.trim()) return;
+    setThreads(threads.map(t => t.id === active ? {
+      ...t,
+      messages: [...t.messages, { from: 'me', text, at: 'сейчас' }]
+    } : t));
+    setText('');
+    toast('Сообщение отправлено');
+  };
+
+  return (
+    <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '32px 32px' }}>
+      <div style={{ marginBottom: 24 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Чаты</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 0.95, margin: 0 }}>Переписка в контексте проекта</h1>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 20, height: '70vh', minHeight: 540 }}>
+        {/* Thread list */}
+        <div className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: 16, borderBottom: '1px solid #1a2438' }}>
+            <input className="input" placeholder="Поиск" style={{ fontSize: 13 }}/>
+          </div>
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+            {threads.map(t => (
+              <div key={t.id} onClick={() => setActive(t.id)} style={{
+                padding: 16,
+                borderBottom: '1px solid #131e33',
+                cursor: 'pointer',
+                background: active === t.id ? 'rgba(255,122,26,0.08)' : 'transparent',
+                borderLeft: active === t.id ? '3px solid #ff7a1a' : '3px solid transparent',
+                display: 'flex', gap: 12, alignItems: 'flex-start'
+              }}>
+                <Avatar initials={t.with.avatar} size={40}/>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 2 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.with.name}</div>
+                    <div className="mono" style={{ fontSize: 10, color: '#8892a8', flexShrink: 0 }}>{t.lastAt}</div>
+                  </div>
+                  <div style={{ fontSize: 11, color: '#8892a8', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.project}</div>
+                  <div style={{ fontSize: 12, color: '#c4ccdc', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.messages[t.messages.length - 1].text}</div>
+                </div>
+                {t.unread > 0 && <div style={{ background: '#ff7a1a', color: '#fff', fontSize: 10, fontWeight: 800, padding: '2px 7px', borderRadius: 999 }}>{t.unread}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Active thread */}
+        <div className="card" style={{ padding: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <div style={{ padding: '16px 22px', borderBottom: '1px solid #1a2438', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Avatar initials={thread.with.avatar} size={42}/>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 15, fontWeight: 700 }}>{thread.with.name}</div>
+              <div style={{ fontSize: 12, color: '#8892a8' }}>{thread.with.role} · {thread.project}</div>
+            </div>
+            <button className="btn btn-ghost btn-sm">Видеозвонок</button>
+          </div>
+
+          <div style={{ flex: 1, overflowY: 'auto', padding: 22, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {thread.messages.map((m, i) => (
+              <div key={i} style={{
+                alignSelf: m.from === 'me' ? 'flex-end' : 'flex-start',
+                maxWidth: '70%',
+                background: m.from === 'me' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : '#131e33',
+                color: m.from === 'me' ? '#fff' : '#eef2f9',
+                padding: '10px 14px',
+                borderRadius: m.from === 'me' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                fontSize: 13, lineHeight: 1.5,
+                boxShadow: m.from === 'me' ? '0 4px 20px rgba(255,122,26,0.3)' : 'none'
+              }}>
+                <div>{m.text}</div>
+                <div className="mono" style={{ fontSize: 9, opacity: 0.6, marginTop: 4, textAlign: 'right' }}>{m.at}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ padding: 16, borderTop: '1px solid #1a2438', display: 'flex', gap: 10 }}>
+            <input className="input" value={text} onChange={e => setText(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()} placeholder="Написать сообщение… (Enter)"/>
+            <button className="btn btn-accent" onClick={send}>↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { StudentHome, StudentMatch, StudentProfile, StudentApplications, StudentDocuments, StudentChat, ProjectCard });
+
+
+// ========== src/mentor.jsx ==========
+// Mentor screens
+
+const { useState: useStateM } = React;
+
+function MentorDashboard({ onNav, toast }) {
+  const p = MENTOR_PROJECT;
+  const topCand = [...MENTOR_CANDIDATES].sort((a,b)=>b.match-a.match).slice(0,3);
+
+  return (
+    <div className="anim-in">
+      <div style={{ position: 'relative', paddingTop: 40, paddingBottom: 50, marginBottom: 20 }}>
+        {window.TWEAKS.showHeroFlame && (
+          <div className="flame-bg" style={{ opacity: window.TWEAKS.heroIntensity * 0.7 }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,140,40,0.5), transparent 60%)' }}/>
+            <div className="flame-streaks"/>
+            <div className="flame-vignette"/>
+          </div>
+        )}
+        <div style={{ position: 'relative', maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
+          <span className="pill pill-accent" style={{ marginBottom: 18 }}>Наставник · И. Козлов</span>
+          <h1 className="display tight" style={{ fontSize: 'clamp(38px, 5vw, 68px)', lineHeight: 0.95, margin: '12px 0 20px', maxWidth: 880 }}>
+            <AccentGlow>7 кандидатов</AccentGlow> ждут вашего решения
+          </h1>
+          <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 620, margin: '0 0 24px' }}>
+            Алгоритм отранжировал заявки по совпадению со стеком проекта. Раскройте любого кандидата — увидите, почему он в этой позиции.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <button className="btn btn-accent btn-lg" onClick={() => onNav('candidates')}>Смотреть кандидатов</button>
+            <button className="btn btn-ghost btn-lg" onClick={() => onNav('project')}>Редактировать проект</button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
+        <Section label="Проект" title={p.title}>
+          <div className="grid-4">
+            {[
+              { t: 'Откликов', v: p.applicants, st: 'now' },
+              { t: 'Приглашено', v: p.invited, st: 'done' },
+              { t: 'Мест', v: p.slots, st: 'idle' },
+              { t: 'До решения', v: '4 дн', st: 'now' },
+            ].map(c => (
+              <div key={c.t} className="card" style={{ padding: 22 }}>
+                <div className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', color: '#8892a8', textTransform: 'uppercase' }}>{c.t}</div>
+                <div className="display" style={{ fontSize: 38, marginTop: 8, color: c.st === 'now' ? '#ffb347' : '#eef2f9' }}>{c.v}</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section label="Топ совпадений" title="Рекомендовано к интервью" right={
+          <button className="btn btn-ghost btn-sm" onClick={() => onNav('candidates')}>Все кандидаты →</button>
+        }>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {topCand.map(c => <CandidateRow key={c.id} c={c} onInvite={() => toast(`${c.name} приглашён(а) на интервью`)}/>)}
+          </div>
+        </Section>
+      </div>
+    </div>
+  );
+}
+
+function CandidateRow({ c, onInvite }) {
+  const statusMap = {
+    interview: { label: 'Интервью назначено', pill: 'pill-warn' },
+    invited: { label: 'Приглашён(а)', pill: 'pill-info' },
+    review: { label: 'На рассмотрении', pill: 'pill-ghost' },
+    new: { label: 'Новый отклик', pill: 'pill-accent' },
+  };
+  const s = statusMap[c.status];
+  return (
+    <div className="card card-hover" style={{ padding: 20, display: 'grid', gridTemplateColumns: '76px 1fr auto', gap: 20, alignItems: 'center' }}>
+      <MatchDonut score={c.match} size={64}/>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
+          <Avatar initials={c.avatar} size={28}/>
+          <div className="display" style={{ fontSize: 17 }}>{c.name}</div>
+          <span className={`pill ${s.pill}`} style={{ fontSize: 10 }}>{s.label}</span>
+          <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>GPA {c.gpa}</span>
+        </div>
+        <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 10 }}>{c.program}</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {c.strong.map(s => <span key={s} className="chip chip-match">✓ {s}</span>)}
+          {c.gaps.map(g => <span key={g} className="chip" style={{ opacity: 0.55 }}>— {g}</span>)}
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button className="btn btn-ghost btn-sm">Резюме</button>
+        {c.status === 'new' || c.status === 'review' ? (
+          <button className="btn btn-accent btn-sm" onClick={onInvite}>Пригласить</button>
+        ) : (
+          <button className="btn btn-ghost btn-sm">Чат</button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MentorCandidates({ toast }) {
+  const [tab, setTab] = useStateM('all');
+  const filters = [
+    ['all', 'Все', MENTOR_CANDIDATES.length],
+    ['new', 'Новые', MENTOR_CANDIDATES.filter(c=>c.status==='new').length],
+    ['review', 'На рассмотрении', MENTOR_CANDIDATES.filter(c=>c.status==='review').length],
+    ['invited', 'Приглашены', MENTOR_CANDIDATES.filter(c=>c.status==='invited' || c.status==='interview').length],
+  ];
+  const visible = tab === 'all' ? MENTOR_CANDIDATES :
+    tab === 'invited' ? MENTOR_CANDIDATES.filter(c => c.status === 'invited' || c.status === 'interview') :
+    MENTOR_CANDIDATES.filter(c => c.status === tab);
+
+  return (
+    <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 32 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Кандидаты</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>LLM‑ассистент по НТД · P‑024</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Отсортировано по совпадению алгоритма мэтчинга. Навыки сверены с обязательными требованиями проекта.</p>
+      </div>
+
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+        {filters.map(([k, l, n]) => (
+          <button key={k} className={`btn btn-sm ${tab === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setTab(k)}>
+            {l} <span style={{ opacity: 0.7, fontWeight: 500 }}>· {n}</span>
+          </button>
+        ))}
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {visible.map(c => <CandidateRow key={c.id} c={c} onInvite={() => toast(`${c.name} приглашён(а) на интервью`)}/>)}
+      </div>
+    </div>
+  );
+}
+
+function MentorProject({ toast }) {
+  return (
+    <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 32 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Профиль проекта</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(34px, 4vw, 46px)', lineHeight: 0.95, margin: '0 0 10px' }}>Структурированное описание</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Чем чётче разметите требования — тем точнее работает мэтчинг.</p>
+      </div>
+
+      <div className="card" style={{ padding: 32 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+          <label className="field">
+            <span className="lbl">Название проекта</span>
+            <input className="input" defaultValue="Автоклассификация инцидентов IT-поддержки"/>
+          </label>
+          <label className="field">
+            <span className="lbl">Подразделение</span>
+            <input className="input" defaultValue="ДИТАТ · Центр эксплуатации"/>
+          </label>
+        </div>
+        <label className="field" style={{ marginBottom: 20 }}>
+          <span className="lbl">Описание задач</span>
+          <textarea className="textarea" defaultValue="Модель классификации тикетов по 28 категориям, дообучение BERT на внутренних данных. Интеграция с текущим pipeline через Airflow." style={{ minHeight: 100 }}/>
+        </label>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginBottom: 20 }}>
+          <label className="field">
+            <span className="lbl">Формат</span>
+            <select className="select" defaultValue="Удалённо"><option>Удалённо</option><option>Гибрид</option><option>Очно</option></select>
+          </label>
+          <label className="field">
+            <span className="lbl">Мест</span>
+            <input className="input" type="number" defaultValue={1}/>
+          </label>
+          <label className="field">
+            <span className="lbl">Дедлайн приёма</span>
+            <input className="input" defaultValue="10 мая 2026"/>
+          </label>
+        </div>
+
+        <div style={{ marginBottom: 20 }}>
+          <div className="lbl" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#8892a8', fontWeight: 600, marginBottom: 10 }}>Обязательные навыки (с приоритетом)</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {['Python', 'scikit-learn'].map(s => (
+              <span key={s} className="chip chip-req" style={{ padding: '8px 14px' }}>{s} <span style={{ opacity: 0.6 }}>✕</span></span>
+            ))}
+            <button className="chip" style={{ borderStyle: 'dashed' }}>+ добавить</button>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 20 }}>
+          <div className="lbl" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#8892a8', fontWeight: 600, marginBottom: 10 }}>Желательные навыки</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {['NLP', 'Pandas', 'BERT'].map(s => (
+              <span key={s} className="chip" style={{ padding: '8px 14px' }}>{s} <span style={{ opacity: 0.6 }}>✕</span></span>
+            ))}
+            <button className="chip" style={{ borderStyle: 'dashed' }}>+ добавить</button>
+          </div>
+        </div>
+
+        <hr className="sep"/>
+
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ fontSize: 12, color: '#8892a8' }}>Изменения сохранены автоматически</div>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button className="btn btn-ghost">Предпросмотр</button>
+            <button className="btn btn-accent" onClick={() => toast('Проект опубликован, студентам уйдёт уведомление')}>Опубликовать</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { MentorDashboard, MentorCandidates, MentorProject });
+
+
+// ========== src/coordinator.jsx ==========
+// Coordinator screen
+
+function CoordinatorDashboard({ toast }) {
+  const maxFunnel = Math.max(...COORD_FUNNEL.map(f => f.count));
+  return (
+    <div className="anim-in">
+      <div style={{ position: 'relative', paddingTop: 40, paddingBottom: 40, marginBottom: 20 }}>
+        {window.TWEAKS.showHeroFlame && (
+          <div className="flame-bg" style={{ opacity: window.TWEAKS.heroIntensity * 0.55 }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,140,40,0.45), transparent 60%)' }}/>
+            <div className="flame-streaks"/>
+            <div className="flame-vignette"/>
+          </div>
+        )}
+        <div style={{ position: 'relative', maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
+          <span className="pill pill-accent" style={{ marginBottom: 18 }}>Координатор · Весенний цикл 2026</span>
+          <h1 className="display tight" style={{ fontSize: 'clamp(40px, 5vw, 68px)', lineHeight: 0.95, margin: '12px 0 18px', maxWidth: 960 }}>
+            <AccentGlow>68%</AccentGlow> студентов<br/>уже распределены
+          </h1>
+          <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 620, margin: '0 0 24px' }}>
+            Раньше весь цикл держался на переписке. Теперь ваша роль — наблюдать за воронкой и вмешиваться точечно.
+          </p>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
+        <div className="grid-4" style={{ marginBottom: 40 }}>
+          {COORD_KPIS.map(k => (
+            <div key={k.label} className="card" style={{ padding: 22 }}>
+              <div className="mono" style={{ fontSize: 10, color: '#8892a8', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{k.label}</div>
+              <div className="display" style={{ fontSize: 44, marginTop: 10, lineHeight: 1 }}>{k.value}</div>
+              <div style={{ fontSize: 11, color: '#4ade80', marginTop: 8, fontWeight: 600 }}>{k.delta}</div>
+            </div>
+          ))}
+        </div>
+
+        <Section label="Воронка" title="Этапы цикла">
+          <div className="card" style={{ padding: 32 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {COORD_FUNNEL.map((f, i) => {
+                const pct = (f.count / maxFunnel) * 100;
+                return (
+                  <div key={f.stage} style={{ display: 'grid', gridTemplateColumns: '180px 1fr 80px', gap: 16, alignItems: 'center' }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#c4ccdc' }}>{f.stage}</div>
+                    <div style={{ height: 32, background: '#131e33', borderRadius: 8, overflow: 'hidden', position: 'relative' }}>
+                      <div style={{
+                        width: `${pct}%`, height: '100%',
+                        background: `linear-gradient(90deg, rgba(255,122,26,${0.3 + (i*0.12)}), #ff7a1a)`,
+                        boxShadow: '0 0 30px rgba(255,122,26,0.3)',
+                        transition: 'width .5s ease'
+                      }}/>
+                    </div>
+                    <div className="display" style={{ fontSize: 22, textAlign: 'right' }}>{f.count}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Section>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 40 }}>
+          <div>
+            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Уведомления</div>
+            <h2 className="display tight" style={{ fontSize: 24, margin: '0 0 18px' }}>Требует внимания</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {COORD_ALERTS.map((a, i) => {
+                const map = { warn: { c: '#fde047', bg: 'rgba(234,179,8,0.08)', b: 'rgba(234,179,8,0.3)' }, info: { c: '#93c5fd', bg: 'rgba(96,165,250,0.08)', b: 'rgba(96,165,250,0.3)' }, ok: { c: '#4ade80', bg: 'rgba(34,197,94,0.08)', b: 'rgba(34,197,94,0.3)' }};
+                const s = map[a.kind];
+                return (
+                  <div key={i} style={{ padding: 16, background: s.bg, border: `1px solid ${s.b}`, borderRadius: 12, display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <div style={{ width: 28, height: 28, borderRadius: '50%', background: s.c, color: '#05070d', display: 'grid', placeItems: 'center', fontSize: 14, fontWeight: 800, flexShrink: 0 }}>
+                      {a.kind === 'warn' ? '!' : a.kind === 'info' ? 'i' : '✓'}
+                    </div>
+                    <div style={{ flex: 1, fontSize: 13, color: s.c, fontWeight: 500, lineHeight: 1.5 }}>{a.text}</div>
+                    <button className="btn btn-ghost btn-sm" onClick={() => toast('Открыт список')}>Открыть</button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
+            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Настройки алгоритма</div>
+            <h2 className="display tight" style={{ fontSize: 24, margin: '0 0 18px' }}>Веса мэтчинга</h2>
+            <div className="card" style={{ padding: 24 }}>
+              {[
+                { l: 'Совпадение навыков', v: 45 },
+                { l: 'Тематический интерес', v: 25 },
+                { l: 'GPA и релевантный опыт', v: 20 },
+                { l: 'Формат (очно/удалённо)', v: 10 },
+              ].map(w => (
+                <div key={w.l} style={{ marginBottom: 18 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <span style={{ fontSize: 13, fontWeight: 600 }}>{w.l}</span>
+                    <span className="mono" style={{ fontSize: 12, color: '#ffb347' }}>{w.v}%</span>
+                  </div>
+                  <div style={{ height: 6, background: '#131e33', borderRadius: 3, overflow: 'hidden' }}>
+                    <div style={{ width: `${w.v}%`, height: '100%', background: 'linear-gradient(90deg,#ff7a1a,#ffb347)' }}/>
+                  </div>
+                </div>
+              ))}
+              <button className="btn btn-ghost btn-sm" style={{ width: '100%', marginTop: 8 }}>Настроить веса</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { CoordinatorDashboard });
+
+
+// ========== src/app.jsx ==========
+// App shell + router + Tweaks
+
+const { useState: useStateA, useEffect: useEffectA } = React;
+
+const SCREENS_BY_ROLE = {
+  student: [
+    { key: 'home', label: 'Главная' },
+    { key: 'match', label: 'Проекты' },
+    { key: 'applications', label: 'Мои заявки' },
+    { key: 'documents', label: 'Документы' },
+    { key: 'chat', label: 'Чат', badge: 1 },
+    { key: 'profile', label: 'Профиль' },
+  ],
+  mentor: [
+    { key: 'home', label: 'Обзор' },
+    { key: 'candidates', label: 'Кандидаты', badge: 2 },
+    { key: 'project', label: 'Проект' },
+  ],
+  coordinator: [
+    { key: 'home', label: 'Дашборд' },
+  ],
+};
+
+function TweaksPanel({ open, onClose }) {
+  const [t, setT] = useStateA(window.TWEAKS);
+  if (!open) return null;
+  const set = (k, v) => {
+    const next = { ...t, [k]: v };
+    setT(next);
+    window.TWEAKS = next;
+    document.documentElement.style.setProperty('--accent', next.accent);
+    document.documentElement.style.setProperty('--glow', String(next.accentGlow));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*');
+    window.dispatchEvent(new Event('tweaks-changed'));
+  };
+  return (
+    <div className="tweaks-panel">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+        <h3 style={{ margin: 0 }}>Tweaks</h3>
+        <button className="btn btn-ghost btn-sm" onClick={onClose} style={{ padding: '4px 10px' }}>✕</button>
+      </div>
+      <div className="row">
+        <label>
+          <span>Акцентный цвет</span>
+          <input type="color" value={t.accent} onChange={e => set('accent', e.target.value)}/>
+        </label>
+      </div>
+      <div className="row">
+        <label>
+          <span>Яркость свечения</span>
+          <input type="range" min="0" max="1.5" step="0.1" value={t.accentGlow} onChange={e => set('accentGlow', parseFloat(e.target.value))}/>
+        </label>
+      </div>
+      <div className="row">
+        <label>
+          <span>Огненный hero</span>
+          <input type="checkbox" checked={t.showHeroFlame} onChange={e => set('showHeroFlame', e.target.checked)}/>
+        </label>
+      </div>
+      <div className="row">
+        <label>
+          <span>Интенсивность hero</span>
+          <input type="range" min="0.3" max="1.3" step="0.1" value={t.heroIntensity} onChange={e => set('heroIntensity', parseFloat(e.target.value))}/>
+        </label>
+      </div>
+      <div className="row">
+        <label>
+          <span>Объяснимость ИИ</span>
+          <input type="checkbox" checked={t.showExplainability} onChange={e => set('showExplainability', e.target.checked)}/>
+        </label>
+      </div>
+      <div className="row" style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid #2a3652' }}>
+        <div style={{ fontSize: 10, color: '#8892a8', lineHeight: 1.5 }}>
+          Панель скрывается при выключении Tweaks. Изменения сохраняются в файле.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [role, setRole] = useStateA(() => localStorage.getItem('mvp-role') || window.TWEAKS.role || 'student');
+  const [screen, setScreen] = useStateA(() => localStorage.getItem('mvp-screen') || 'home');
+  const [toastMsg, setToastMsg] = useStateA(null);
+  const [tweaksOpen, setTweaksOpen] = useStateA(false);
+
+  useEffectA(() => { localStorage.setItem('mvp-role', role); }, [role]);
+  useEffectA(() => { localStorage.setItem('mvp-screen', screen); }, [screen]);
+
+  // Tweaks edit-mode protocol
+  useEffectA(() => {
+    const onMsg = (e) => {
+      if (!e.data) return;
+      if (e.data.type === '__activate_edit_mode') setTweaksOpen(true);
+      if (e.data.type === '__deactivate_edit_mode') setTweaksOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  // Apply initial tweaks to CSS vars
+  useEffectA(() => {
+    document.documentElement.style.setProperty('--accent', window.TWEAKS.accent);
+    document.documentElement.style.setProperty('--glow', String(window.TWEAKS.accentGlow));
+  }, []);
+
+  const changeRole = (r) => { setRole(r); setScreen('home'); };
+  const toast = (m) => setToastMsg(m);
+
+  const screens = SCREENS_BY_ROLE[role];
+
+  let content;
+  if (role === 'student') {
+    if (screen === 'home') content = <StudentHome onNav={setScreen} toast={toast}/>;
+    else if (screen === 'match') content = <StudentMatch toast={toast}/>;
+    else if (screen === 'applications') content = <StudentApplications/>;
+    else if (screen === 'documents') content = <StudentDocuments/>;
+    else if (screen === 'chat') content = <StudentChat toast={toast}/>;
+    else if (screen === 'profile') content = <StudentProfile toast={toast}/>;
+  } else if (role === 'mentor') {
+    if (screen === 'home') content = <MentorDashboard onNav={setScreen} toast={toast}/>;
+    else if (screen === 'candidates') content = <MentorCandidates toast={toast}/>;
+    else if (screen === 'project') content = <MentorProject toast={toast}/>;
+  } else {
+    content = <CoordinatorDashboard toast={toast}/>;
+  }
+
+  return (
+    <div data-screen-label={`${role}-${screen}`}>
+      <TopBar role={role} onRole={changeRole} screen={screen} onScreen={setScreen} screens={screens}/>
+      <main>{content}</main>
+
+      {/* Footer */}
+      <footer style={{ borderTop: '1px solid #1a2438', marginTop: 80, padding: '32px', color: '#5a6278', fontSize: 12 }}>
+        <div style={{ maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
+          <div>© 2026 · MVP цифровой платформы организации практик · ИТМО × ПАО «Газпром нефть»</div>
+          <div className="mono" style={{ letterSpacing: '0.08em' }}>v0.4.1 · демо‑прототип</div>
+        </div>
+      </footer>
+
+      <TweaksPanel open={tweaksOpen} onClose={() => { setTweaksOpen(false); window.parent.postMessage({ type: '__edit_mode_available' }, '*'); }}/>
+      <Toast message={toastMsg} onDone={() => setToastMsg(null)}/>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+
+
+  </script>
+</body>
+</html>
