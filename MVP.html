@@ -7,16 +7,32 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="ext-resource-dependency" content="подложка.png" data-resource-id="bgImage" />
+
+<template id="__bundler_thumbnail" data-bg-color="#05070d">
+  <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="80" fill="#05070d"/>
+    <rect x="10" y="10" width="100" height="6" rx="3" fill="#1a2438"/>
+    <rect x="10" y="22" width="60" height="12" rx="3" fill="#ff7a1a" opacity="0.9"/>
+    <rect x="10" y="40" width="22" height="22" rx="4" fill="#0d1626"/>
+    <rect x="36" y="40" width="22" height="22" rx="4" fill="#0d1626"/>
+    <rect x="62" y="40" width="22" height="22" rx="4" fill="#0d1626"/>
+    <rect x="88" y="40" width="22" height="22" rx="4" fill="#0d1626"/>
+    <rect x="14" y="44" width="14" height="2" rx="1" fill="#8892a8"/>
+    <rect x="14" y="50" width="10" height="6" rx="1" fill="#ff7a1a"/>
+    <text x="60" y="75" text-anchor="middle" font-size="5" fill="#5a6278" font-family="monospace">ИТМО × ГПН</text>
+  </svg>
+</template>
+
 
 <script>
   // Tweakable defaults, wrapped in markers so host can persist edits
   window.TWEAKS = /*EDITMODE-BEGIN*/{
     "role": "student",
     "accent": "#ff882b",
-    "accentGlow": 0.9,
-    "showHeroFlame": true,
-    "heroIntensity": 1,
+    "accentGlow": 0.2,
+    "showHeroFlame": false,
+    "heroIntensity": 0.3,
     "showExplainability": true,
     "cardStyle": "navy"
   }/*EDITMODE-END*/;
@@ -46,7 +62,15 @@
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-  body { min-height: 100vh; overflow-x: hidden; }
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('подложка.png');
+    background-size: cover;
+    background-position: top center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
 
   .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
   .display { font-family: 'Unbounded', 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; }
@@ -351,41 +375,59 @@
 
   <script type="text/babel" data-presets="react" id="app-bundle">
 
+
+
+
+
+
+
+
+
+
+
+
 // ========== src/data.jsx ==========
 // Mock data for the platform
 const SKILLS_POOL = [
-  'Python', 'PyTorch', 'TensorFlow', 'scikit-learn', 'Pandas', 'NumPy',
-  'SQL', 'PostgreSQL', 'ClickHouse', 'Airflow', 'dbt', 'Spark',
-  'Docker', 'Kubernetes', 'MLOps', 'FastAPI', 'Kafka',
-  'NLP', 'BERT', 'LLM', 'RAG', 'LangChain',
-  'Computer Vision', 'Segmentation', 'YOLO',
-  'Geostatistics', 'Seismic Processing', 'Reservoir Modeling',
-  'Git', 'Linux', 'Jira', 'Confluence'
-];
+'Python', 'PyTorch', 'TensorFlow', 'scikit-learn', 'Pandas', 'NumPy',
+'SQL', 'PostgreSQL', 'ClickHouse', 'Airflow', 'dbt', 'Spark',
+'Docker', 'Kubernetes', 'MLOps', 'FastAPI', 'Kafka',
+'NLP', 'BERT', 'LLM', 'RAG', 'LangChain',
+'Computer Vision', 'Segmentation', 'YOLO',
+'Geostatistics', 'Seismic Processing', 'Reservoir Modeling',
+'Git', 'Linux', 'Jira', 'Confluence'];
+
 
 const STUDENT_ME = {
   id: 'st-001',
-  name: 'Анна Дехтерева',
+  name: 'Анна Дятлова',
   program: 'ИИ в промышленности',
-  year: '2 курс магистратуры',
+  year: '2 курс',
   gpa: 4.72,
-  bio: 'Интересуюсь применением LLM в задачах технического документооборота, опыт в NLP-пайплайнах и классических ML-моделях для табличных данных.',
-  avatar: 'АД',
+  bio: 'Магистрант 2 курса, специализация — NLP и LLM-системы. Опыт стажировки в Сбере (NLP-команда, 6 мес.) и фриланс-проект для Росатома по поиску в архивах НТД. Ищу практику в промышленном ML с фокусом на автоматизацию документооборота.',
+  avatar: 'АЯ',
   skills: [
-    { name: 'Python', level: 5 },
-    { name: 'PyTorch', level: 4 },
-    { name: 'NLP', level: 4 },
-    { name: 'LLM', level: 4 },
-    { name: 'SQL', level: 4 },
-    { name: 'Pandas', level: 5 },
-    { name: 'Docker', level: 3 },
-    { name: 'FastAPI', level: 3 },
-    { name: 'LangChain', level: 3 },
-  ],
+  { name: 'Python', level: 5 },
+  { name: 'PyTorch', level: 4 },
+  { name: 'NLP', level: 4 },
+  { name: 'LLM', level: 4 },
+  { name: 'SQL', level: 4 },
+  { name: 'Pandas', level: 5 },
+  { name: 'Docker', level: 3 },
+  { name: 'FastAPI', level: 3 },
+  { name: 'LangChain', level: 3 },
+  { name: 'Самостоятельность', level: 5 },
+  { name: 'Коммуникация', level: 4 },
+  { name: 'Работа в команде', level: 5 },
+  { name: 'Управление временем', level: 4 },
+  { name: 'Критическое мышление', level: 4 }],
+
   projects: [
-    { title: 'Поиск дубликатов в архиве НТД', stack: ['Python', 'BERT', 'Qdrant'], desc: 'Семантический поиск по 40k документам, F1 0.89' },
-    { title: 'Классификатор обращений в BI-систему', stack: ['scikit-learn', 'Pandas'], desc: 'Курсовой проект, 6 классов, ROC-AUC 0.94' },
-  ],
+  { title: 'Стажировка — NLP-команда, Сбер (СберТех)', stack: ['Python', 'BERT', 'Transformers', 'FastAPI'], desc: '6 месяцев, 2024. Разработка пайплайна извлечения именованных сущностей из клиентских обращений. Precision 0.91, задержка инференса снижена с 340 до 90 мс. Код принят в production.' },
+  { title: 'Поиск дубликатов в архиве НТД — Росатом (фриланс)', stack: ['Python', 'BERT', 'Qdrant', 'FastAPI'], desc: 'Семантический поиск по корпусу из 40 000 нормативных документов. ROC-AUC 0.89, развёрнут на внутреннем сервере заказчика. Самостоятельная постановка задачи и сдача результата.' },
+  { title: 'Классификатор обращений в BI-систему', stack: ['scikit-learn', 'Pandas', 'Optuna'], desc: 'Курсовой проект ИТМО. Многоклассовая классификация (6 классов), ROC-AUC 0.94. Автоматический подбор гиперпараметров, отчёт с интерпретацией через SHAP.' },
+  { title: 'LLM-ассистент для ответов на вопросы по документации (учебный)', stack: ['LangChain', 'OpenAI API', 'Chroma'], desc: 'Pet-проект: RAG-система на базе LangChain + ChromaDB. Отвечает на вопросы по PDF-документам ИТМО. Демо развёрнуто на Hugging Face Spaces.' }],
+
   preferences: {
     topics: ['NLP', 'Документооборот', 'LLM-ассистенты'],
     format: 'Гибрид',
@@ -395,178 +437,209 @@ const STUDENT_ME = {
 };
 
 const PROJECTS = [
-  {
-    id: 'p-018',
-    title: 'LLM-ассистент для поиска по нормативной документации',
-    unit: 'ДИТАТ · Департамент НТД',
-    mentor: { name: 'И. Козлов', role: 'Руководитель NLP-команды', avatar: 'ИК' },
-    slots: 2,
-    format: 'Гибрид',
-    location: 'СПб, Галерная',
-    deadline: '14 мая',
-    tags: ['NLP', 'LLM', 'RAG', 'Python'],
-    required: ['Python', 'NLP', 'LLM'],
-    preferred: ['LangChain', 'RAG', 'PyTorch', 'FastAPI'],
-    description: 'Разработка прототипа RAG-ассистента для ответа на вопросы по корпоративным нормативам. Эксперименты с гибридным поиском (BM25 + dense), оценка качества на золотом наборе.',
-    outcomes: [
-      'MVP ассистента с веб-интерфейсом',
-      'Отчёт по метрикам retrieval и generation',
-      'Публикация в блоге ГПН (опционально)'
-    ],
-    match: 94,
-    why: 'Сильное совпадение по стеку (Python, NLP, LLM) и тематическим предпочтениям студента. Проект закрывает ключевой желаемый навык: LangChain.',
-    skillMatch: { have: ['Python', 'NLP', 'LLM', 'LangChain'], missing: ['RAG-eval'] },
-    applied: false
-  },
-  {
-    id: 'p-024',
-    title: 'Автоклассификация инцидентов IT-поддержки',
-    unit: 'ДИТАТ · Центр эксплуатации',
-    mentor: { name: 'Е. Новикова', role: 'Data Scientist', avatar: 'ЕН' },
-    slots: 1,
-    format: 'Удалённо',
-    location: 'Удалённо',
-    deadline: '10 мая',
-    tags: ['NLP', 'Классификация', 'scikit-learn'],
-    required: ['Python', 'scikit-learn'],
-    preferred: ['NLP', 'Pandas', 'BERT'],
-    description: 'Модель классификации тикетов по 28 категориям, дообучение BERT на внутренних данных. Интеграция с текущим pipeline через Airflow.',
-    outcomes: ['Модель в проде', 'Дашборд метрик', 'Документация API'],
-    match: 88,
-    why: 'Совпадение по NLP и Pandas. Студент имеет релевантный курсовой проект по классификации обращений.',
-    skillMatch: { have: ['Python', 'scikit-learn', 'NLP', 'Pandas'], missing: ['Airflow'] },
-    applied: true,
-    status: 'interview-scheduled'
-  },
-  {
-    id: 'p-031',
-    title: 'Предсказание износа бурового оборудования',
-    unit: 'БРД · Цифровая буровая',
-    mentor: { name: 'А. Сидоров', role: 'ML-инженер', avatar: 'АС' },
-    slots: 1,
-    format: 'Очно',
-    location: 'Тюмень',
-    deadline: '12 мая',
-    tags: ['Predictive Maintenance', 'Time Series', 'PyTorch'],
-    required: ['Python', 'PyTorch', 'Time Series'],
-    preferred: ['Геология', 'Буровое дело'],
-    description: 'Разработка моделей для прогноза отказов буровых установок по телеметрии. Работа с реальными данными с 40+ буровых.',
-    outcomes: ['Модель прогноза', 'Пилотное внедрение на 3 буровых'],
-    match: 61,
-    why: 'Хорошее совпадение по ML-стеку, но низкое — по предметной области (нет опыта с time-series и бурением).',
-    skillMatch: { have: ['Python', 'PyTorch'], missing: ['Time Series', 'Геология'] },
-    applied: false
-  },
-  {
-    id: 'p-042',
-    title: 'Детекция аномалий на снимках трубопроводов',
-    unit: 'ИНФР · Контроль активов',
-    mentor: { name: 'М. Титова', role: 'CV-инженер', avatar: 'МТ' },
-    slots: 2,
-    format: 'Гибрид',
-    location: 'СПб',
-    deadline: '15 мая',
-    tags: ['Computer Vision', 'Segmentation', 'YOLO'],
-    required: ['Python', 'Computer Vision'],
-    preferred: ['YOLO', 'PyTorch', 'Segmentation'],
-    description: 'Сегментация коррозии и дефектов на снимках БПЛА. Разметка, обучение YOLOv8 и U-Net, сравнение подходов.',
-    outcomes: ['Pipeline разметки', 'Две модели + отчёт'],
-    match: 52,
-    why: 'Нет опыта с CV. ML-фундамент хороший, но потребуется значительная адаптация.',
-    skillMatch: { have: ['Python', 'PyTorch'], missing: ['Computer Vision', 'YOLO', 'Segmentation'] },
-    applied: false
-  },
-  {
-    id: 'p-051',
-    title: 'Ассистент аналитика: автогенерация SQL из NL-запросов',
-    unit: 'ДИТАТ · BI-платформа',
-    mentor: { name: 'Д. Воронов', role: 'Head of Analytics Eng.', avatar: 'ДВ' },
-    slots: 2,
-    format: 'Гибрид',
-    location: 'СПб',
-    deadline: '16 мая',
-    tags: ['LLM', 'Text-to-SQL', 'RAG'],
-    required: ['Python', 'SQL', 'LLM'],
-    preferred: ['LangChain', 'RAG', 'ClickHouse'],
-    description: 'Прототип NL→SQL поверх ClickHouse-витрин. Оценка точности на корпоративном бенчмарке. Интеграция с BI-порталом.',
-    outcomes: ['Прототип с веб-UI', 'Бенчмарк точности', 'Roadmap продуктизации'],
-    match: 91,
-    why: 'Идеальное сочетание LLM + SQL. Совпадает с тематическим интересом «LLM-ассистенты».',
-    skillMatch: { have: ['Python', 'SQL', 'LLM', 'LangChain'], missing: ['ClickHouse'] },
-    applied: false
-  },
-  {
-    id: 'p-067',
-    title: 'Сегментация керновых образцов по фотографиям',
-    unit: 'ГРР · Лаборатория керна',
-    mentor: { name: 'С. Ильин', role: 'Геолог-исследователь', avatar: 'СИ' },
-    slots: 1,
-    format: 'Гибрид',
-    location: 'СПб',
-    deadline: '13 мая',
-    tags: ['Computer Vision', 'Segmentation', 'Геология'],
-    required: ['Python', 'Computer Vision'],
-    preferred: ['Геостатистика', 'PyTorch', 'Segmentation'],
-    description: 'Автоматизация разметки литотипов на фотоархиве керна. Датасет: ~180k изображений.',
-    outcomes: ['Модель сегментации', 'Инструмент разметки'],
-    match: 47,
-    why: 'Слабое совпадение: нет опыта в CV и геологии. Проект подойдёт при желании сменить специализацию.',
-    skillMatch: { have: ['Python'], missing: ['Computer Vision', 'Segmentation', 'Геостатистика'] },
-    applied: false
-  },
-];
+{
+  id: 'p-018',
+  title: 'LLM-ассистент для поиска по нормативной документации',
+  unit: 'ДИТАТ · Департамент НТД',
+  mentor: { name: 'Илья Козлов', role: 'Руководитель NLP-команды', avatar: 'ИК' },
+  slots: 2,
+  format: 'Гибрид',
+  location: 'СПб, Галерная',
+  deadline: '16 января',
+  tags: ['NLP', 'LLM', 'RAG', 'Python'],
+  required: ['Python', 'NLP', 'LLM'],
+  preferred: ['LangChain', 'RAG', 'PyTorch', 'FastAPI', 'Самостоятельность', 'Письменная коммуникация'],
+  description: 'Разработка прототипа RAG-ассистента для ответа на вопросы по корпоративным нормативам. Эксперименты с гибридным поиском (BM25 + dense), оценка качества на золотом наборе.',
+  outcomes: [
+  'MVP ассистента с веб-интерфейсом',
+  'Отчёт по метрикам retrieval и generation',
+  'Публикация в блоге ГПН (опционально)'],
+
+  match: 94,
+  why: 'Сильное совпадение по стеку (Python, NLP, LLM) и тематическим предпочтениям студента. Проект закрывает ключевой желаемый навык: LangChain.',
+  skillMatch: { have: ['Python', 'NLP', 'LLM', 'LangChain'], missing: ['RAG-eval'] },
+  applied: false
+},
+{
+  id: 'p-024',
+  title: 'Автоклассификация инцидентов IT-поддержки',
+  unit: 'ДИТАТ · Центр эксплуатации',
+  mentor: { name: 'Екатерина Новикова', role: 'Data Scientist', avatar: 'ЕН' },
+  slots: 1,
+  format: 'Удалённо',
+  location: 'Удалённо',
+  deadline: '16 января',
+  tags: ['NLP', 'Классификация', 'scikit-learn'],
+  required: ['Python', 'scikit-learn'],
+  preferred: ['NLP', 'Pandas', 'BERT', 'Внимательность к деталям', 'Работа в команде'],
+  description: 'Модель классификации тикетов по 28 категориям, дообучение BERT на внутренних данных. Интеграция с текущим pipeline через Airflow.',
+  outcomes: ['Модель в проде', 'Дашборд метрик', 'Документация API'],
+  match: 88,
+  why: 'Совпадение по NLP и Pandas. Студент имеет релевантный курсовой проект по классификации обращений.',
+  skillMatch: { have: ['Python', 'scikit-learn', 'NLP', 'Pandas'], missing: ['Airflow'] },
+  applied: true,
+  status: 'interview-scheduled'
+},
+{
+  id: 'p-031',
+  title: 'Предсказание износа бурового оборудования',
+  unit: 'БРД · Цифровая буровая',
+  mentor: { name: 'Алексей Сидоров', role: 'ML-инженер', avatar: 'АС' },
+  slots: 1,
+  format: 'Очно',
+  location: 'Тюмень',
+  deadline: '16 января',
+  tags: ['Predictive Maintenance', 'Time Series', 'PyTorch'],
+  required: ['Python', 'PyTorch', 'Time Series'],
+  preferred: ['Геология', 'Буровое дело', 'Любознательность', 'Готовность к командировкам'],
+  description: 'Разработка моделей для прогноза отказов буровых установок по телеметрии. Работа с реальными данными с 40+ буровых.',
+  outcomes: ['Модель прогноза', 'Пилотное внедрение на 3 буровых'],
+  match: 61,
+  why: 'Хорошее совпадение по ML-стеку, но низкое — по предметной области (нет опыта с time-series и бурением).',
+  skillMatch: { have: ['Python', 'PyTorch'], missing: ['Time Series', 'Геология'] },
+  applied: false
+},
+{
+  id: 'p-042',
+  title: 'Детекция аномалий на снимках трубопроводов',
+  unit: 'ИНФР · Контроль активов',
+  mentor: { name: 'Мария Титова', role: 'CV-инженер', avatar: 'МТ' },
+  slots: 2,
+  format: 'Гибрид',
+  location: 'СПб',
+  deadline: '16 января',
+  tags: ['Computer Vision', 'Segmentation', 'YOLO'],
+  required: ['Python', 'Computer Vision'],
+  preferred: ['YOLO', 'PyTorch', 'Segmentation', 'Усидчивость', 'Аналитическое мышление'],
+  description: 'Сегментация коррозии и дефектов на снимках БПЛА. Разметка, обучение YOLOv8 и U-Net, сравнение подходов.',
+  outcomes: ['Pipeline разметки', 'Две модели + отчёт'],
+  match: 52,
+  why: 'Нет опыта с CV. ML-фундамент хороший, но потребуется значительная адаптация.',
+  skillMatch: { have: ['Python', 'PyTorch'], missing: ['Computer Vision', 'YOLO', 'Segmentation'] },
+  applied: false
+},
+{
+  id: 'p-051',
+  title: 'Ассистент аналитика: автогенерация SQL из NL-запросов',
+  unit: 'ДИТАТ · BI-платформа',
+  mentor: { name: 'Дмитрий Воронов', role: 'Head of Analytics Eng.', avatar: 'ДВ' },
+  slots: 2,
+  format: 'Гибрид',
+  location: 'СПб',
+  deadline: '16 января',
+  tags: ['LLM', 'Text-to-SQL', 'RAG'],
+  required: ['Python', 'SQL', 'LLM'],
+  preferred: ['LangChain', 'RAG', 'ClickHouse', 'Инициативность', 'Умение задавать вопросы'],
+  description: 'Прототип NL→SQL поверх ClickHouse-витрин. Оценка точности на корпоративном бенчмарке. Интеграция с BI-порталом.',
+  outcomes: ['Прототип с веб-UI', 'Бенчмарк точности', 'Roadmap продуктизации'],
+  match: 91,
+  why: 'Идеальное сочетание LLM + SQL. Совпадает с тематическим интересом «LLM-ассистенты».',
+  skillMatch: { have: ['Python', 'SQL', 'LLM', 'LangChain'], missing: ['ClickHouse'] },
+  applied: false
+},
+{
+  id: 'p-067',
+  title: 'Сегментация керновых образцов по фотографиям',
+  unit: 'ГРР · Лаборатория керна',
+  mentor: { name: 'Сергей Ильин', role: 'Геолог-исследователь', avatar: 'СИ' },
+  slots: 1,
+  format: 'Гибрид',
+  location: 'СПб',
+  deadline: '16 января',
+  tags: ['Computer Vision', 'Segmentation', 'Геология'],
+  required: ['Python', 'Computer Vision'],
+  preferred: ['Геостатистика', 'PyTorch', 'Segmentation', 'Педантичность', 'Интерес к науке о данных'],
+  description: 'Автоматизация разметки литотипов на фотоархиве керна. Датасет: ~180k изображений.',
+  outcomes: ['Модель сегментации', 'Инструмент разметки'],
+  match: 47,
+  why: 'Слабое совпадение: нет опыта в CV и геологии. Проект подойдёт при желании сменить специализацию.',
+  skillMatch: { have: ['Python'], missing: ['Computer Vision', 'Segmentation', 'Геостатистика'] },
+  applied: false
+}];
+
 
 const APPLICATIONS = [
-  {
-    projectId: 'p-024',
-    submitted: '03 мая, 14:21',
-    status: 'interview-scheduled',
-    statusLabel: 'Назначено интервью',
-    nextStep: 'Интервью 07 мая, 15:00 — Zoom',
-    timeline: [
-      { key: 'applied', label: 'Заявка подана', when: '03 мая', state: 'done' },
-      { key: 'reviewed', label: 'Резюме рассмотрено', when: '04 мая', state: 'done' },
-      { key: 'interview', label: 'Интервью назначено', when: '05 мая', state: 'now' },
-      { key: 'decision', label: 'Решение наставника', when: '—', state: 'idle' },
-      { key: 'assigned', label: 'Распределение', when: '—', state: 'idle' },
-    ]
-  }
-];
+{
+  projectId: 'p-024',
+  submitted: '10 января, 14:21',
+  status: 'interview-scheduled',
+  statusLabel: 'Назначено интервью',
+  nextStep: 'Интервью 20 января, 15:00 — Zoom',
+  timeline: [
+  { key: 'applied', label: 'Заявка подана', when: '10 января', state: 'done' },
+  { key: 'reviewed', label: 'Резюме рассмотрено', when: '17 января', state: 'done' },
+  { key: 'interview', label: 'Интервью назначено', when: '20 января', state: 'now' },
+  { key: 'decision', label: 'Решение наставника', when: 'до 2 февраля', state: 'idle' },
+  { key: 'assigned', label: 'Распределение', when: '—', state: 'idle' }]
 
+}];
+
+
+// Полный пакет документов для практики
 const DOCUMENTS = [
-  { id: 'd1', name: 'Направление на практику', owner: 'ИТМО', status: 'issued', statusLabel: 'Выдано', updated: '02 мая' },
-  { id: 'd2', name: 'Согласие на обработку ПДн', owner: 'Студент', status: 'signed', statusLabel: 'Подписано', updated: '02 мая' },
-  { id: 'd3', name: 'Индивидуальное задание', owner: 'Наставник', status: 'draft', statusLabel: 'В работе', updated: '05 мая' },
-  { id: 'd4', name: 'Договор ГПХ', owner: 'ПАО ГПН', status: 'pending', statusLabel: 'Ожидает оформления', updated: '—' },
-  { id: 'd5', name: 'Отчёт по практике', owner: 'Студент', status: 'locked', statusLabel: 'Доступен с 01 июня', updated: '—' },
-  { id: 'd6', name: 'Отзыв наставника', owner: 'Наставник', status: 'locked', statusLabel: 'Доступен с 01 июня', updated: '—' },
-];
+// Студент подаёт
+{ id: 'd1', name: 'Согласие на обработку персональных данных', owner: 'Студент', section: 'student', status: 'signed', statusLabel: 'Подписано', updated: '10 января', action: null },
+{ id: 'd2', name: 'Анкета практиканта', owner: 'Студент', section: 'student', status: 'pending', statusLabel: 'Ожидает заполнения', updated: '—', action: 'Заполнить' },
+{ id: 'd3', name: 'Отчётная презентация', owner: 'Студент', section: 'student', status: 'locked', statusLabel: 'Доступно с 1 апреля', updated: '—', action: null },
+// ИТМО выдаёт
+{ id: 'd4', name: 'Справка с места учёбы', owner: 'ИТМО', section: 'itmo', status: 'issued', statusLabel: 'Выдана', updated: '9 января', action: null },
+{ id: 'd5', name: 'Направление на практику', owner: 'ИТМО', section: 'itmo', status: 'issued', statusLabel: 'Выдано', updated: '9 января', action: null },
+// Наставник оформляет
+{ id: 'd6', name: 'Задание на практику', owner: 'Наставник', section: 'mentor', status: 'draft', statusLabel: 'В работе', updated: '17 января', action: null },
+{ id: 'd7', name: 'Отзыв на практиканта', owner: 'Наставник', section: 'mentor', status: 'locked', statusLabel: 'Доступно с 1 апреля', updated: '—', action: null }];
+
+
+// Статусы документов по всем студентам (для координатора)
+const COORD_STUDENT_DOCS = [
+{ id: 'st-001', name: 'Анна Дятлова', avatar: 'АЯ', docs: {
+    d1: 'signed', d2: 'signed', d3: 'locked', d4: 'issued', d5: 'issued', d6: 'draft', d7: 'locked'
+  } },
+{ id: 'st-024', name: 'Марк Волков', avatar: 'МВ', docs: {
+    d1: 'signed', d2: 'pending', d3: 'locked', d4: 'issued', d5: 'pending', d6: 'locked', d7: 'locked'
+  } },
+{ id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', docs: {
+    d1: 'signed', d2: 'signed', d3: 'locked', d4: 'issued', d5: 'issued', d6: 'signed', d7: 'locked'
+  } },
+{ id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', docs: {
+    d1: 'signed', d2: 'pending', d3: 'locked', d4: 'pending', d5: 'pending', d6: 'locked', d7: 'locked'
+  } },
+{ id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', docs: {
+    d1: 'pending', d2: 'pending', d3: 'locked', d4: 'pending', d5: 'pending', d6: 'locked', d7: 'locked'
+  } },
+{ id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', docs: {
+    d1: 'pending', d2: 'pending', d3: 'locked', d4: 'pending', d5: 'pending', d6: 'locked', d7: 'locked'
+  } },
+{ id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', docs: {
+    d1: 'signed', d2: 'signed', d3: 'locked', d4: 'issued', d5: 'issued', d6: 'draft', d7: 'locked'
+  } }];
+
+
 
 const CHAT_THREADS = [
-  {
-    id: 'c1',
-    with: { name: 'Е. Новикова', role: 'Data Scientist · ДИТАТ', avatar: 'ЕН' },
-    project: 'Автоклассификация инцидентов',
-    unread: 1,
-    lastAt: '14:02',
-    messages: [
-      { from: 'them', text: 'Здравствуйте, Анна! Посмотрела ваше резюме — курсовой по классификации обращений очень в тему.', at: '11:18' },
-      { from: 'them', text: 'Можем провести интервью 07 мая в 15:00 по Zoom?', at: '11:19' },
-      { from: 'me', text: 'Здравствуйте! Да, 07 мая 15:00 подходит. Подготовить что-то заранее?', at: '12:40' },
-      { from: 'them', text: 'Будет пара вопросов по вашему проекту + короткая задачка на feature engineering. Ничего готовить не нужно.', at: '14:02' },
-    ]
-  },
-  {
-    id: 'c2',
-    with: { name: 'Координатор программы', role: 'Лиза Каспарова', avatar: 'ЛК' },
-    project: 'Организационные вопросы',
-    unread: 0,
-    lastAt: 'вчера',
-    messages: [
-      { from: 'them', text: 'Привет! Если будут сложности с оформлением — пиши сразу мне.', at: 'вчера' },
-    ]
-  }
-];
+{
+  id: 'c1',
+  with: { name: 'Екатерина Новикова', role: 'Data Scientist · ДИТАТ', avatar: 'ЕН' },
+  project: 'Автоклассификация инцидентов',
+  unread: 1,
+  lastAt: '14:02',
+  messages: [
+  { from: 'them', text: 'Здравствуйте, Анна! Посмотрела ваше резюме — курсовой по классификации обращений очень в тему.', at: '11:18' },
+  { from: 'them', text: 'Можем провести интервью 20 января в 15:00 по Zoom?', at: '11:19' },
+  { from: 'me', text: 'Здравствуйте! Да, 20 января 15:00 подходит. Подготовить что-то заранее?', at: '12:40' },
+  { from: 'them', text: 'Будет пара вопросов по вашему проекту + короткая задачка на feature engineering. Ничего готовить не нужно.', at: '14:02' }]
+
+},
+{
+  id: 'c2',
+  with: { name: 'Координатор программы', role: 'Лиза Каспарова', avatar: 'ЛК' },
+  project: 'Организационные вопросы',
+  unread: 0,
+  lastAt: 'вчера',
+  messages: [
+  { from: 'them', text: 'Привет! Если будут сложности с оформлением — пиши сразу мне.', at: 'вчера' }]
+
+}];
+
 
 // Mentor-side mock
 const MENTOR_PROJECT = {
@@ -575,40 +648,40 @@ const MENTOR_PROJECT = {
   slots: 1,
   applicants: 7,
   invited: 3,
-  status: 'active',
+  status: 'active'
 };
 
 const MENTOR_CANDIDATES = [
-  { id: 'st-001', name: 'Анна Дехтерева', avatar: 'АД', match: 88, program: 'ИИ в промышленности · 2 курс', gpa: 4.72, strong: ['Python', 'NLP', 'scikit-learn'], gaps: ['Airflow'], status: 'interview' },
-  { id: 'st-024', name: 'Марк Волков', avatar: 'МВ', match: 81, program: 'ИИ в промышленности · 2 курс', gpa: 4.55, strong: ['Python', 'BERT', 'Pandas'], gaps: ['Airflow', 'Docker'], status: 'review' },
-  { id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', match: 76, program: 'Data Science · 2 курс', gpa: 4.9, strong: ['Python', 'NLP', 'Docker'], gaps: ['BERT'], status: 'invited' },
-  { id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', match: 72, program: 'ИИ в промышленности · 1 курс', gpa: 4.3, strong: ['Python', 'scikit-learn'], gaps: ['NLP', 'BERT'], status: 'review' },
-  { id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', match: 64, program: 'Прикладная математика · 2 курс', gpa: 4.8, strong: ['Python', 'Pandas'], gaps: ['NLP', 'scikit-learn'], status: 'new' },
-  { id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', match: 58, program: 'ИИ в промышленности · 1 курс', gpa: 4.1, strong: ['Python'], gaps: ['NLP', 'scikit-learn', 'BERT'], status: 'new' },
-  { id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', match: 49, program: 'Системный анализ · 2 курс', gpa: 4.4, strong: ['SQL'], gaps: ['Python', 'NLP'], status: 'new' },
-];
+{ id: 'st-001', name: 'Анна Дятлова', avatar: 'АЯ', match: 88, program: 'ИИ в промышленности · 2 курс', gpa: 4.72, strong: ['Python', 'NLP', 'scikit-learn'], gaps: ['Airflow'], status: 'interview', why: 'Сильное совпадение по NLP-стеку и тематике курсового проекта по классификации обращений. Студентка уже работала с BERT и scikit-learn в схожей задаче.' },
+{ id: 'st-024', name: 'Марк Волков', avatar: 'МВ', match: 81, program: 'ИИ в промышленности · 2 курс', gpa: 4.55, strong: ['Python', 'BERT', 'Pandas'], gaps: ['Airflow', 'Docker'], status: 'review', why: 'Высокое совпадение по BERT и Pandas. Нет опыта с Airflow и Docker, но базовые навыки позволяют быстро освоить в рамках проекта.' },
+{ id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', match: 76, program: 'ИИ в промышленности · 2 курс', gpa: 4.9, strong: ['Python', 'NLP', 'Docker'], gaps: ['BERT'], status: 'invited', why: 'Отличный GPA и опыт с Docker и NLP. Не работала напрямую с BERT, но сильный фундамент позволяет закрыть этот пробел в короткий срок.' },
+{ id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', match: 72, program: 'ИИ в промышленности · 1 курс', gpa: 4.3, strong: ['Python', 'scikit-learn'], gaps: ['NLP', 'BERT'], status: 'review', why: 'Хорошая ML-база, активно изучает NLP по открытым курсам. Нет прямого опыта с BERT — потребуется онбординг по теме.' },
+{ id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', match: 64, program: 'ИИ в промышленности · 1 курс', gpa: 4.8, strong: ['Python', 'Pandas'], gaps: ['NLP', 'scikit-learn'], status: 'new', why: 'Сильная математическая подготовка и опыт с Pandas. Нет специализации в NLP — проект может стать первым практическим погружением.' },
+{ id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', match: 58, program: 'ИИ в промышленности · 1 курс', gpa: 4.1, strong: ['Python'], gaps: ['NLP', 'scikit-learn', 'BERT'], status: 'new', why: 'Базовые навыки Python, но нет опыта с ML-библиотеками и NLP. Рекомендован как кандидат с потенциалом при высокой мотивации к обучению.' },
+{ id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', match: 49, program: 'ИИ в промышленности · 2 курс', gpa: 4.4, strong: ['SQL'], gaps: ['Python', 'NLP'], status: 'new', why: 'Специализация не совпадает с профилем проекта. Сильна в аналитике и SQL, но отсутствует необходимый ML-стек.' }];
+
 
 // Coordinator-side KPIs
 const COORD_KPIS = [
-  { label: 'Всего студентов', value: 142, delta: '+18 к пр. циклу' },
-  { label: 'Проектов открыто', value: 58, delta: '+12' },
-  { label: 'Распределено', value: '68%', delta: '+14 пп' },
-  { label: 'Среднее время отбора', value: '6.2 дн', delta: '−3.1 дн' },
-];
+{ label: 'Всего студентов', value: 42, delta: '+5 студентов с прошлого цикла' },
+{ label: 'Проектов открыто', value: 20, delta: '+3 проекта с прошлого цикла' },
+{ label: 'Распределено', value: '70%', delta: '' },
+{ label: 'Среднее время отбора', value: '6.2 дн', delta: '' }];
+
 
 const COORD_FUNNEL = [
-  { stage: 'Заявка подана', count: 142 },
-  { stage: 'Рассмотрено', count: 138 },
-  { stage: 'Интервью', count: 104 },
-  { stage: 'Решение', count: 96 },
-  { stage: 'Распределено', count: 97 },
-];
+{ stage: 'Заявка подана', count: 42 },
+{ stage: 'Рассмотрено', count: 42 },
+{ stage: 'Интервью', count: 104 },
+{ stage: 'Решение', count: 96 },
+{ stage: 'Распределено', count: 97 }];
+
 
 const COORD_ALERTS = [
-  { kind: 'warn', text: '3 студента не прошли ни одного интервью — требуется вмешательство' },
-  { kind: 'info', text: 'У 4 проектов истекает дедлайн приёма заявок в течение 48 ч' },
-  { kind: 'ok', text: 'Все направления на практику выданы своевременно' },
-];
+{ kind: 'warn', text: '3 студента не прошли ни одного интервью — требуется вмешательство' },
+{ kind: 'info', text: 'У 4 проектов истекает дедлайн приёма заявок в течение 48 ч' },
+{ kind: 'ok', text: 'Все направления на практику выданы своевременно' }];
+
 
 Object.assign(window, {
   SKILLS_POOL, STUDENT_ME, PROJECTS, APPLICATIONS, DOCUMENTS, CHAT_THREADS,
@@ -637,8 +710,40 @@ function MatchDonut({ score, size = 64 }) {
   return (
     <div className="match-donut" style={{ width: size, height: size, background: bg }}>
       <span style={{ fontSize: size * 0.28 }}>{score}</span>
-    </div>
-  );
+    </div>);
+
+}
+
+function MatchDonutTooltip({ score, size = 64, strong = [], gaps = [] }) {
+  const [show, setShow] = React.useState(false);
+  return (
+    <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}
+    onMouseEnter={() => setShow(true)}
+    onMouseLeave={() => setShow(false)}>
+      <MatchDonut score={score} size={size} />
+      {show &&
+      <div style={{
+        position: 'absolute', left: size + 10, top: '50%', transform: 'translateY(-50%)',
+        background: '#0d1626', border: '1px solid #2a3652', borderRadius: 10,
+        padding: '12px 14px', minWidth: 200, zIndex: 999,
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
+      }}>
+          <div className="mono" style={{ fontSize: 10, color: '#ffb347', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8, fontWeight: 700 }}>Совпадение навыков</div>
+          {strong.length > 0 && <React.Fragment>
+            <div className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase', marginBottom: 5 }}>Есть у студента</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
+              {strong.map((s) => <span key={s} className="chip chip-match" style={{ fontSize: 11 }}>✓ {s}</span>)}
+            </div>
+          </React.Fragment>}
+          {gaps.length > 0 && <React.Fragment>
+            <div className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase', marginBottom: 5 }}>Стоит подтянуть</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {gaps.map((g) => <span key={g} className="chip" style={{ fontSize: 11, opacity: 0.7 }}>— {g}</span>)}
+            </div>
+          </React.Fragment>}
+        </div>
+      }
+    </div>);
 }
 
 function Avatar({ initials, size = 40, color = '#1a2438' }) {
@@ -654,8 +759,8 @@ function Avatar({ initials, size = 40, color = '#1a2438' }) {
       fontSize: s * 0.36,
       color: '#c4ccdc',
       flexShrink: 0
-    }}>{initials}</div>
-  );
+    }}>{initials}</div>);
+
 }
 
 function StatusDot({ state }) {
@@ -666,19 +771,19 @@ function StatusDot({ state }) {
 function Timeline({ steps }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      {steps.map((s, i) => (
-        <div key={s.key} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+      {steps.map((s, i) =>
+      <div key={s.key} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{
-            width: 28, height: 28, borderRadius: '50%',
-            display: 'grid', placeItems: 'center',
-            background: s.state === 'done' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : s.state === 'now' ? 'rgba(255,122,26,0.15)' : '#131e33',
-            border: s.state === 'now' ? '2px solid #ff7a1a' : '1px solid #2a3652',
-            boxShadow: s.state === 'now' ? '0 0 20px rgba(255,122,26,0.6)' : 'none',
-            flexShrink: 0,
-            fontSize: 12,
-            fontWeight: 800,
-            color: s.state === 'done' ? '#fff' : s.state === 'now' ? '#ffb347' : '#5a6278'
-          }}>
+          width: 28, height: 28, borderRadius: '50%',
+          display: 'grid', placeItems: 'center',
+          background: s.state === 'done' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : s.state === 'now' ? 'rgba(255,122,26,0.15)' : '#131e33',
+          border: s.state === 'now' ? '2px solid #ff7a1a' : '1px solid #2a3652',
+          boxShadow: s.state === 'now' ? '0 0 20px rgba(255,122,26,0.6)' : 'none',
+          flexShrink: 0,
+          fontSize: 12,
+          fontWeight: 800,
+          color: s.state === 'done' ? '#fff' : s.state === 'now' ? '#ffb347' : '#5a6278'
+        }}>
             {s.state === 'done' ? '✓' : i + 1}
           </div>
           <div style={{ flex: 1 }}>
@@ -686,9 +791,9 @@ function Timeline({ steps }) {
             <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginTop: 2 }}>{s.when}</div>
           </div>
         </div>
-      ))}
-    </div>
-  );
+      )}
+    </div>);
+
 }
 
 function SkillBar({ name, level }) {
@@ -699,15 +804,15 @@ function SkillBar({ name, level }) {
         <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>{level}/5</span>
       </div>
       <div style={{ display: 'flex', gap: 3 }}>
-        {[1,2,3,4,5].map(i => (
-          <div key={i} style={{
-            flex: 1, height: 6, borderRadius: 3,
-            background: i <= level ? 'linear-gradient(90deg,#ff7a1a,#ffb347)' : '#1a2438'
-          }}/>
-        ))}
+        {[1, 2, 3, 4, 5].map((i) =>
+        <div key={i} style={{
+          flex: 1, height: 6, borderRadius: 3,
+          background: i <= level ? 'linear-gradient(90deg,#ff7a1a,#ffb347)' : '#1a2438'
+        }} />
+        )}
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 function Section({ label, title, children, right }) {
@@ -721,8 +826,8 @@ function Section({ label, title, children, right }) {
         {right}
       </div>
       {children}
-    </section>
-  );
+    </section>);
+
 }
 
 function TopBar({ role, onRole, screen, onScreen, screens, onOpenTweaks }) {
@@ -746,25 +851,25 @@ function TopBar({ role, onRole, screen, onScreen, screens, onOpenTweaks }) {
             color: '#fff'
           }}>П</div>
           <div>
-            <div className="display" style={{ fontSize: 13, lineHeight: 1 }}>ПРАКТИКУМ</div>
-            <div className="mono" style={{ fontSize: 9, letterSpacing: '0.12em', color: '#8892a8', marginTop: 2 }}>ИТМО × ГПН · MVP</div>
+            <div className="display" style={{ fontSize: 13, lineHeight: 1 }}>ПРАКТИКА</div>
+            <div className="mono" style={{ fontSize: 9, letterSpacing: '0.12em', color: '#8892a8', marginTop: 2 }}>ИТМО × Газпром нефть</div>
           </div>
         </div>
 
         <nav style={{ display: 'flex', gap: 4, marginLeft: 20, flex: 1, flexWrap: 'wrap' }}>
-          {screens.map(s => (
-            <button key={s.key} className={`nav-link ${screen === s.key ? 'active' : ''}`} onClick={() => onScreen(s.key)}>
+          {screens.map((s) =>
+          <button key={s.key} className={`nav-link ${screen === s.key ? 'active' : ''}`} onClick={() => onScreen(s.key)}>
               {s.label}
               {s.badge ? <span style={{
-                marginLeft: 6,
-                fontSize: 10,
-                background: '#ff7a1a', color: '#fff',
-                borderRadius: 999,
-                padding: '1px 6px',
-                fontWeight: 800
-              }}>{s.badge}</span> : null}
+              marginLeft: 6,
+              fontSize: 10,
+              background: '#ff7a1a', color: '#fff',
+              borderRadius: 999,
+              padding: '1px 6px',
+              fontWeight: 800
+            }}>{s.badge}</span> : null}
             </button>
-          ))}
+          )}
         </nav>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -772,18 +877,18 @@ function TopBar({ role, onRole, screen, onScreen, screens, onOpenTweaks }) {
             <select
               className="select"
               value={role}
-              onChange={e => onRole(e.target.value)}
+              onChange={(e) => onRole(e.target.value)}
               style={{
                 padding: '9px 34px 9px 14px',
                 borderRadius: 999,
                 fontSize: 12,
                 fontWeight: 600,
                 appearance: 'none',
-                background: 'rgba(255,255,255,0.04)',
+
                 border: '1px solid #2a3652',
                 cursor: 'pointer',
                 minWidth: 0,
-                width: 'auto'
+                width: 'auto', background: "rgb(13, 12, 12)"
               }}>
               <option value="student">👤 Студент</option>
               <option value="mentor">🧭 Наставник</option>
@@ -793,8 +898,8 @@ function TopBar({ role, onRole, screen, onScreen, screens, onOpenTweaks }) {
           </div>
         </div>
       </div>
-    </header>
-  );
+    </header>);
+
 }
 
 function FormatIcon({ format }) {
@@ -813,7 +918,7 @@ function Toast({ message, onDone }) {
 }
 
 Object.assign(window, {
-  AccentGlow, MatchDonut, Avatar, StatusDot, Timeline, SkillBar, Section, TopBar, FormatIcon, Toast
+  AccentGlow, MatchDonut, MatchDonutTooltip, Avatar, StatusDot, Timeline, SkillBar, Section, TopBar, FormatIcon, Toast
 });
 
 
@@ -825,33 +930,32 @@ const { useState: useStateS, useMemo: useMemoS, useEffect: useEffectS } = React;
 function StudentHome({ onNav, toast }) {
   const apps = APPLICATIONS;
   const activeApp = apps[0];
-  const activeProject = PROJECTS.find(p => p.id === activeApp.projectId);
-  const topMatches = [...PROJECTS].sort((a,b) => b.match - a.match).slice(0, 3);
+  const activeProject = PROJECTS.find((p) => p.id === activeApp.projectId);
+  const topMatches = [...PROJECTS].sort((a, b) => b.match - a.match).slice(0, 3);
 
   return (
     <div className="anim-in">
       {/* HERO with flame */}
-      <div style={{ position: 'relative', paddingTop: 40, paddingBottom: 60, marginBottom: 40 }}>
-        {window.TWEAKS.showHeroFlame && (
-          <div className="flame-bg" style={{ opacity: window.TWEAKS.heroIntensity }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(255,140,40,0.7), transparent 60%)' }}/>
-            <div className="flame-streaks"/>
-            <div className="flame-vignette"/>
+      <div style={{ position: 'relative', paddingTop: 40, paddingBottom: 60, marginBottom: 40, textAlign: "left" }}>
+        {window.TWEAKS.showHeroFlame &&
+        <div className="flame-bg" style={{ opacity: window.TWEAKS.heroIntensity }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(255,140,40,0.7), transparent 60%)' }} />
+            <div className="flame-streaks" />
+            <div className="flame-vignette" />
           </div>
-        )}
-        <div style={{ position: 'relative', maxWidth: 1100 }}>
-          <span className="pill pill-accent" style={{ marginBottom: 20 }}>Весенний цикл · 2026</span>
+        }
+        <div style={{ position: 'relative', maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
+          <span className="pill pill-accent" style={{ marginBottom: 20 }}>ВЕСЕННИЙ СЕМЕСТР · 2026</span>
           <h1 className="display tight" style={{
             fontSize: 'clamp(44px, 6vw, 84px)',
             lineHeight: 0.92,
             margin: '16px 0 24px',
             maxWidth: 960
           }}>
-            Практика в <AccentGlow>Газпром&nbsp;нефти</AccentGlow><br/>
-            без бумажной&nbsp;волокиты
+            Практика в <AccentGlow>Газпром&nbsp;нефти</AccentGlow>
           </h1>
-          <p style={{ maxWidth: 620, fontSize: 16, lineHeight: 1.6, color: '#c4ccdc', margin: '0 0 28px' }}>
-            ИИ‑мэтчинг находит проекты под ваши навыки, статусы видны в реальном времени, а документы и чаты собраны в одном месте.
+          <p style={{ maxWidth: 620, fontSize: 16, lineHeight: 1.6, color: '#c4ccdc', margin: '0 0 28px' }}>Все проекты собраны в одном месте, а ИИ-мэтчинг поможет подобрать проект под ваши навыки
+
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <button className="btn btn-accent btn-lg" onClick={() => onNav('match')}>Найти проект</button>
@@ -863,18 +967,17 @@ function StudentHome({ onNav, toast }) {
       <div style={{ maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
         {/* Active application */}
         <Section label="Активная заявка" title="Ваш следующий шаг" right={
-          <button className="btn btn-ghost btn-sm" onClick={() => onNav('applications')}>Все заявки →</button>
+        <button className="btn btn-ghost btn-sm" onClick={() => onNav('applications')}>Все заявки →</button>
         }>
           <div className="card" style={{ padding: 28, background: 'linear-gradient(135deg, #0d1626 0%, #111b2e 100%)' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 32 }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                  <span className="pill pill-warn pulse"><span className="dot dot-warn"/>Интервью назначено</span>
-                  <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>{activeProject.id.toUpperCase()}</span>
+                  <span className="pill pill-warn pulse"><span className="dot dot-warn" />Интервью назначено</span>
                 </div>
                 <h3 className="display" style={{ fontSize: 24, margin: '8px 0 14px', lineHeight: 1.05 }}>{activeProject.title}</h3>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, color: '#c4ccdc', fontSize: 13 }}>
-                  <Avatar initials={activeProject.mentor.avatar} size={28}/>
+                  <Avatar initials={activeProject.mentor.avatar} size={28} />
                   <span><strong>{activeProject.mentor.name}</strong> · {activeProject.mentor.role}</span>
                 </div>
                 <div style={{
@@ -894,7 +997,7 @@ function StudentHome({ onNav, toast }) {
               </div>
               <div>
                 <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 14, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Прогресс</div>
-                <Timeline steps={activeApp.timeline}/>
+                <Timeline steps={activeApp.timeline} />
               </div>
             </div>
           </div>
@@ -902,37 +1005,37 @@ function StudentHome({ onNav, toast }) {
 
         {/* Top matches */}
         <Section label="ИИ‑мэтчинг" title="Подобрано для вас" right={
-          <button className="btn btn-ghost btn-sm" onClick={() => onNav('match')}>Все проекты →</button>
+        <button className="btn btn-ghost btn-sm" onClick={() => onNav('match')}>Все проекты →</button>
         }>
           <div className="grid-3">
-            {topMatches.map(p => <ProjectCard key={p.id} project={p} compact onOpen={() => { onNav('match'); }}/>)}
+            {topMatches.map((p) => <ProjectCard key={p.id} project={p} compact onOpen={() => {onNav('match');}} onApply={() => {onNav('match');}} />)}
           </div>
         </Section>
 
         {/* Quick stats row */}
-        <Section label="Процесс" title="Где я сейчас">
+        <Section label="Процесс" title="Текущий прогресс">
           <div className="grid-4">
             {[
-              { n: '1', t: 'Профиль', v: `${Math.round(STUDENT_ME.completion * 100)}%`, sub: 'заполнен', state: 'now' },
-              { n: '2', t: 'Заявки', v: `${apps.length}`, sub: 'активных', state: 'done' },
-              { n: '3', t: 'Интервью', v: '1', sub: 'на этой неделе', state: 'now' },
-              { n: '4', t: 'Документы', v: '2/6', sub: 'готовы', state: 'idle' },
-            ].map(c => (
-              <div key={c.n} className="card card-hover" style={{ padding: 22 }}>
-                <div className="display" style={{ fontSize: 32, color: c.state === 'now' ? '#ff7a1a' : '#5a6278', marginBottom: 40 }}>{c.n}</div>
+            { n: '1', t: 'Профиль заполнен на', v: `${Math.round(STUDENT_ME.completion * 100)}%`, sub: '', state: 'now', hideN: true },
+            { n: '2', t: 'Заявки на проекты', v: `${apps.length}`, sub: '', state: 'done', hideN: true },
+            { n: '3', t: 'Интервью', v: '1', sub: '', state: 'now', hideN: true },
+            { n: '4', t: 'Документы', v: '2/6', sub: 'готовы', state: 'idle', hideN: true }].
+            map((c) =>
+            <div key={c.n} className="card card-hover" style={{ padding: 22, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                {!c.hideN && <div className="display" style={{ fontSize: 32, color: c.state === 'now' ? '#ff7a1a' : '#5a6278', marginBottom: 40 }}>{c.n}</div>}
                 <div className="mono" style={{ fontSize: 10, letterSpacing: '0.12em', color: '#8892a8', textTransform: 'uppercase' }}>{c.t}</div>
-                <div className="display" style={{ fontSize: 28, marginTop: 6 }}>{c.v}</div>
-                <div style={{ fontSize: 12, color: '#8892a8', marginTop: 2 }}>{c.sub}</div>
+                <div className="display" style={{ fontSize: 36, marginTop: 6 }}>{c.v}</div>
+                {c.sub && <div style={{ fontSize: 12, color: '#8892a8', marginTop: 2 }}>{c.sub}</div>}
               </div>
-            ))}
+            )}
           </div>
         </Section>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
-function ProjectCard({ project: p, compact = false, onOpen }) {
+function ProjectCard({ project: p, compact = false, onOpen, onApply }) {
   const matchColor = p.match >= 85 ? '#4ade80' : p.match >= 70 ? '#ffb347' : '#78808e';
   return (
     <div className="card card-hover" style={{ padding: compact ? 22 : 28, display: 'flex', flexDirection: 'column', gap: 14, cursor: 'pointer' }} onClick={onOpen}>
@@ -941,50 +1044,52 @@ function ProjectCard({ project: p, compact = false, onOpen }) {
           <div className="mono" style={{ fontSize: 10, letterSpacing: '0.08em', color: '#8892a8', marginBottom: 6, textTransform: 'uppercase' }}>{p.id.toUpperCase()} · {p.unit}</div>
           <h3 className="display tight" style={{ fontSize: compact ? 17 : 20, lineHeight: 1.1, margin: 0 }}>{p.title}</h3>
         </div>
-        <MatchDonut score={p.match} size={compact ? 52 : 62}/>
+        <MatchDonut score={p.match} size={compact ? 52 : 62} />
       </div>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-        {p.tags.slice(0, 4).map(t => <span key={t} className="chip">{t}</span>)}
+        {p.tags.slice(0, 4).map((t) => <span key={t} className="chip">{t}</span>)}
       </div>
 
-      {!compact && (
-        <p style={{ fontSize: 13, color: '#c4ccdc', lineHeight: 1.5, margin: 0 }}>{p.description}</p>
-      )}
+      {!compact &&
+      <p style={{ fontSize: 13, color: '#c4ccdc', lineHeight: 1.5, margin: 0 }}>{p.description}</p>
+      }
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 10, borderTop: '1px solid #1a2438' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#8892a8' }}>
-          <Avatar initials={p.mentor.avatar} size={24}/>
-          <span>{p.mentor.name}</span>
-          <span>·</span>
-          <FormatIcon format={p.format}/>
-          <span>{p.format}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#8892a8', flex: 1, minWidth: 0 }}>
+          <Avatar initials={p.mentor.avatar} size={24} />
+          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.mentor.name}</span>
+          <span style={{ flexShrink: 0 }}>·</span>
+          <FormatIcon format={p.format} />
+          <span style={{ whiteSpace: 'nowrap' }}>{p.format}</span>
         </div>
-        {p.applied ? (
-          <span className="pill pill-ok" style={{ fontSize: 10 }}>Заявка подана</span>
-        ) : (
-          <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>до {p.deadline}</span>
-        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0, marginLeft: 12 }}>
+        {p.applied ? <span className="pill pill-ok" style={{ fontSize: 10 }}>✓ Заявка подана</span> :
+          <React.Fragment>
+          {!compact && <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>до {p.deadline}</span>}
+          {onApply && <button className="btn btn-accent btn-sm" onClick={(e) => {e.stopPropagation();onApply();}}>Подать заявку</button>}
+        </React.Fragment>}
+        </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 function StudentMatch({ toast }) {
-  const [sort, setSort] = useStateS('match');
   const [filter, setFilter] = useStateS('all');
+  const [formatFilter, setFormatFilter] = useStateS('all');
   const [open, setOpen] = useStateS(null);
-  const [applied, setApplied] = useStateS(new Set(PROJECTS.filter(p => p.applied).map(p => p.id)));
+  const [applied, setApplied] = useStateS(new Set(PROJECTS.filter((p) => p.applied).map((p) => p.id)));
 
   const visible = useMemoS(() => {
     let list = [...PROJECTS];
-    if (filter === '80+') list = list.filter(p => p.match >= 80);
-    if (filter === 'remote') list = list.filter(p => p.format === 'Удалённо' || p.format === 'Гибрид');
-    if (filter === 'nlp') list = list.filter(p => p.tags.some(t => /NLP|LLM/i.test(t)));
-    if (sort === 'match') list.sort((a,b) => b.match - a.match);
-    if (sort === 'deadline') list.sort((a,b) => a.deadline.localeCompare(b.deadline));
+    if (filter === '80+') list = list.filter((p) => p.match >= 80);
+    if (formatFilter === 'remote') list = list.filter((p) => p.format === 'Удалённо');
+    if (formatFilter === 'hybrid') list = list.filter((p) => p.format === 'Гибрид');
+    if (formatFilter === 'office') list = list.filter((p) => p.format === 'Очно');
+    list.sort((a, b) => b.match - a.match);
     return list;
-  }, [sort, filter]);
+  }, [filter, formatFilter]);
 
   const apply = (id) => {
     setApplied(new Set([...applied, id]));
@@ -999,38 +1104,39 @@ function StudentMatch({ toast }) {
         <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 56px)', lineHeight: 0.95, margin: '0 0 14px' }}>
           Проекты под ваш профиль
         </h1>
-        <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 680, margin: 0 }}>
-          Алгоритм сопоставляет ваши навыки, курсовые проекты и предпочтения с требованиями наставников. Рекомендации прозрачные — раскройте любую, чтобы увидеть «почему».
+        <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 680, margin: 0 }}>Алгоритм сопоставляет ваши навыки и предпочтения с требованиями наставников. Рекомендации прозрачные - можно нажать на процент совпадения, чтобы узнать почему рекомендуется этот проект
+
         </p>
       </div>
 
       {/* Filters */}
       <div style={{ display: 'flex', gap: 10, marginBottom: 24, flexWrap: 'wrap', alignItems: 'center' }}>
-        <div style={{ display: 'flex', gap: 6 }}>
-          {[['all', 'Все проекты'], ['80+', 'Совпадение 80+'], ['nlp', 'NLP / LLM'], ['remote', 'Удалёнка / гибрид']].map(([k, v]) => (
-            <button key={k} className={`btn btn-sm ${filter === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setFilter(k)}>{v}</button>
-          ))}
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          {[['all', 'Все проекты'], ['80+', 'Рекомендованные']].map(([k, v]) =>
+          <button key={k} className={`btn btn-sm ${filter === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setFilter(k)}>{v}</button>
+          )}
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>Сортировка:</span>
-          <select className="select" style={{ width: 'auto', padding: '8px 12px', fontSize: 12 }} value={sort} onChange={e => setSort(e.target.value)}>
-            <option value="match">По совпадению</option>
-            <option value="deadline">По дедлайну</option>
+          <select className="select" style={{ width: 'auto', padding: '8px 12px', fontSize: 12, color: "rgb(224, 227, 232)", backgroundColor: "rgb(27, 25, 25)" }} value={formatFilter} onChange={(e) => setFormatFilter(e.target.value)}>
+            <option value="all">Любой формат</option>
+            <option value="remote">Удалённо</option>
+            <option value="hybrid">Гибрид</option>
+            <option value="office">Очно</option>
           </select>
         </div>
       </div>
 
       <div className="grid-2">
-        {visible.map(p => (
-          <div key={p.id} style={{ position: 'relative' }}>
-            <ProjectCard project={{ ...p, applied: applied.has(p.id) }} onOpen={() => setOpen(p.id)}/>
+        {visible.map((p) =>
+        <div key={p.id} style={{ position: 'relative' }}>
+            <ProjectCard project={{ ...p, applied: applied.has(p.id) }} onOpen={() => setOpen(p.id)} onApply={() => apply(p.id)} />
           </div>
-        ))}
+        )}
       </div>
 
-      {open && <ProjectModal project={PROJECTS.find(p => p.id === open)} applied={applied.has(open)} onApply={() => apply(open)} onClose={() => setOpen(null)}/>}
-    </div>
-  );
+      {open && <ProjectModal project={PROJECTS.find((p) => p.id === open)} applied={applied.has(open)} onApply={() => apply(open)} onClose={() => setOpen(null)} />}
+    </div>);
+
 }
 
 function ProjectModal({ project: p, applied, onApply, onClose }) {
@@ -1042,49 +1148,49 @@ function ProjectModal({ project: p, applied, onApply, onClose }) {
       display: 'grid', placeItems: 'center',
       padding: 20, overflowY: 'auto'
     }} onClick={onClose}>
-      <div className="card anim-in" style={{ maxWidth: 880, width: '100%', padding: 40, maxHeight: '92vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
+      <div className="card anim-in" style={{ maxWidth: 880, width: '100%', padding: 40, maxHeight: '92vh', overflowY: 'auto' }} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 20, marginBottom: 20 }}>
           <div style={{ flex: 1 }}>
             <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{p.id.toUpperCase()} · {p.unit}</div>
             <h2 className="display tight" style={{ fontSize: 30, lineHeight: 1.05, margin: '0 0 14px' }}>{p.title}</h2>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <span className="chip"><FormatIcon format={p.format}/> {p.format}</span>
+              <span className="chip"><FormatIcon format={p.format} /> {p.format}</span>
               <span className="chip">📍 {p.location}</span>
               <span className="chip">👥 {p.slots} места</span>
               <span className="chip">🕒 до {p.deadline}</span>
             </div>
           </div>
-          <MatchDonut score={p.match} size={88}/>
+          <MatchDonut score={p.match} size={88} />
         </div>
 
-        {window.TWEAKS.showExplainability && (
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(255,122,26,0.1), rgba(255,122,26,0.03))',
-            border: '1px solid rgba(255,122,26,0.3)',
-            borderRadius: 14,
-            padding: 18,
-            marginBottom: 22
-          }}>
+        {window.TWEAKS.showExplainability &&
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(255,122,26,0.1), rgba(255,122,26,0.03))',
+          border: '1px solid rgba(255,122,26,0.3)',
+          borderRadius: 14,
+          padding: 18,
+          marginBottom: 22
+        }}>
             <div className="mono" style={{ fontSize: 10, letterSpacing: '0.12em', color: '#ffb347', marginBottom: 8, textTransform: 'uppercase', fontWeight: 700 }}>Почему этот проект</div>
             <p style={{ margin: '0 0 14px', fontSize: 14, lineHeight: 1.55 }}>{p.why}</p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               <div>
                 <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 6, textTransform: 'uppercase' }}>Есть у вас</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {p.skillMatch.have.map(s => <span key={s} className="chip chip-match">✓ {s}</span>)}
+                  {p.skillMatch.have.map((s) => <span key={s} className="chip chip-match">✓ {s}</span>)}
                 </div>
               </div>
-              {p.skillMatch.missing.length > 0 && (
-                <div>
+              {p.skillMatch.missing.length > 0 &&
+            <div>
                   <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 6, textTransform: 'uppercase' }}>Стоит подтянуть</div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    {p.skillMatch.missing.map(s => <span key={s} className="chip">{s}</span>)}
+                    {p.skillMatch.missing.map((s) => <span key={s} className="chip">{s}</span>)}
                   </div>
                 </div>
-              )}
+            }
             </div>
           </div>
-        )}
+        }
 
         <div style={{ marginBottom: 22 }}>
           <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Описание</div>
@@ -1095,13 +1201,13 @@ function ProjectModal({ project: p, applied, onApply, onClose }) {
           <div>
             <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Обязательные навыки</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {p.required.map(s => <span key={s} className="chip chip-req">{s}</span>)}
+              {p.required.map((s) => <span key={s} className="chip chip-req">{s}</span>)}
             </div>
           </div>
           <div>
             <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Желательные</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {p.preferred.map(s => <span key={s} className="chip">{s}</span>)}
+              {p.preferred.map((s) => <span key={s} className="chip">{s}</span>)}
             </div>
           </div>
         </div>
@@ -1114,21 +1220,21 @@ function ProjectModal({ project: p, applied, onApply, onClose }) {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, paddingTop: 22, borderTop: '1px solid #1a2438' }}>
-          <Avatar initials={p.mentor.avatar} size={44}/>
+          <Avatar initials={p.mentor.avatar} size={44} />
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 14, fontWeight: 700 }}>{p.mentor.name}</div>
             <div style={{ fontSize: 12, color: '#8892a8' }}>{p.mentor.role}</div>
           </div>
           <button className="btn btn-ghost">Задать вопрос</button>
-          {applied ? (
-            <span className="pill pill-ok">✓ Заявка подана</span>
-          ) : (
-            <button className="btn btn-accent btn-lg" onClick={onApply}>Подать заявку</button>
-          )}
+          {applied ?
+          <span className="pill pill-ok">✓ Заявка подана</span> :
+
+          <button className="btn btn-accent btn-lg" onClick={onApply}>Подать заявку</button>
+          }
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 function StudentProfile({ toast }) {
@@ -1138,8 +1244,8 @@ function StudentProfile({ toast }) {
     <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
       <div style={{ marginBottom: 32 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Профиль</div>
-        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>Ваш цифровой след</h1>
-        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Чем точнее профиль — тем релевантнее подбор проектов. Видно только наставникам, чьи проекты вы открыли.</p>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>ВАШ ПРОФИЛЬ</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Чем точнее профиль — тем релевантнее подбор проектов. Видно только наставникам, на чьи проекты вы откликнулись.</p>
       </div>
 
       {/* Completion */}
@@ -1150,9 +1256,9 @@ function StudentProfile({ toast }) {
             <span className="mono" style={{ fontSize: 12, color: '#ffb347' }}>{Math.round(s.completion * 100)}%</span>
           </div>
           <div style={{ height: 8, background: '#1a2438', borderRadius: 4, overflow: 'hidden' }}>
-            <div style={{ width: `${s.completion * 100}%`, height: '100%', background: 'linear-gradient(90deg,#ff7a1a,#ffb347)', boxShadow: '0 0 20px rgba(255,122,26,0.6)' }}/>
+            <div style={{ width: `${s.completion * 100}%`, height: '100%', background: 'linear-gradient(90deg,#ff7a1a,#ffb347)', boxShadow: '0 0 20px rgba(255,122,26,0.6)' }} />
           </div>
-          <div style={{ fontSize: 12, color: '#8892a8', marginTop: 8 }}>Осталось: добавить ссылку на GitHub, 2 сертификата</div>
+          <div style={{ fontSize: 12, color: '#8892a8', marginTop: 8 }}>Осталось: добавить ссылку на GitHub и загрузить резюме</div>
         </div>
       </div>
 
@@ -1160,7 +1266,7 @@ function StudentProfile({ toast }) {
         {/* Left — identity */}
         <div>
           <div className="card" style={{ padding: 28, textAlign: 'center' }}>
-            <Avatar initials={s.avatar} size={96} color="linear-gradient(135deg,#ffa24a,#ff7a1a)"/>
+            <Avatar initials={s.avatar} size={96} color="linear-gradient(135deg,#ffa24a,#ff7a1a)" />
             <div className="display" style={{ fontSize: 20, marginTop: 16 }}>{s.name}</div>
             <div style={{ fontSize: 12, color: '#8892a8', marginTop: 4 }}>{s.program}</div>
             <div style={{ fontSize: 12, color: '#8892a8' }}>{s.year}</div>
@@ -1185,27 +1291,85 @@ function StudentProfile({ toast }) {
             <div style={{ marginBottom: 14 }}>
               <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 6 }}>Тематика</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {s.preferences.topics.map(t => <span key={t} className="chip chip-match">{t}</span>)}
+                {s.preferences.topics.map((t) => <span key={t} className="chip chip-match">{t}</span>)}
               </div>
             </div>
             <div style={{ marginBottom: 14 }}>
-              <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 6 }}>Формат</div>
+              <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 6 }}>Формат работы</div>
               <div style={{ fontSize: 13, fontWeight: 600 }}>{s.preferences.format}</div>
             </div>
-            <div>
-              <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 6 }}>Стиль наставничества</div>
-              <div style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.5 }}>{s.preferences.mentorStyle}</div>
-            </div>
+
           </div>
         </div>
 
         {/* Right — details */}
         <div>
           <div className="card" style={{ padding: 28, marginBottom: 20 }}>
-            <label className="field">
+            <label className="field" style={{ marginBottom: 18 }}>
               <span className="lbl">О себе</span>
-              <textarea className="textarea" value={s.bio} onChange={e => setS({ ...s, bio: e.target.value })}/>
+              <textarea className="textarea" value={s.bio} onChange={(e) => setS({ ...s, bio: e.target.value })} />
             </label>
+            <label className="field" style={{ marginBottom: 18 }}>
+              <span className="lbl">GitHub</span>
+              <div style={{ position: 'relative' }}>
+                <span style={{
+                  position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
+                  color: '#8892a8', fontSize: 14, pointerEvents: 'none'
+                }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ display: 'block' }}>
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
+                  </svg>
+                </span>
+                <input
+                  className="input"
+                  style={{ paddingLeft: 38 }}
+                  placeholder="https://github.com/username"
+                  value={s.github || ''}
+                  onChange={(e) => setS({ ...s, github: e.target.value })} />
+                
+              </div>
+            </label>
+            <div>
+              <div className="lbl" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#8892a8', fontWeight: 600, marginBottom: 8 }}>Резюме</div>
+              {s.resumeName ?
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 12,
+                padding: '12px 16px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid #2a3652',
+                borderRadius: 14
+              }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffb347" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
+                  </svg>
+                  <span style={{ fontSize: 13, fontWeight: 600, flex: 1 }}>{s.resumeName}</span>
+                  <button className="btn btn-ghost btn-sm" onClick={() => setS({ ...s, resumeName: null })}>Удалить</button>
+                </div> :
+
+              <label style={{ cursor: 'pointer' }}>
+                  <input type="file" accept=".pdf,.doc,.docx" style={{ display: 'none' }} onChange={(e) => {
+                  const f = e.target.files[0];
+                  if (f) setS({ ...s, resumeName: f.name });
+                }} />
+                  <div style={{
+                  display: 'flex', alignItems: 'center', gap: 12,
+                  padding: '12px 16px',
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px dashed #2a3652',
+                  borderRadius: 14,
+                  transition: 'border-color .15s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#ff7a1a'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = '#2a3652'}>
+                  
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8892a8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <span style={{ fontSize: 13, color: '#8892a8' }}>Загрузить резюме <span style={{ color: '#5a6278' }}>· PDF, DOC, DOCX</span></span>
+                  </div>
+                </label>
+              }
+            </div>
           </div>
 
           <div className="card" style={{ padding: 28, marginBottom: 20 }}>
@@ -1217,7 +1381,7 @@ function StudentProfile({ toast }) {
               <button className="btn btn-ghost btn-sm" onClick={addSkill}>+ Добавить</button>
             </div>
             <div className="grid-2">
-              {s.skills.map(sk => <SkillBar key={sk.name} {...sk}/>)}
+              {s.skills.map((sk) => <SkillBar key={sk.name} {...sk} />)}
             </div>
           </div>
 
@@ -1227,119 +1391,285 @@ function StudentProfile({ toast }) {
               <button className="btn btn-ghost btn-sm">+ Добавить</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {s.projects.map((pr, i) => (
-                <div key={i} style={{ padding: 18, background: 'rgba(255,255,255,0.02)', border: '1px solid #1a2438', borderRadius: 14 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>{pr.title}</div>
+              {s.projects.map((pr, i) =>
+              <div key={i} style={{ padding: 18, background: 'rgba(255,255,255,0.02)', border: '1px solid #1a2438', borderRadius: 14 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700 }}>{pr.title}</div>
+                    <a href="https://github.com/anna-dyatlova" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: '#60a5fa', textDecoration: 'none', whiteSpace: 'nowrap', marginLeft: 12, marginTop: 2 }} onClick={(e) => e.stopPropagation()}>GitHub ↗</a>
+                  </div>
                   <div style={{ fontSize: 13, color: '#c4ccdc', marginBottom: 10, lineHeight: 1.5 }}>{pr.desc}</div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    {pr.stack.map(st => <span key={st} className="chip">{st}</span>)}
+                    {pr.stack.map((st) => <span key={st} className="chip">{st}</span>)}
                   </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 function StudentApplications() {
-  const apps = APPLICATIONS.map(a => ({ ...a, project: PROJECTS.find(p => p.id === a.projectId) }));
+  const apps = APPLICATIONS.map((a) => ({ ...a, project: PROJECTS.find((p) => p.id === a.projectId) }));
 
   return (
     <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
       <div style={{ marginBottom: 32 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Мои заявки</div>
-        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: 0 }}>Все на виду</h1>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: 0 }}>ОТКЛИКИ НА ЗАЯВКИ</h1>
       </div>
 
-      {apps.map(a => (
-        <div key={a.projectId} className="card" style={{ padding: 28, marginBottom: 16 }}>
+      {apps.map((a) =>
+      <div key={a.projectId} className="card" style={{ padding: 28, marginBottom: 16 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 32, alignItems: 'start' }}>
             <div>
               <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{a.project.id.toUpperCase()} · {a.project.unit}</div>
               <h3 className="display" style={{ fontSize: 22, margin: '0 0 12px', lineHeight: 1.1 }}>{a.project.title}</h3>
               <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
-                <span className="pill pill-warn"><span className="dot dot-warn"/> {a.statusLabel}</span>
+                <span className="pill pill-warn"><span className="dot dot-warn" /> {a.statusLabel}</span>
                 <span className="mono" style={{ fontSize: 12, color: '#8892a8', alignSelf: 'center' }}>подана {a.submitted}</span>
               </div>
               <div style={{
-                padding: 16, borderRadius: 12,
-                background: 'rgba(255,122,26,0.06)',
-                border: '1px solid rgba(255,122,26,0.2)',
-                fontSize: 13,
-                color: '#ffb347',
-                fontWeight: 600
-              }}>→ {a.nextStep}</div>
+              padding: 16, borderRadius: 12,
+              background: 'rgba(255,122,26,0.06)',
+              border: '1px solid rgba(255,122,26,0.2)',
+              fontSize: 13,
+              color: '#ffb347',
+              fontWeight: 600
+            }}>→ {a.nextStep}</div>
             </div>
-            <Timeline steps={a.timeline}/>
+            <Timeline steps={a.timeline} />
           </div>
         </div>
-      ))}
+      )}
 
       <div className="card" style={{ padding: 32, textAlign: 'center', marginTop: 8, borderStyle: 'dashed' }}>
-        <div style={{ fontSize: 14, color: '#8892a8' }}>Рекомендуем подать заявки ещё на 2–3 проекта, чтобы снизить риск ожидания</div>
+        <div style={{ fontSize: 14, color: '#8892a8' }}>Рекомендуем подать заявки ещё на 2–3 проекта</div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
-function StudentDocuments() {
-  const statusMap = {
-    signed: { pill: 'pill-ok', dot: 'dot-ok' },
-    issued: { pill: 'pill-ok', dot: 'dot-ok' },
-    draft: { pill: 'pill-warn', dot: 'dot-warn' },
-    pending: { pill: 'pill-info', dot: 'dot-info' },
-    locked: { pill: 'pill-ghost', dot: 'dot-idle' },
-  };
+const DOC_STATUS_MAP = {
+  signed: { pill: 'pill-ok', dot: 'dot-ok', label: 'Подписано' },
+  issued: { pill: 'pill-ok', dot: 'dot-ok', label: 'Выдано' },
+  draft: { pill: 'pill-warn', dot: 'dot-warn', label: 'В работе' },
+  pending: { pill: 'pill-info', dot: 'dot-idle', label: 'Ожидает' },
+  locked: { pill: 'pill-ghost', dot: 'dot-idle', label: 'Недоступно' }
+};
+
+function DocTable({ docs, toast }) {
+  const sectionTitles = { student: 'Документы студента', itmo: 'Документы ИТМО', mentor: 'Документы наставника' };
+  const sections = ['student', 'itmo', 'mentor'];
+  return (
+    <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 160px 200px 120px 120px', padding: '12px 24px', borderBottom: '1px solid #1a2438', background: 'rgba(255,255,255,0.02)' }}>
+        {['Документ', 'Ответственный', 'Статус', 'Обновлён', ''].map((h, i) =>
+        <div key={i} className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
+        )}
+      </div>
+      {sections.map((sec) => {
+        const secDocs = docs.filter((d) => d.section === sec);
+        if (!secDocs.length) return null;
+        return (
+          <React.Fragment key={sec}>
+            <div style={{ padding: '10px 24px 6px', background: '#0a0e18', borderBottom: '1px solid #131e33' }}>
+              <span className="mono" style={{ fontSize: 10, color: '#5a6278', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{sectionTitles[sec]}</span>
+            </div>
+            {secDocs.map((d) => {
+              const m = DOC_STATUS_MAP[d.status];
+              return (
+                <div key={d.id} style={{ display: 'grid', gridTemplateColumns: '1fr 160px 200px 120px 120px', padding: '16px 24px', borderBottom: '1px solid #131e33', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ width: 28, height: 36, borderRadius: 4, background: '#1a2438', border: '1px solid #2a3652', display: 'grid', placeItems: 'center', fontSize: 8, color: '#8892a8', fontFamily: 'JetBrains Mono', flexShrink: 0 }}>PDF</div>
+                    <div style={{ fontSize: 14, fontWeight: 600 }}>{d.name}</div>
+                  </div>
+                  <div style={{ fontSize: 13, color: '#c4ccdc' }}>{d.owner}</div>
+                  <div><span className={`pill ${m.pill}`}><span className={`dot ${m.dot}`} /> {d.statusLabel}</span></div>
+                  <div className="mono" style={{ fontSize: 12, color: '#8892a8' }}>{d.updated}</div>
+                  <div>{d.action && <button className="btn btn-accent btn-sm" onClick={() => toast && toast(`${d.name}: открыто для заполнения`)}>{d.action}</button>}</div>
+                </div>);
+
+            })}
+          </React.Fragment>);
+
+      })}
+    </div>);
+
+}
+
+function StudentDocuments({ toast }) {
+  const [tab, setTab] = useStateS('docs');
   return (
     <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
-      <div style={{ marginBottom: 32 }}>
+      <div style={{ marginBottom: 28 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Документы</div>
         <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>Один кабинет на весь цикл</h1>
-        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>От направления ИТМО до отзыва наставника. Статусы обновляются автоматически.</p>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Все документы практики, инструкции и примеры — в одном месте.</p>
       </div>
 
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 180px 180px 140px', padding: '14px 24px', borderBottom: '1px solid #1a2438', background: 'rgba(255,255,255,0.02)' }}>
-          {['Документ', 'Ответственный', 'Статус', 'Обновлён'].map(h => (
-            <div key={h} className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
-          ))}
-        </div>
-        {DOCUMENTS.map(d => {
-          const m = statusMap[d.status];
-          return (
-            <div key={d.id} style={{
-              display: 'grid', gridTemplateColumns: '1fr 180px 180px 140px',
-              padding: '18px 24px',
-              borderBottom: '1px solid #131e33',
-              alignItems: 'center'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 32, height: 40, borderRadius: 4, background: '#1a2438', border: '1px solid #2a3652', display: 'grid', placeItems: 'center', fontSize: 9, color: '#8892a8', fontFamily: 'JetBrains Mono' }}>PDF</div>
-                <div style={{ fontSize: 14, fontWeight: 600 }}>{d.name}</div>
-              </div>
-              <div style={{ fontSize: 13, color: '#c4ccdc' }}>{d.owner}</div>
-              <div><span className={`pill ${m.pill}`}><span className={`dot ${m.dot}`}/> {d.statusLabel}</span></div>
-              <div className="mono" style={{ fontSize: 12, color: '#8892a8' }}>{d.updated}</div>
-            </div>
-          );
-        })}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
+        {[['docs', 'Документооборот'], ['guide', 'Инструкция']].map(([k, v]) =>
+        <button key={k} className={`btn btn-sm ${tab === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setTab(k)}>{v}</button>
+        )}
       </div>
-    </div>
-  );
+
+      {tab === 'docs' && <DocTable docs={DOCUMENTS} toast={toast} />}
+
+      {tab === 'guide' &&
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {/* Steps */}
+          <div className="card" style={{ padding: 28 }}>
+            <div className="mono" style={{ fontSize: 10, color: '#ff7a1a', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 18, fontWeight: 700 }}>Как проходит практика — шаг за шагом</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {[
+            { n: '01', title: 'Заполните профиль', desc: 'Укажите навыки, опыт, предпочтения по формату работы. Чем подробнее — тем точнее алгоритм подберёт проекты.', state: 'done' },
+            { n: '02', title: 'Выберите проекты и подайте заявки', desc: 'Просмотрите список рекомендованных проектов, изучите описание и подайте заявку на 1–3 понравившихся.', state: 'done' },
+            { n: '03', title: 'Пройдите интервью с наставником', desc: 'Наставник свяжется через чат платформы. Подготовьте краткий рассказ о себе и релевантных проектах.', state: 'now' },
+            { n: '04', title: 'Подпишите документы', desc: 'После выбора наставника заполните анкету практиканта. ИТМО выдаст справку и направление автоматически.', state: 'idle' },
+            { n: '05', title: 'Работайте над проектом', desc: 'Наставник загрузит задание на практику. Выполняйте задачи, фиксируйте прогресс.', state: 'idle' },
+            { n: '06', title: 'Сдайте отчётную презентацию', desc: 'Загрузите презентацию в систему до дедлайна. Наставник оставит отзыв — это закрывает практику.', state: 'idle' }].
+            map((s, i, arr) =>
+            <div key={s.n} style={{ display: 'flex', gap: 20, position: 'relative' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                    <div style={{
+                  width: 40, height: 40, borderRadius: '50%', display: 'grid', placeItems: 'center',
+                  background: s.state === 'done' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : s.state === 'now' ? 'rgba(255,122,26,0.15)' : '#131e33',
+                  border: s.state === 'now' ? '2px solid #ff7a1a' : '1px solid #2a3652',
+                  boxShadow: s.state === 'now' ? '0 0 20px rgba(255,122,26,0.4)' : 'none',
+                  fontFamily: 'Unbounded', fontWeight: 800, fontSize: 13,
+                  color: s.state === 'done' ? '#fff' : s.state === 'now' ? '#ff7a1a' : '#5a6278',
+                  zIndex: 1
+                }}>{s.state === 'done' ? '✓' : s.n}</div>
+                    {i < arr.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 24, background: '#1e2a42', margin: '4px 0' }} />}
+                  </div>
+                  <div style={{ paddingBottom: 28, flex: 1 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4, color: s.state === 'now' ? '#ff7a1a' : '#eef2f9' }}>{s.title}</div>
+                    <div style={{ fontSize: 13, color: '#8892a8', lineHeight: 1.6 }}>{s.desc}</div>
+                  </div>
+                </div>
+            )}
+            </div>
+          </div>
+
+          {/* Profile example */}
+          <div className="card" style={{ padding: 28 }}>
+            <div className="mono" style={{ fontSize: 10, color: '#ff7a1a', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16, fontWeight: 700 }}>Пример хорошо заполненного профиля</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              {[
+            { label: 'Навыки', good: 'Python (уверенно), scikit-learn, Pandas, SQL — с указанием уровня и контекста использования', bad: 'Python, ML' },
+            { label: 'Проекты', good: 'Классификатор обращений, ROC-AUC 0.94, курсовой проект — с конкретными метриками', bad: 'Делал ML-проекты' },
+            { label: 'Предпочтения', good: 'NLP, LLM-ассистенты, гибридный формат, регулярные встречи с наставником', bad: 'Любой проект' },
+            { label: 'О себе', good: 'Магистрант 2 курса, опыт в NLP, ищу практику по автоматизации технического документооборота', bad: 'Студент ИТМО' }].
+            map((item) =>
+            <div key={item.label} style={{ background: '#0a0e18', borderRadius: 10, padding: '14px 16px' }}>
+                  <div className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>{item.label}</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                      <span style={{ color: '#4ade80', fontSize: 14, flexShrink: 0 }}>✓</span>
+                      <span style={{ fontSize: 13, color: '#c4ccdc', lineHeight: 1.5 }}>{item.good}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                      <span style={{ color: '#ef4444', fontSize: 14, flexShrink: 0 }}>✕</span>
+                      <span style={{ fontSize: 13, color: '#5a6278', lineHeight: 1.5 }}>{item.bad}</span>
+                    </div>
+                  </div>
+                </div>
+            )}
+            </div>
+          </div>
+        </div>
+      }
+    </div>);
+
+}
+
+function MentorDocuments({ toast }) {
+  const [tab, setTab] = useStateM('docs');
+  const mentorDocs = DOCUMENTS.filter((d) => d.section !== 'student').concat(DOCUMENTS.filter((d) => d.section === 'student'));
+  return (
+    <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 28 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Документы</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>Документооборот</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Статусы документов вашего практиканта и инструкция по заполнению.</p>
+      </div>
+
+      <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
+        {[['docs', 'Документы'], ['guide', 'Инструкция']].map(([k, v]) =>
+        <button key={k} className={`btn btn-sm ${tab === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setTab(k)}>{v}</button>
+        )}
+      </div>
+
+      {tab === 'docs' && <DocTable docs={DOCUMENTS} toast={toast} />}
+
+      {tab === 'guide' &&
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div className="card" style={{ padding: 28 }}>
+            <div className="mono" style={{ fontSize: 10, color: '#ff7a1a', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 18, fontWeight: 700 }}>Ваши обязательства как наставника</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {[
+            { n: '01', title: 'Заполните профиль проекта', desc: 'Подробно опишите задачи, стек, ожидаемые результаты и нагрузку. Это повышает точность мэтчинга.', state: 'done' },
+            { n: '02', title: 'Выберите практиканта', desc: 'Изучите рекомендованных кандидатов, проведите интервью, примите решение до дедлайна.', state: 'done' },
+            { n: '03', title: 'Загрузите задание на практику', desc: 'После выбора студента оформите индивидуальное задание — конкретные задачи, сроки, KPI.', state: 'now' },
+            { n: '04', title: 'Сопровождайте студента', desc: 'Регулярно давайте обратную связь, отвечайте на вопросы в чате, фиксируйте прогресс.', state: 'idle' },
+            { n: '05', title: 'Напишите отзыв на практиканта', desc: 'По завершении практики оцените работу студента — отзыв становится доступен с 1 апреля.', state: 'idle' }].
+            map((s, i, arr) =>
+            <div key={s.n} style={{ display: 'flex', gap: 20, position: 'relative' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                    <div style={{
+                  width: 40, height: 40, borderRadius: '50%', display: 'grid', placeItems: 'center',
+                  background: s.state === 'done' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : s.state === 'now' ? 'rgba(255,122,26,0.15)' : '#131e33',
+                  border: s.state === 'now' ? '2px solid #ff7a1a' : '1px solid #2a3652',
+                  boxShadow: s.state === 'now' ? '0 0 20px rgba(255,122,26,0.4)' : 'none',
+                  fontFamily: 'Unbounded', fontWeight: 800, fontSize: 13,
+                  color: s.state === 'done' ? '#fff' : s.state === 'now' ? '#ff7a1a' : '#5a6278',
+                  zIndex: 1
+                }}>{s.state === 'done' ? '✓' : s.n}</div>
+                    {i < arr.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 24, background: '#1e2a42', margin: '4px 0' }} />}
+                  </div>
+                  <div style={{ paddingBottom: 28, flex: 1 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4, color: s.state === 'now' ? '#ff7a1a' : '#eef2f9' }}>{s.title}</div>
+                    <div style={{ fontSize: 13, color: '#8892a8', lineHeight: 1.6 }}>{s.desc}</div>
+                  </div>
+                </div>
+            )}
+            </div>
+          </div>
+
+          <div className="card" style={{ padding: 28 }}>
+            <div className="mono" style={{ fontSize: 10, color: '#ff7a1a', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16, fontWeight: 700 }}>Пример хорошо оформленного задания на практику</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {[
+            { label: 'Цель', text: 'Разработка модели классификации инцидентов IT-поддержки по 28 категориям с точностью не ниже F1=0.85.' },
+            { label: 'Задачи', text: '1. Сбор и разметка обучающей выборки (≥5000 тикетов). 2. Дообучение BERT на внутренних данных. 3. Интеграция REST-эндпоинта в pipeline Airflow. 4. Документация и покрытие тестами ≥80%.' },
+            { label: 'KPI', text: 'F1-macro ≥ 0.85 на тестовой выборке; задержка инференса ≤ 200 мс; Pull Request с code review принят в main.' },
+            { label: 'Формат отчёта', text: 'Презентация 10–15 слайдов: постановка задачи, подход, результаты, выводы. Загрузить до 30 апреля.' }].
+            map((item) =>
+            <div key={item.label} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 12, borderBottom: '1px solid #1a2438', paddingBottom: 14 }}>
+                  <div className="mono" style={{ fontSize: 11, color: '#8892a8', textTransform: 'uppercase', paddingTop: 2 }}>{item.label}</div>
+                  <div style={{ fontSize: 13, color: '#c4ccdc', lineHeight: 1.6 }}>{item.text}</div>
+                </div>
+            )}
+            </div>
+          </div>
+        </div>
+      }
+    </div>);
+
 }
 
 function StudentChat({ toast }) {
   const [active, setActive] = useStateS(CHAT_THREADS[0].id);
   const [text, setText] = useStateS('');
   const [threads, setThreads] = useStateS(CHAT_THREADS);
-  const thread = threads.find(t => t.id === active);
+  const thread = threads.find((t) => t.id === active);
 
   const send = () => {
     if (!text.trim()) return;
-    setThreads(threads.map(t => t.id === active ? {
+    setThreads(threads.map((t) => t.id === active ? {
       ...t,
       messages: [...t.messages, { from: 'me', text, at: 'сейчас' }]
     } : t));
@@ -1350,27 +1680,27 @@ function StudentChat({ toast }) {
   return (
     <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '32px 32px' }}>
       <div style={{ marginBottom: 24 }}>
-        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Чаты</div>
-        <h1 className="display tight" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 0.95, margin: 0 }}>Переписка в контексте проекта</h1>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>
+</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 0.95, margin: 0 }}>ЧАТЫ</h1>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 20, height: '70vh', minHeight: 540 }}>
         {/* Thread list */}
         <div className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: 16, borderBottom: '1px solid #1a2438' }}>
-            <input className="input" placeholder="Поиск" style={{ fontSize: 13 }}/>
+            <input className="input" placeholder="Поиск" style={{ fontSize: 13 }} />
           </div>
           <div style={{ flex: 1, overflowY: 'auto' }}>
-            {threads.map(t => (
-              <div key={t.id} onClick={() => setActive(t.id)} style={{
-                padding: 16,
-                borderBottom: '1px solid #131e33',
-                cursor: 'pointer',
-                background: active === t.id ? 'rgba(255,122,26,0.08)' : 'transparent',
-                borderLeft: active === t.id ? '3px solid #ff7a1a' : '3px solid transparent',
-                display: 'flex', gap: 12, alignItems: 'flex-start'
-              }}>
-                <Avatar initials={t.with.avatar} size={40}/>
+            {threads.map((t) => <div key={t.id} onClick={() => setActive(t.id)} style={{
+              padding: 16,
+              borderBottom: '1px solid #131e33',
+              cursor: 'pointer',
+              background: active === t.id ? 'rgba(255,122,26,0.08)' : 'transparent',
+              borderLeft: active === t.id ? '3px solid #ff7a1a' : '3px solid transparent',
+              display: 'flex', gap: 12, alignItems: 'flex-start'
+            }}>
+                <Avatar initials={t.with.avatar} size={40} />
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 2 }}>
                     <div style={{ fontSize: 13, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.with.name}</div>
@@ -1381,14 +1711,14 @@ function StudentChat({ toast }) {
                 </div>
                 {t.unread > 0 && <div style={{ background: '#ff7a1a', color: '#fff', fontSize: 10, fontWeight: 800, padding: '2px 7px', borderRadius: 999 }}>{t.unread}</div>}
               </div>
-            ))}
+            )}
           </div>
         </div>
 
         {/* Active thread */}
         <div className="card" style={{ padding: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <div style={{ padding: '16px 22px', borderBottom: '1px solid #1a2438', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <Avatar initials={thread.with.avatar} size={42}/>
+            <Avatar initials={thread.with.avatar} size={42} />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 15, fontWeight: 700 }}>{thread.with.name}</div>
               <div style={{ fontSize: 12, color: '#8892a8' }}>{thread.with.role} · {thread.project}</div>
@@ -1397,34 +1727,34 @@ function StudentChat({ toast }) {
           </div>
 
           <div style={{ flex: 1, overflowY: 'auto', padding: 22, display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {thread.messages.map((m, i) => (
-              <div key={i} style={{
-                alignSelf: m.from === 'me' ? 'flex-end' : 'flex-start',
-                maxWidth: '70%',
-                background: m.from === 'me' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : '#131e33',
-                color: m.from === 'me' ? '#fff' : '#eef2f9',
-                padding: '10px 14px',
-                borderRadius: m.from === 'me' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                fontSize: 13, lineHeight: 1.5,
-                boxShadow: m.from === 'me' ? '0 4px 20px rgba(255,122,26,0.3)' : 'none'
-              }}>
+            {thread.messages.map((m, i) =>
+            <div key={i} style={{
+              alignSelf: m.from === 'me' ? 'flex-end' : 'flex-start',
+              maxWidth: '70%',
+              background: m.from === 'me' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : '#131e33',
+              color: m.from === 'me' ? '#fff' : '#eef2f9',
+              padding: '10px 14px',
+              borderRadius: m.from === 'me' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+              fontSize: 13, lineHeight: 1.5,
+              boxShadow: m.from === 'me' ? '0 4px 20px rgba(255,122,26,0.3)' : 'none'
+            }}>
                 <div>{m.text}</div>
                 <div className="mono" style={{ fontSize: 9, opacity: 0.6, marginTop: 4, textAlign: 'right' }}>{m.at}</div>
               </div>
-            ))}
+            )}
           </div>
 
           <div style={{ padding: 16, borderTop: '1px solid #1a2438', display: 'flex', gap: 10 }}>
-            <input className="input" value={text} onChange={e => setText(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()} placeholder="Написать сообщение… (Enter)"/>
+            <input className="input" value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && send()} placeholder="Написать сообщение… (Enter)" />
             <button className="btn btn-accent" onClick={send}>↗</button>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
-Object.assign(window, { StudentHome, StudentMatch, StudentProfile, StudentApplications, StudentDocuments, StudentChat, ProjectCard });
+Object.assign(window, { StudentHome, StudentMatch, StudentProfile, StudentApplications, StudentDocuments, StudentChat, ProjectCard, DocTable, DOC_STATUS_MAP });
 
 
 // ========== src/mentor.jsx ==========
@@ -1434,25 +1764,25 @@ const { useState: useStateM } = React;
 
 function MentorDashboard({ onNav, toast }) {
   const p = MENTOR_PROJECT;
-  const topCand = [...MENTOR_CANDIDATES].sort((a,b)=>b.match-a.match).slice(0,3);
+  const topCand = [...MENTOR_CANDIDATES].sort((a, b) => b.match - a.match).slice(0, 3);
 
   return (
     <div className="anim-in">
       <div style={{ position: 'relative', paddingTop: 40, paddingBottom: 50, marginBottom: 20 }}>
-        {window.TWEAKS.showHeroFlame && (
-          <div className="flame-bg" style={{ opacity: window.TWEAKS.heroIntensity * 0.7 }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,140,40,0.5), transparent 60%)' }}/>
-            <div className="flame-streaks"/>
-            <div className="flame-vignette"/>
+        {window.TWEAKS.showHeroFlame &&
+        <div className="flame-bg" style={{ opacity: window.TWEAKS.heroIntensity * 0.7 }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,140,40,0.5), transparent 60%)' }} />
+            <div className="flame-streaks" />
+            <div className="flame-vignette" />
           </div>
-        )}
+        }
         <div style={{ position: 'relative', maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
-          <span className="pill pill-accent" style={{ marginBottom: 18 }}>Наставник · И. Козлов</span>
+          <span className="pill pill-accent" style={{ marginBottom: 18 }}>НАСТАВНИК  ЕКАТЕРИНА НОВИКОВА</span>
           <h1 className="display tight" style={{ fontSize: 'clamp(38px, 5vw, 68px)', lineHeight: 0.95, margin: '12px 0 20px', maxWidth: 880 }}>
             <AccentGlow>7 кандидатов</AccentGlow> ждут вашего решения
           </h1>
-          <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 620, margin: '0 0 24px' }}>
-            Алгоритм отранжировал заявки по совпадению со стеком проекта. Раскройте любого кандидата — увидите, почему он в этой позиции.
+          <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 620, margin: '0 0 24px' }}>Алгоритм отсортировал заявки по совпадению со стеком проекта. Нажмите на значение совместимости, чтобы узнать подробности
+
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <button className="btn btn-accent btn-lg" onClick={() => onNav('candidates')}>Смотреть кандидатов</button>
@@ -1465,29 +1795,29 @@ function MentorDashboard({ onNav, toast }) {
         <Section label="Проект" title={p.title}>
           <div className="grid-4">
             {[
-              { t: 'Откликов', v: p.applicants, st: 'now' },
-              { t: 'Приглашено', v: p.invited, st: 'done' },
-              { t: 'Мест', v: p.slots, st: 'idle' },
-              { t: 'До решения', v: '4 дн', st: 'now' },
-            ].map(c => (
-              <div key={c.t} className="card" style={{ padding: 22 }}>
+            { t: 'Откликов', v: p.applicants, st: 'now' },
+            { t: 'Приглашено', v: p.invited, st: 'done' },
+            { t: 'Мест', v: p.slots, st: 'idle' },
+            { t: 'До решения', v: '4 дн', st: 'now' }].
+            map((c) =>
+            <div key={c.t} className="card" style={{ padding: 22 }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', color: '#8892a8', textTransform: 'uppercase' }}>{c.t}</div>
                 <div className="display" style={{ fontSize: 38, marginTop: 8, color: c.st === 'now' ? '#ffb347' : '#eef2f9' }}>{c.v}</div>
               </div>
-            ))}
+            )}
           </div>
         </Section>
 
         <Section label="Топ совпадений" title="Рекомендовано к интервью" right={
-          <button className="btn btn-ghost btn-sm" onClick={() => onNav('candidates')}>Все кандидаты →</button>
+        <button className="btn btn-ghost btn-sm" onClick={() => onNav('candidates')}>Все кандидаты →</button>
         }>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {topCand.map(c => <CandidateRow key={c.id} c={c} onInvite={() => toast(`${c.name} приглашён(а) на интервью`)}/>)}
+            {topCand.map((c) => <CandidateRow key={c.id} c={c} onInvite={() => toast(`${c.name} приглашён(а) на интервью`)} />)}
           </div>
         </Section>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 function CandidateRow({ c, onInvite }) {
@@ -1495,70 +1825,70 @@ function CandidateRow({ c, onInvite }) {
     interview: { label: 'Интервью назначено', pill: 'pill-warn' },
     invited: { label: 'Приглашён(а)', pill: 'pill-info' },
     review: { label: 'На рассмотрении', pill: 'pill-ghost' },
-    new: { label: 'Новый отклик', pill: 'pill-accent' },
+    new: { label: 'Новый отклик', pill: 'pill-accent' }
   };
   const s = statusMap[c.status];
   return (
-    <div className="card card-hover" style={{ padding: 20, display: 'grid', gridTemplateColumns: '76px 1fr auto', gap: 20, alignItems: 'center' }}>
-      <MatchDonut score={c.match} size={64}/>
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
-          <Avatar initials={c.avatar} size={28}/>
-          <div className="display" style={{ fontSize: 17 }}>{c.name}</div>
-          <span className={`pill ${s.pill}`} style={{ fontSize: 10 }}>{s.label}</span>
-          <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>GPA {c.gpa}</span>
+    <div className="card card-hover" style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '76px 1fr auto', gap: 20, alignItems: 'center' }}>
+        <MatchDonutTooltip score={c.match} size={64} strong={c.strong} gaps={c.gaps} />
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
+            <Avatar initials={c.avatar} size={28} />
+            <div className="display" style={{ fontSize: 17 }}>{c.name}</div>
+            <span className={`pill ${s.pill}`} style={{ fontSize: 10 }}>{s.label}</span>
+            <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>GPA {c.gpa}</span>
+          </div>
+          <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 10 }}>{c.program}</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {c.strong.map((s) => <span key={s} className="chip chip-match">✓ {s}</span>)}
+            {c.gaps.map((g) => <span key={g} className="chip" style={{ opacity: 0.55 }}>— {g}</span>)}
+          </div>
         </div>
-        <div style={{ fontSize: 12, color: '#8892a8', marginBottom: 10 }}>{c.program}</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-          {c.strong.map(s => <span key={s} className="chip chip-match">✓ {s}</span>)}
-          {c.gaps.map(g => <span key={g} className="chip" style={{ opacity: 0.55 }}>— {g}</span>)}
-        </div>
-      </div>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button className="btn btn-ghost btn-sm">Резюме</button>
-        {c.status === 'new' || c.status === 'review' ? (
-          <button className="btn btn-accent btn-sm" onClick={onInvite}>Пригласить</button>
-        ) : (
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button className="btn btn-ghost btn-sm">Профиль</button>
+          {c.status === 'new' || c.status === 'review' ?
+          <button className="btn btn-accent btn-sm" onClick={onInvite}>Пригласить</button> :
           <button className="btn btn-ghost btn-sm">Чат</button>
-        )}
+          }
+        </div>
       </div>
-    </div>
-  );
+    </div>);
 }
 
 function MentorCandidates({ toast }) {
   const [tab, setTab] = useStateM('all');
   const filters = [
-    ['all', 'Все', MENTOR_CANDIDATES.length],
-    ['new', 'Новые', MENTOR_CANDIDATES.filter(c=>c.status==='new').length],
-    ['review', 'На рассмотрении', MENTOR_CANDIDATES.filter(c=>c.status==='review').length],
-    ['invited', 'Приглашены', MENTOR_CANDIDATES.filter(c=>c.status==='invited' || c.status==='interview').length],
-  ];
+  ['all', 'Все', MENTOR_CANDIDATES.length],
+  ['new', 'Новые', MENTOR_CANDIDATES.filter((c) => c.status === 'new').length],
+  ['review', 'На рассмотрении', MENTOR_CANDIDATES.filter((c) => c.status === 'review').length],
+  ['invited', 'Приглашены', MENTOR_CANDIDATES.filter((c) => c.status === 'invited' || c.status === 'interview').length]];
+
   const visible = tab === 'all' ? MENTOR_CANDIDATES :
-    tab === 'invited' ? MENTOR_CANDIDATES.filter(c => c.status === 'invited' || c.status === 'interview') :
-    MENTOR_CANDIDATES.filter(c => c.status === tab);
+  tab === 'invited' ? MENTOR_CANDIDATES.filter((c) => c.status === 'invited' || c.status === 'interview') :
+  MENTOR_CANDIDATES.filter((c) => c.status === tab);
 
   return (
     <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '48px 32px' }}>
       <div style={{ marginBottom: 32 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Кандидаты</div>
-        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>LLM‑ассистент по НТД · P‑024</h1>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>АВТОКЛАССИФИКАЦИЯ ИНЦИДЕНТОВ ИТ-ПОДДЕРЖКИ · P‑024</h1>
         <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Отсортировано по совпадению алгоритма мэтчинга. Навыки сверены с обязательными требованиями проекта.</p>
       </div>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
-        {filters.map(([k, l, n]) => (
-          <button key={k} className={`btn btn-sm ${tab === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setTab(k)}>
+        {filters.map(([k, l, n]) =>
+        <button key={k} className={`btn btn-sm ${tab === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setTab(k)}>
             {l} <span style={{ opacity: 0.7, fontWeight: 500 }}>· {n}</span>
           </button>
-        ))}
+        )}
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {visible.map(c => <CandidateRow key={c.id} c={c} onInvite={() => toast(`${c.name} приглашён(а) на интервью`)}/>)}
+        {visible.map((c) => <CandidateRow key={c.id} c={c} onInvite={() => toast(`${c.name} приглашён(а) на интервью`)} />)}
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 function MentorProject({ toast }) {
@@ -1566,25 +1896,47 @@ function MentorProject({ toast }) {
     <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
       <div style={{ marginBottom: 32 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Профиль проекта</div>
-        <h1 className="display tight" style={{ fontSize: 'clamp(34px, 4vw, 46px)', lineHeight: 0.95, margin: '0 0 10px' }}>Структурированное описание</h1>
-        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Чем чётче разметите требования — тем точнее работает мэтчинг.</p>
+        <h1 className="display tight" style={{ fontSize: 'clamp(34px, 4vw, 46px)', lineHeight: 0.95, margin: '0 0 10px' }}> ОПИСАНИЕ</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Чем подробнее требования, тем точнее сработает мэтчинг</p>
       </div>
 
       <div className="card" style={{ padding: 32 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
           <label className="field">
             <span className="lbl">Название проекта</span>
-            <input className="input" defaultValue="Автоклассификация инцидентов IT-поддержки"/>
+            <input className="input" defaultValue="Автоклассификация инцидентов IT-поддержки" />
           </label>
           <label className="field">
             <span className="lbl">Подразделение</span>
-            <input className="input" defaultValue="ДИТАТ · Центр эксплуатации"/>
+            <input className="input" defaultValue="ДИТАТ · Центр эксплуатации" />
           </label>
         </div>
         <label className="field" style={{ marginBottom: 20 }}>
-          <span className="lbl">Описание задач</span>
-          <textarea className="textarea" defaultValue="Модель классификации тикетов по 28 категориям, дообучение BERT на внутренних данных. Интеграция с текущим pipeline через Airflow." style={{ minHeight: 100 }}/>
+          <span className="lbl">Описание проекта</span>
+          <textarea className="textarea" defaultValue="Разработка модели классификации тикетов IT-поддержки по 28 категориям. Дообучение BERT на внутренних данных компании. Интеграция с текущим pipeline через Airflow." style={{ minHeight: 100 }} />
         </label>
+
+        <label className="field" style={{ marginBottom: 20 }}>
+          <span className="lbl">Примерные задачи практиканта</span>
+          <textarea className="textarea" defaultValue="— Сбор и предобработка обучающей выборки тикетов&#10;— Дообучение BERT на внутренних данных&#10;— Разработка REST-эндпоинта для классификации&#10;— Написание тестов и документации" style={{ minHeight: 100 }} />
+        </label>
+
+        <label className="field" style={{ marginBottom: 20 }}>
+          <span className="lbl">Результат практики</span>
+          <textarea className="textarea" defaultValue="Готовая модель классификации, интегрированная в production pipeline. Документация и тестовое покрытие не менее 80%." style={{ minHeight: 80 }} />
+        </label>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+          <label className="field">
+            <span className="lbl">Длительность проекта</span>
+            <input className="input" defaultValue="3 месяца" />
+          </label>
+          <label className="field">
+            <span className="lbl">Нагрузка</span>
+            <input className="input" defaultValue="20 ч в неделю" />
+          </label>
+        </div>
+
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginBottom: 20 }}>
           <label className="field">
             <span className="lbl">Формат</span>
@@ -1592,20 +1944,28 @@ function MentorProject({ toast }) {
           </label>
           <label className="field">
             <span className="lbl">Мест</span>
-            <input className="input" type="number" defaultValue={1}/>
+            <input className="input" type="number" defaultValue={1} />
           </label>
           <label className="field">
             <span className="lbl">Дедлайн приёма</span>
-            <input className="input" defaultValue="10 мая 2026"/>
+            <input className="input" defaultValue="10 мая 2026" />
           </label>
         </div>
+
+        <label className="field" style={{ marginBottom: 20 }}>
+          <span className="lbl">Презентация / материалы по проекту</span>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <input className="input" placeholder="Вставьте ссылку на презентацию или документ" style={{ flex: 1 }} />
+            <button className="btn btn-ghost btn-sm" style={{ whiteSpace: 'nowrap' }}>📎 Загрузить файл</button>
+          </div>
+        </label>
 
         <div style={{ marginBottom: 20 }}>
           <div className="lbl" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#8892a8', fontWeight: 600, marginBottom: 10 }}>Обязательные навыки (с приоритетом)</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {['Python', 'scikit-learn'].map(s => (
-              <span key={s} className="chip chip-req" style={{ padding: '8px 14px' }}>{s} <span style={{ opacity: 0.6 }}>✕</span></span>
-            ))}
+            {['Python', 'scikit-learn'].map((s) =>
+            <span key={s} className="chip chip-req" style={{ padding: '8px 14px' }}>{s} <span style={{ opacity: 0.6 }}>✕</span></span>
+            )}
             <button className="chip" style={{ borderStyle: 'dashed' }}>+ добавить</button>
           </div>
         </div>
@@ -1613,14 +1973,24 @@ function MentorProject({ toast }) {
         <div style={{ marginBottom: 20 }}>
           <div className="lbl" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#8892a8', fontWeight: 600, marginBottom: 10 }}>Желательные навыки</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {['NLP', 'Pandas', 'BERT'].map(s => (
-              <span key={s} className="chip" style={{ padding: '8px 14px' }}>{s} <span style={{ opacity: 0.6 }}>✕</span></span>
-            ))}
+            {['NLP', 'Pandas', 'BERT'].map((s) =>
+            <span key={s} className="chip" style={{ padding: '8px 14px' }}>{s} <span style={{ opacity: 0.6 }}>✕</span></span>
+            )}
             <button className="chip" style={{ borderStyle: 'dashed' }}>+ добавить</button>
           </div>
         </div>
 
-        <hr className="sep"/>
+        <div style={{ marginBottom: 20 }}>
+          <div className="lbl" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#8892a8', fontWeight: 600, marginBottom: 10 }}>Soft skills</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {['Внимательность к деталям', 'Работа в команде'].map((s) =>
+            <span key={s} className="chip" style={{ padding: '8px 14px', borderColor: '#a78bfa44', color: '#a78bfa' }}>{s} <span style={{ opacity: 0.6 }}>✕</span></span>
+            )}
+            <button className="chip" style={{ borderStyle: 'dashed' }}>+ добавить</button>
+          </div>
+        </div>
+
+        <hr className="sep" />
 
         <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ fontSize: 12, color: '#8892a8' }}>Изменения сохранены автоматически</div>
@@ -1630,125 +2000,445 @@ function MentorProject({ toast }) {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
-Object.assign(window, { MentorDashboard, MentorCandidates, MentorProject });
+Object.assign(window, { MentorDashboard, MentorCandidates, MentorProject, MentorDocuments });
 
 
 // ========== src/coordinator.jsx ==========
 // Coordinator screen
 
+const { useState: useStateC } = React;
+
+const COORD_CHAT_THREADS = [
+{
+  id: 'cc1',
+  with: { name: 'Анна Дятлова', role: 'Студент · ИИ в промышленности', avatar: 'АЯ' },
+  unread: 1,
+  lastAt: '10:14',
+  messages: [
+  { from: 'them', text: 'Добрый день! Подскажите, когда придёт ответ от наставника?', at: '10:14' }]
+
+},
+{
+  id: 'cc2',
+  with: { name: 'Илья Козлов', role: 'Наставник · ДИТАТ', avatar: 'ИК' },
+  unread: 1,
+  lastAt: '11:32',
+  messages: [
+  { from: 'them', text: 'Лиза, можно добавить ещё 1 место в проект P-018?', at: '11:32' }]
+
+},
+{
+  id: 'cc3',
+  with: { name: 'Марк Волков', role: 'Студент · ИИ в промышленности', avatar: 'МВ' },
+  unread: 0,
+  lastAt: 'вчера',
+  messages: [
+  { from: 'them', text: 'Здравствуйте! Я не могу найти свои документы в системе.', at: 'вчера' },
+  { from: 'me', text: 'Марк, документы появятся после подтверждения наставником.', at: 'вчера' }]
+
+}];
+
+
+const MOCK_PROFILES = [
+{ id: 'st-001', name: 'Анна Дятлова', avatar: 'АЯ', program: 'ИИ в промышленности', year: '2 курс', gpa: 4.72, status: 'interview', projectTitle: 'Автоклассификация инцидентов', match: 88 },
+{ id: 'st-024', name: 'Марк Волков', avatar: 'МВ', program: 'ИИ в промышленности', year: '2 курс', gpa: 4.55, status: 'review', projectTitle: 'LLM-ассистент по НТД', match: 81 },
+{ id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', program: 'ИИ в промышленности', year: '2 курс', gpa: 4.9, status: 'matched', projectTitle: 'Автогенерация SQL', match: 91 },
+{ id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', program: 'ИИ в промышленности', year: '1 курс', gpa: 4.3, status: 'review', projectTitle: 'Детекция аномалий', match: 72 },
+{ id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', program: 'ИИ в промышленности', year: '1 курс', gpa: 4.8, status: 'new', projectTitle: null, match: null },
+{ id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', program: 'ИИ в промышленности', year: '1 курс', gpa: 4.1, status: 'new', projectTitle: null, match: null },
+{ id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', program: 'ИИ в промышленности', year: '2 курс', gpa: 4.4, status: 'interview', projectTitle: 'Сегментация керна', match: 76 }];
+
+
+const MOCK_PAIRS = [
+{ student: 'Анна Дятлова', sAvatar: 'АЯ', mentor: 'Екатерина Новикова', mAvatar: 'ЕН', project: 'Автоклассификация инцидентов', status: 'matched', date: '20 января' },
+{ student: 'София Лаптева', sAvatar: 'СЛ', mentor: 'Дмитрий Воронов', mAvatar: 'ДВ', project: 'Автогенерация SQL', status: 'matched', date: '18 января' },
+{ student: 'Алиса Гончарова', sAvatar: 'АГ', mentor: 'Сергей Ильин', mAvatar: 'СИ', project: 'Сегментация керна', status: 'matched', date: '21 января' }];
+
+const STUDENT_APPLICATIONS = [
+{ id: 'st-001', name: 'Анна Дятлова', avatar: 'АЯ', program: 'ИИ в промышленности · 2к', applications: [
+  { project: 'Автоклассификация инцидентов', mentor: 'Екатерина Новикова', match: 88, status: 'interview' },
+  { project: 'LLM-ассистент по НТД', mentor: 'Илья Козлов', match: 74, status: 'review' }]
+},
+{ id: 'st-024', name: 'Марк Волков', avatar: 'МВ', program: 'ИИ в промышленности · 2к', applications: [
+  { project: 'LLM-ассистент по НТД', mentor: 'Илья Козлов', match: 81, status: 'review' },
+  { project: 'Детекция аномалий', mentor: 'Александр Берг', match: 65, status: 'review' }]
+},
+{ id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', program: 'ИИ в промышленности · 2к', applications: [
+  { project: 'Автогенерация SQL', mentor: 'Дмитрий Воронов', match: 91, status: 'matched' }]
+},
+{ id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', program: 'ИИ в промышленности · 1к', applications: [
+  { project: 'Детекция аномалий', mentor: 'Александр Берг', match: 72, status: 'interview' },
+  { project: 'Сегментация керна', mentor: 'Сергей Ильин', match: 58, status: 'review' }]
+},
+{ id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', program: 'ИИ в промышленности · 1к', applications: [] },
+{ id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', program: 'ИИ в промышленности · 1к', applications: [] },
+{ id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', program: 'ИИ в промышленности · 2к', applications: [
+  { project: 'Сегментация керна', mentor: 'Сергей Ильин', match: 76, status: 'matched' },
+  { project: 'Детекция аномалий', mentor: 'Александр Берг', match: 61, status: 'review' }]
+}];
+
+
+
+const PROCESSES = [
+{ label: 'Наставники, заполнившие профиль', done: 20, total: 20, color: '#4ade80' },
+{ label: 'Студенты, заполнившие профиль', done: 38, total: 42, color: '#60a5fa' },
+{ label: 'Студенты, подавшие заявки', done: 35, total: 42, color: '#ff7a1a' },
+{ label: 'Студенты, приглашённые на интервью', done: 22, total: 42, color: '#a78bfa' },
+{ label: 'Наставники, принявшие окончательное решение', done: 7, total: 20, color: '#4ade80' }];
+
+
 function CoordinatorDashboard({ toast }) {
-  const maxFunnel = Math.max(...COORD_FUNNEL.map(f => f.count));
+
   return (
     <div className="anim-in">
+      {/* Hero */}
       <div style={{ position: 'relative', paddingTop: 40, paddingBottom: 40, marginBottom: 20 }}>
-        {window.TWEAKS.showHeroFlame && (
-          <div className="flame-bg" style={{ opacity: window.TWEAKS.heroIntensity * 0.55 }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,140,40,0.45), transparent 60%)' }}/>
-            <div className="flame-streaks"/>
-            <div className="flame-vignette"/>
-          </div>
-        )}
         <div style={{ position: 'relative', maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
-          <span className="pill pill-accent" style={{ marginBottom: 18 }}>Координатор · Весенний цикл 2026</span>
-          <h1 className="display tight" style={{ fontSize: 'clamp(40px, 5vw, 68px)', lineHeight: 0.95, margin: '12px 0 18px', maxWidth: 960 }}>
-            <AccentGlow>68%</AccentGlow> студентов<br/>уже распределены
+          <span className="pill pill-accent" style={{ marginBottom: 18 }}>ВЕСЕННИЙ СЕМЕСТР 2026</span>
+          <h1 className="display tight" style={{ fontSize: 'clamp(40px, 5vw, 68px)', lineHeight: 0.95, margin: '12px 0 18px' }}>
+            <AccentGlow>42</AccentGlow> студента<br /><AccentGlow>20</AccentGlow> проектов
           </h1>
-          <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 620, margin: '0 0 24px' }}>
-            Раньше весь цикл держался на переписке. Теперь ваша роль — наблюдать за воронкой и вмешиваться точечно.
+          <p style={{ color: '#c4ccdc', fontSize: 15, maxWidth: 580, margin: '0 0 8px' }}>
+            Дедлайн подачи заявок — 16 января. Наставники принимают решения до 2 февраля.
           </p>
         </div>
       </div>
 
-      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
-        <div className="grid-4" style={{ marginBottom: 40 }}>
-          {COORD_KPIS.map(k => (
-            <div key={k.label} className="card" style={{ padding: 22 }}>
-              <div className="mono" style={{ fontSize: 10, color: '#8892a8', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{k.label}</div>
-              <div className="display" style={{ fontSize: 44, marginTop: 10, lineHeight: 1 }}>{k.value}</div>
-              <div style={{ fontSize: 11, color: '#4ade80', marginTop: 8, fontWeight: 600 }}>{k.delta}</div>
-            </div>
-          ))}
-        </div>
+      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '0 32px 48px' }}>
 
-        <Section label="Воронка" title="Этапы цикла">
-          <div className="card" style={{ padding: 32 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {COORD_FUNNEL.map((f, i) => {
-                const pct = (f.count / maxFunnel) * 100;
-                return (
-                  <div key={f.stage} style={{ display: 'grid', gridTemplateColumns: '180px 1fr 80px', gap: 16, alignItems: 'center' }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: '#c4ccdc' }}>{f.stage}</div>
-                    <div style={{ height: 32, background: '#131e33', borderRadius: 8, overflow: 'hidden', position: 'relative' }}>
-                      <div style={{
-                        width: `${pct}%`, height: '100%',
-                        background: `linear-gradient(90deg, rgba(255,122,26,${0.3 + (i*0.12)}), #ff7a1a)`,
-                        boxShadow: '0 0 30px rgba(255,122,26,0.3)',
-                        transition: 'width .5s ease'
-                      }}/>
-                    </div>
-                    <div className="display" style={{ fontSize: 22, textAlign: 'right' }}>{f.count}</div>
-                  </div>
-                );
-              })}
-            </div>
+        {/* KPI row */}
+          <div className="grid-4" style={{ marginBottom: 32 }}>
+            {[
+          { label: 'Студентов', value: 42, sub: '', color: '#fff' },
+          { label: 'Проектов открыто', value: 20, sub: '', color: '#fff' },
+          { label: 'Распределено', value: '29%', sub: '12 из 42 студентов', color: '#4ade80' },
+          { label: 'Проектов закрыло потребность', value: '35%', sub: '7 из 20 проектов', color: '#ffb347' }].
+          map((k) =>
+          <div key={k.label} className="card" style={{ padding: 22 }}>
+                <div className="mono" style={{ fontSize: 10, color: '#8892a8', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{k.label}</div>
+                <div className="display" style={{ fontSize: 44, marginTop: 10, lineHeight: 1, color: k.color }}>{k.value}</div>
+                <div style={{ fontSize: 11, color: '#8892a8', marginTop: 8 }}>{k.sub}</div>
+              </div>
+          )}
           </div>
-        </Section>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 40 }}>
-          <div>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Уведомления</div>
-            <h2 className="display tight" style={{ fontSize: 24, margin: '0 0 18px' }}>Требует внимания</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {COORD_ALERTS.map((a, i) => {
-                const map = { warn: { c: '#fde047', bg: 'rgba(234,179,8,0.08)', b: 'rgba(234,179,8,0.3)' }, info: { c: '#93c5fd', bg: 'rgba(96,165,250,0.08)', b: 'rgba(96,165,250,0.3)' }, ok: { c: '#4ade80', bg: 'rgba(34,197,94,0.08)', b: 'rgba(34,197,94,0.3)' }};
-                const s = map[a.kind];
-                return (
-                  <div key={i} style={{ padding: 16, background: s.bg, border: `1px solid ${s.b}`, borderRadius: 12, display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <div style={{ width: 28, height: 28, borderRadius: '50%', background: s.c, color: '#05070d', display: 'grid', placeItems: 'center', fontSize: 14, fontWeight: 800, flexShrink: 0 }}>
-                      {a.kind === 'warn' ? '!' : a.kind === 'info' ? 'i' : '✓'}
+          {/* Process status bars */}
+          <div style={{ marginBottom: 32 }}>
+            <h2 className="display tight" style={{ fontSize: 22, margin: '0 0 16px' }}>Статус процессов</h2>
+            <div className="card" style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 22 }}>
+              {PROCESSES.map((p) => {
+              const pct = Math.round(p.done / p.total * 100);
+              return (
+                <div key={p.label}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, alignItems: 'baseline' }}>
+                      <span style={{ fontSize: 14, fontWeight: 600 }}>{p.label}</span>
+                      <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                        <span className="mono" style={{ fontSize: 12, color: '#8892a8' }}>{p.done} / {p.total}</span>
+                        <span className="display" style={{ fontSize: 18, color: p.color }}>{pct}%</span>
+                      </div>
                     </div>
-                    <div style={{ flex: 1, fontSize: 13, color: s.c, fontWeight: 500, lineHeight: 1.5 }}>{a.text}</div>
-                    <button className="btn btn-ghost btn-sm" onClick={() => toast('Открыт список')}>Открыть</button>
-                  </div>
-                );
-              })}
+                    <div style={{ height: 10, background: '#131e33', borderRadius: 5, overflow: 'hidden' }}>
+                      <div style={{ width: `${pct}%`, height: '100%', background: `linear-gradient(90deg, ${p.color}99, ${p.color})`, boxShadow: `0 0 20px ${p.color}55`, transition: 'width .6s ease', borderRadius: 5 }} />
+                    </div>
+                  </div>);
+
+            })}
             </div>
           </div>
 
-          <div>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Настройки алгоритма</div>
-            <h2 className="display tight" style={{ fontSize: 24, margin: '0 0 18px' }}>Веса мэтчинга</h2>
-            <div className="card" style={{ padding: 24 }}>
-              {[
-                { l: 'Совпадение навыков', v: 45 },
-                { l: 'Тематический интерес', v: 25 },
-                { l: 'GPA и релевантный опыт', v: 20 },
-                { l: 'Формат (очно/удалённо)', v: 10 },
-              ].map(w => (
-                <div key={w.l} style={{ marginBottom: 18 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600 }}>{w.l}</span>
-                    <span className="mono" style={{ fontSize: 12, color: '#ffb347' }}>{w.v}%</span>
+        {/* Pairs */}
+        <div style={{ marginTop: 32 }}>
+          <h2 className="display tight" style={{ fontSize: 22, margin: '0 0 16px' }}>Распределённые пары</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {MOCK_PAIRS.map((p, i) => {
+              const sl = { new: 'Новый', review: 'На рассмотрении', interview: 'Интервью', matched: 'Распределён' };
+              const sp = { new: 'pill-ghost', review: 'pill-info', interview: 'pill-warn', matched: 'pill-ok' };
+              return (
+                <div key={i} className="card" style={{ padding: '16px 24px', display: 'grid', gridTemplateColumns: '1fr 40px 1fr auto auto', gap: 20, alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <Avatar initials={p.sAvatar} size={36} />
+                    <div><div style={{ fontSize: 14, fontWeight: 700 }}>{p.student}</div><div style={{ fontSize: 11, color: '#8892a8' }}>Студент</div></div>
                   </div>
-                  <div style={{ height: 6, background: '#131e33', borderRadius: 3, overflow: 'hidden' }}>
-                    <div style={{ width: `${w.v}%`, height: '100%', background: 'linear-gradient(90deg,#ff7a1a,#ffb347)' }}/>
+                  <div style={{ textAlign: 'center', color: '#ff7a1a', fontSize: 18 }}>⇄</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <Avatar initials={p.mAvatar} size={36} />
+                    <div><div style={{ fontSize: 14, fontWeight: 700 }}>{p.mentor}</div><div style={{ fontSize: 11, color: '#8892a8' }}>Наставник</div></div>
                   </div>
-                </div>
-              ))}
-              <button className="btn btn-ghost btn-sm" style={{ width: '100%', marginTop: 8 }}>Настроить веса</button>
-            </div>
+                  <div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: '#c4ccdc' }}>{p.project}</div>
+                    <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginTop: 2 }}>{p.date}</div>
+                  </div>
+                  <span className={'pill ' + sp[p.status]} style={{ fontSize: 10 }}>{sl[p.status]}</span>
+                </div>);
+
+            })}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
-Object.assign(window, { CoordinatorDashboard });
+function CoordinatorStudents({ toast }) {
+  const stPill = { review: { label: 'На рассмотрении', color: '#60a5fa' }, interview: { label: 'Интервью', color: '#ffb347' }, matched: { label: 'Распределён', color: '#4ade80' } };
+  return (
+    <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 28 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Координатор</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 0.95 }}>Все студенты</h1>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {STUDENT_APPLICATIONS.map((s) =>
+        <div key={s.id} className="card" style={{ padding: '16px 20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: s.applications.length ? 14 : 0 }}>
+              <Avatar initials={s.avatar} size={36} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>{s.name}</div>
+                <div style={{ fontSize: 12, color: '#8892a8' }}>{s.program}</div>
+              </div>
+              <div className="mono" style={{ fontSize: 11, color: '#8892a8' }}>{s.applications.length} {s.applications.length === 1 ? 'заявка' : s.applications.length >= 2 && s.applications.length <= 4 ? 'заявки' : 'заявок'}</div>
+              {s.applications.length === 0 && <span className="pill pill-ghost" style={{ fontSize: 10 }}>Нет заявок</span>}
+            </div>
+            {s.applications.length > 0 &&
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingLeft: 48 }}>
+                {s.applications.map((a, i) => {
+              const st = stPill[a.status] || { label: a.status, color: '#8892a8' };
+              return (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#0a0e18', border: '1px solid #1e2a42', borderRadius: 8, padding: '8px 12px' }}>
+                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: st.color, flexShrink: 0 }} />
+                      <div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: '#eef2f9' }}>{a.project}</div>
+                        <div style={{ fontSize: 11, color: '#8892a8' }}>{a.mentor} · <span className="mono" style={{ color: '#ffb347' }}>{a.match}%</span> · <span style={{ color: st.color }}>{st.label}</span></div>
+                      </div>
+                    </div>);
+
+            })}
+              </div>
+          }
+          </div>
+        )}
+      </div>
+    </div>);
+
+}
+
+const PROJECT_APPLICATIONS = {
+  'p-024': [
+  { name: 'Анна Дятлова', avatar: 'АЯ', match: 88, status: 'interview' },
+  { name: 'Марк Волков', avatar: 'МВ', match: 81, status: 'review' },
+  { name: 'Тимур Асанов', avatar: 'ТА', match: 64, status: 'review' }],
+
+  'p-018': [
+  { name: 'София Лаптева', avatar: 'СЛ', match: 91, status: 'matched' },
+  { name: 'Алиса Гончарова', avatar: 'АГ', match: 73, status: 'review' }],
+
+  'p-031': [
+  { name: 'Тимур Асанов', avatar: 'ТА', match: 72, status: 'interview' },
+  { name: 'Алиса Гончарова', avatar: 'АГ', match: 76, status: 'matched' },
+  { name: 'Игорь Петров', avatar: 'ИП', match: 55, status: 'review' }],
+
+  'p-012': [
+  { name: 'Марк Волков', avatar: 'МВ', match: 65, status: 'review' }]
+
+};
+
+function CoordinatorProjects({ toast }) {
+  const stPill = { review: { label: 'На рассмотрении', color: '#60a5fa' }, interview: { label: 'Интервью', color: '#ffb347' }, matched: { label: 'Распределён', color: '#4ade80' } };
+  return (
+    <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 28 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Координатор</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 0.95 }}>Все проекты</h1>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {PROJECTS.map((p) => {
+          const apps = PROJECT_APPLICATIONS[p.id] || [];
+          return (
+            <div key={p.id} className="card" style={{ padding: '20px 24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto auto', gap: 20, alignItems: 'center', marginBottom: apps.length ? 16 : 0 }}>
+                <div>
+                  <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 4, textTransform: 'uppercase' }}>{p.id.toUpperCase()} · {p.unit}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, lineHeight: 1.3 }}>{p.title}</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <Avatar initials={p.mentor.avatar} size={32} />
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600 }}>{p.mentor.name}</div>
+                    <div style={{ fontSize: 11, color: '#8892a8' }}>{p.mentor.role}</div>
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div className="display" style={{ fontSize: 22 }}>{p.slots}</div>
+                  <div className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase' }}>мест</div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+                  <span className={'pill ' + (apps.length ? 'pill-ok' : 'pill-ghost')} style={{ fontSize: 10 }}>{apps.length ? `${apps.length} заявок` : 'Нет заявок'}</span>
+                  <div className="mono" style={{ fontSize: 11, color: '#8892a8' }}>до {p.deadline}</div>
+                </div>
+              </div>
+              {apps.length > 0 &&
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, borderTop: '1px solid #1a2438', paddingTop: 14 }}>
+                  {apps.map((a, i) => {
+                  const st = stPill[a.status] || { label: a.status, color: '#8892a8' };
+                  return (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#0a0e18', border: '1px solid #1e2a42', borderRadius: 8, padding: '8px 12px' }}>
+                        <Avatar initials={a.avatar} size={24} />
+                        <div>
+                          <div style={{ fontSize: 12, fontWeight: 600, color: '#eef2f9' }}>{a.name}</div>
+                          <div style={{ fontSize: 11, color: '#8892a8' }}><span className="mono" style={{ color: '#ffb347' }}>{a.match}%</span> · <span style={{ color: st.color }}>{st.label}</span></div>
+                        </div>
+                      </div>);
+
+                })}
+                </div>
+              }
+            </div>);
+
+        })}
+      </div>
+    </div>);
+}
+
+function CoordinatorChat({ toast }) {
+  const [active, setActive] = useStateC(COORD_CHAT_THREADS[0].id);
+  const [text, setText] = useStateC('');
+  const [threads, setThreads] = useStateC(COORD_CHAT_THREADS);
+  const thread = threads.find((t) => t.id === active);
+
+  const send = () => {
+    if (!text.trim()) return;
+    setThreads(threads.map((t) => t.id === active ? {
+      ...t, unread: 0,
+      messages: [...t.messages, { from: 'me', text, at: new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' }) }]
+    } : t));
+    setText('');
+    toast('Сообщение отправлено');
+  };
+
+  return (
+    <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '32px 32px' }}>
+      <div style={{ marginBottom: 24 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Координатор</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 0.95, margin: 0 }}>Чаты</h1>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 20, height: '70vh', minHeight: 540 }}>
+        <div className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: 16, borderBottom: '1px solid #1a2438' }}>
+            <input className="input" placeholder="Поиск" style={{ fontSize: 13 }} />
+          </div>
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+            {threads.map((t) =>
+            <div key={t.id} onClick={() => setActive(t.id)} style={{
+              padding: 16, borderBottom: '1px solid #131e33', cursor: 'pointer',
+              background: active === t.id ? 'rgba(255,122,26,0.08)' : 'transparent',
+              borderLeft: active === t.id ? '3px solid #ff7a1a' : '3px solid transparent',
+              display: 'flex', gap: 12, alignItems: 'flex-start'
+            }}>
+                <Avatar initials={t.with.avatar} size={40} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 2 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.with.name}</div>
+                    <div className="mono" style={{ fontSize: 10, color: '#8892a8', flexShrink: 0 }}>{t.lastAt}</div>
+                  </div>
+                  <div style={{ fontSize: 11, color: '#8892a8', marginBottom: 4 }}>{t.with.role}</div>
+                  <div style={{ fontSize: 12, color: '#c4ccdc', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.messages[t.messages.length - 1].text}</div>
+                </div>
+                {t.unread > 0 && <div style={{ background: '#ff7a1a', color: '#fff', fontSize: 10, fontWeight: 800, padding: '2px 7px', borderRadius: 999 }}>{t.unread}</div>}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: '16px 24px', borderBottom: '1px solid #1a2438', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <Avatar initials={thread.with.avatar} size={40} />
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 700 }}>{thread.with.name}</div>
+              <div style={{ fontSize: 12, color: '#8892a8' }}>{thread.with.role}</div>
+            </div>
+          </div>
+          <div style={{ flex: 1, overflowY: 'auto', padding: 24, display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {thread.messages.map((m, i) =>
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: m.from === 'me' ? 'flex-end' : 'flex-start' }}>
+                <div style={{
+                maxWidth: '70%', padding: '12px 16px', borderRadius: 16,
+                background: m.from === 'me' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : '#111b2e',
+                border: m.from !== 'me' ? '1px solid #1e2a42' : 'none',
+                fontSize: 14, lineHeight: 1.5, color: '#fff'
+              }}>{m.text}</div>
+                <div className="mono" style={{ fontSize: 10, color: '#5a6278', marginTop: 4 }}>{m.at}</div>
+              </div>
+            )}
+          </div>
+          <div style={{ padding: '16px 24px', borderTop: '1px solid #1a2438', display: 'flex', gap: 10 }}>
+            <input className="input" style={{ flex: 1, fontSize: 14 }} placeholder="Написать сообщение..."
+            value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && send()} />
+            <button className="btn btn-accent" onClick={send}>Отправить</button>
+          </div>
+        </div>
+      </div>
+    </div>);
+
+}
+
+function CoordinatorDocs({ toast }) {
+  const docNames = { d1: 'Согласие', d2: 'Анкета', d3: 'Презентация', d4: 'Справка', d5: 'Направление', d6: 'Задание', d7: 'Отзыв' };
+  const docOwner = { d1: 'Студент', d2: 'Студент', d3: 'Студент', d4: 'ИТМО', d5: 'ИТМО', d6: 'Наставник', d7: 'Наставник' };
+  const docIds = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'];
+  return (
+    <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '48px 32px' }}>
+      <div style={{ marginBottom: 28 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Координатор</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>Документооборот</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Статусы всех документов по каждому студенту.</p>
+      </div>
+      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: `240px repeat(7, 1fr)`, padding: '12px 20px', borderBottom: '1px solid #1a2438', background: 'rgba(255,255,255,0.02)', gap: 8, alignItems: 'end' }}>
+          <div className="mono" style={{ fontSize: 10, color: '#8892a8', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>Студент</div>
+          {docIds.map((id) =>
+          <div key={id} style={{ textAlign: 'center' }}>
+              <div className="mono" style={{ fontSize: 10, color: '#eef2f9', fontWeight: 700, marginBottom: 2 }}>{docNames[id]}</div>
+              <div className="mono" style={{ fontSize: 9, color: '#5a6278', textTransform: 'uppercase' }}>{docOwner[id]}</div>
+            </div>
+          )}
+        </div>
+        {COORD_STUDENT_DOCS.map((s, i) =>
+        <div key={s.id} style={{ display: 'grid', gridTemplateColumns: `240px repeat(7, 1fr)`, padding: '14px 20px', borderBottom: '1px solid #131e33', alignItems: 'center', gap: 8, background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <Avatar initials={s.avatar} size={28} />
+              <div style={{ fontSize: 13, fontWeight: 600 }}>{s.name}</div>
+            </div>
+            {docIds.map((id) => {
+            const status = s.docs[id];
+            const dotColor = status === 'signed' || status === 'issued' ? '#4ade80' : status === 'draft' ? '#ffb347' : status === 'pending' ? '#60a5fa' : '#2a3652';
+            const icon = status === 'signed' || status === 'issued' ? '✓' : status === 'draft' ? '…' : status === 'pending' ? '?' : '–';
+            return (
+              <div key={id} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: dotColor + '22', border: `2px solid ${dotColor}`, display: 'grid', placeItems: 'center', fontSize: 12 }}>
+                    {icon}
+                  </div>
+                </div>);
+
+          })}
+          </div>
+        )}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid #1a2438', display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+          {[['#4ade80', '✓', 'Готово / Выдано'], ['#ffb347', '…', 'В работе'], ['#60a5fa', '?', 'Ожидает'], ['#2a3652', '–', 'Недоступно']].map(([color, icon, label]) =>
+          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 20, height: 20, borderRadius: '50%', background: color + '22', border: `2px solid ${color}`, display: 'grid', placeItems: 'center', fontSize: 10 }}>{icon}</div>
+              <span className="mono" style={{ fontSize: 11, color: '#8892a8' }}>{label}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>);
+
+}
+
+Object.assign(window, { CoordinatorDashboard, CoordinatorStudents, CoordinatorProjects, CoordinatorChat, CoordinatorDocs });
 
 
 // ========== src/app.jsx ==========
@@ -1758,21 +2448,26 @@ const { useState: useStateA, useEffect: useEffectA } = React;
 
 const SCREENS_BY_ROLE = {
   student: [
-    { key: 'home', label: 'Главная' },
-    { key: 'match', label: 'Проекты' },
-    { key: 'applications', label: 'Мои заявки' },
-    { key: 'documents', label: 'Документы' },
-    { key: 'chat', label: 'Чат', badge: 1 },
-    { key: 'profile', label: 'Профиль' },
-  ],
+  { key: 'home', label: 'Главная' },
+  { key: 'match', label: 'Проекты' },
+  { key: 'applications', label: 'Мои заявки' },
+  { key: 'documents', label: 'Документы' },
+  { key: 'chat', label: 'Чат', badge: 1 },
+  { key: 'profile', label: 'Профиль' }],
+
   mentor: [
-    { key: 'home', label: 'Обзор' },
-    { key: 'candidates', label: 'Кандидаты', badge: 2 },
-    { key: 'project', label: 'Проект' },
-  ],
+  { key: 'home', label: 'Обзор' },
+  { key: 'candidates', label: 'Кандидаты', badge: 2 },
+  { key: 'project', label: 'Проект' },
+  { key: 'mentor-docs', label: 'Документы' }],
+
   coordinator: [
-    { key: 'home', label: 'Дашборд' },
-  ],
+  { key: 'home', label: 'Дашборд' },
+  { key: 'coord-students', label: 'Студенты' },
+  { key: 'coord-projects', label: 'Проекты' },
+  { key: 'coord-docs', label: 'Документы' },
+  { key: 'coord-chat', label: 'Чат', badge: 2 }]
+
 };
 
 function TweaksPanel({ open, onClose }) {
@@ -1796,31 +2491,31 @@ function TweaksPanel({ open, onClose }) {
       <div className="row">
         <label>
           <span>Акцентный цвет</span>
-          <input type="color" value={t.accent} onChange={e => set('accent', e.target.value)}/>
+          <input type="color" value={t.accent} onChange={(e) => set('accent', e.target.value)} />
         </label>
       </div>
       <div className="row">
         <label>
           <span>Яркость свечения</span>
-          <input type="range" min="0" max="1.5" step="0.1" value={t.accentGlow} onChange={e => set('accentGlow', parseFloat(e.target.value))}/>
+          <input type="range" min="0" max="1.5" step="0.1" value={t.accentGlow} onChange={(e) => set('accentGlow', parseFloat(e.target.value))} />
         </label>
       </div>
       <div className="row">
         <label>
           <span>Огненный hero</span>
-          <input type="checkbox" checked={t.showHeroFlame} onChange={e => set('showHeroFlame', e.target.checked)}/>
+          <input type="checkbox" checked={t.showHeroFlame} onChange={(e) => set('showHeroFlame', e.target.checked)} />
         </label>
       </div>
       <div className="row">
         <label>
           <span>Интенсивность hero</span>
-          <input type="range" min="0.3" max="1.3" step="0.1" value={t.heroIntensity} onChange={e => set('heroIntensity', parseFloat(e.target.value))}/>
+          <input type="range" min="0.3" max="1.3" step="0.1" value={t.heroIntensity} onChange={(e) => set('heroIntensity', parseFloat(e.target.value))} />
         </label>
       </div>
       <div className="row">
         <label>
           <span>Объяснимость ИИ</span>
-          <input type="checkbox" checked={t.showExplainability} onChange={e => set('showExplainability', e.target.checked)}/>
+          <input type="checkbox" checked={t.showExplainability} onChange={(e) => set('showExplainability', e.target.checked)} />
         </label>
       </div>
       <div className="row" style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid #2a3652' }}>
@@ -1828,8 +2523,8 @@ function TweaksPanel({ open, onClose }) {
           Панель скрывается при выключении Tweaks. Изменения сохраняются в файле.
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 function App() {
@@ -1838,8 +2533,8 @@ function App() {
   const [toastMsg, setToastMsg] = useStateA(null);
   const [tweaksOpen, setTweaksOpen] = useStateA(false);
 
-  useEffectA(() => { localStorage.setItem('mvp-role', role); }, [role]);
-  useEffectA(() => { localStorage.setItem('mvp-screen', screen); }, [screen]);
+  useEffectA(() => {localStorage.setItem('mvp-role', role);}, [role]);
+  useEffectA(() => {localStorage.setItem('mvp-screen', screen);}, [screen]);
 
   // Tweaks edit-mode protocol
   useEffectA(() => {
@@ -1859,49 +2554,52 @@ function App() {
     document.documentElement.style.setProperty('--glow', String(window.TWEAKS.accentGlow));
   }, []);
 
-  const changeRole = (r) => { setRole(r); setScreen('home'); };
+  const changeRole = (r) => {setRole(r);setScreen('home');};
   const toast = (m) => setToastMsg(m);
 
   const screens = SCREENS_BY_ROLE[role];
 
   let content;
   if (role === 'student') {
-    if (screen === 'home') content = <StudentHome onNav={setScreen} toast={toast}/>;
-    else if (screen === 'match') content = <StudentMatch toast={toast}/>;
-    else if (screen === 'applications') content = <StudentApplications/>;
-    else if (screen === 'documents') content = <StudentDocuments/>;
-    else if (screen === 'chat') content = <StudentChat toast={toast}/>;
-    else if (screen === 'profile') content = <StudentProfile toast={toast}/>;
+    if (screen === 'home') content = <StudentHome onNav={setScreen} toast={toast} />;else
+    if (screen === 'match') content = <StudentMatch toast={toast} />;else
+    if (screen === 'applications') content = <StudentApplications />;else
+    if (screen === 'documents') content = <StudentDocuments />;else
+    if (screen === 'chat') content = <StudentChat toast={toast} />;else
+    if (screen === 'profile') content = <StudentProfile toast={toast} />;
   } else if (role === 'mentor') {
-    if (screen === 'home') content = <MentorDashboard onNav={setScreen} toast={toast}/>;
-    else if (screen === 'candidates') content = <MentorCandidates toast={toast}/>;
-    else if (screen === 'project') content = <MentorProject toast={toast}/>;
+    if (screen === 'home') content = <MentorDashboard onNav={setScreen} toast={toast} />;else
+    if (screen === 'candidates') content = <MentorCandidates toast={toast} />;else
+    if (screen === 'project') content = <MentorProject toast={toast} />;else
+    if (screen === 'mentor-docs') content = <MentorDocuments toast={toast} />;
   } else {
-    content = <CoordinatorDashboard toast={toast}/>;
+    if (screen === 'home') content = <CoordinatorDashboard toast={toast} />;else
+    if (screen === 'coord-students') content = <CoordinatorStudents toast={toast} />;else
+    if (screen === 'coord-projects') content = <CoordinatorProjects toast={toast} />;else
+    if (screen === 'coord-docs') content = <CoordinatorDocs toast={toast} />;else
+    if (screen === 'coord-chat') content = <CoordinatorChat toast={toast} />;
   }
 
   return (
     <div data-screen-label={`${role}-${screen}`}>
-      <TopBar role={role} onRole={changeRole} screen={screen} onScreen={setScreen} screens={screens}/>
+      <TopBar role={role} onRole={changeRole} screen={screen} onScreen={setScreen} screens={screens} />
       <main>{content}</main>
 
       {/* Footer */}
       <footer style={{ borderTop: '1px solid #1a2438', marginTop: 80, padding: '32px', color: '#5a6278', fontSize: 12 }}>
         <div style={{ maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
-          <div>© 2026 · MVP цифровой платформы организации практик · ИТМО × ПАО «Газпром нефть»</div>
+          <div>© 2026 · MVP цифровой платформы организации практик · ИТМО × ПАО «Газпром нефть» · Сделано Анастасией Дехтеревой, ФТМИ ИТМО</div>
           <div className="mono" style={{ letterSpacing: '0.08em' }}>v0.4.1 · демо‑прототип</div>
         </div>
       </footer>
 
-      <TweaksPanel open={tweaksOpen} onClose={() => { setTweaksOpen(false); window.parent.postMessage({ type: '__edit_mode_available' }, '*'); }}/>
-      <Toast message={toastMsg} onDone={() => setToastMsg(null)}/>
-    </div>
-  );
+      <TweaksPanel open={tweaksOpen} onClose={() => {setTweaksOpen(false);window.parent.postMessage({ type: '__edit_mode_available' }, '*');}} />
+      <Toast message={toastMsg} onDone={() => setToastMsg(null)} />
+    </div>);
+
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
-
-
-  </script>
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
 </body>
 </html>
