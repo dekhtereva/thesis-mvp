@@ -386,6 +386,8 @@
 
 
 
+
+
 // ========== src/data.jsx ==========
 // Mock data for the platform
 const SKILLS_POOL = [
@@ -440,7 +442,7 @@ const PROJECTS = [
 {
   id: 'p-018',
   title: 'LLM-ассистент для поиска по нормативной документации',
-  unit: 'ДИТАТ · Департамент НТД',
+  unit: 'ДИТАТ Департамент НТД',
   mentor: { name: 'Илья Козлов', role: 'Руководитель NLP-команды', avatar: 'ИК' },
   slots: 2,
   format: 'Гибрид',
@@ -463,7 +465,7 @@ const PROJECTS = [
 {
   id: 'p-024',
   title: 'Автоклассификация инцидентов IT-поддержки',
-  unit: 'ДИТАТ · Центр эксплуатации',
+  unit: 'ДИТАТ Центр эксплуатации',
   mentor: { name: 'Екатерина Новикова', role: 'Data Scientist', avatar: 'ЕН' },
   slots: 1,
   format: 'Удалённо',
@@ -483,7 +485,7 @@ const PROJECTS = [
 {
   id: 'p-031',
   title: 'Предсказание износа бурового оборудования',
-  unit: 'БРД · Цифровая буровая',
+  unit: 'БРД Цифровая буровая',
   mentor: { name: 'Алексей Сидоров', role: 'ML-инженер', avatar: 'АС' },
   slots: 1,
   format: 'Очно',
@@ -502,7 +504,7 @@ const PROJECTS = [
 {
   id: 'p-042',
   title: 'Детекция аномалий на снимках трубопроводов',
-  unit: 'ИНФР · Контроль активов',
+  unit: 'ИНФР Контроль активов',
   mentor: { name: 'Мария Титова', role: 'CV-инженер', avatar: 'МТ' },
   slots: 2,
   format: 'Гибрид',
@@ -521,7 +523,7 @@ const PROJECTS = [
 {
   id: 'p-051',
   title: 'Ассистент аналитика: автогенерация SQL из NL-запросов',
-  unit: 'ДИТАТ · BI-платформа',
+  unit: 'ДИТАТ BI-платформа',
   mentor: { name: 'Дмитрий Воронов', role: 'Head of Analytics Eng.', avatar: 'ДВ' },
   slots: 2,
   format: 'Гибрид',
@@ -540,7 +542,7 @@ const PROJECTS = [
 {
   id: 'p-067',
   title: 'Сегментация керновых образцов по фотографиям',
-  unit: 'ГРР · Лаборатория керна',
+  unit: 'ГРР Лаборатория керна',
   mentor: { name: 'Сергей Ильин', role: 'Геолог-исследователь', avatar: 'СИ' },
   slots: 1,
   format: 'Гибрид',
@@ -652,13 +654,13 @@ const MENTOR_PROJECT = {
 };
 
 const MENTOR_CANDIDATES = [
-{ id: 'st-001', name: 'Анна Дятлова', avatar: 'АЯ', match: 88, program: 'ИИ в промышленности · 2 курс', gpa: 4.72, strong: ['Python', 'NLP', 'scikit-learn'], gaps: ['Airflow'], status: 'interview', why: 'Сильное совпадение по NLP-стеку и тематике курсового проекта по классификации обращений. Студентка уже работала с BERT и scikit-learn в схожей задаче.' },
-{ id: 'st-024', name: 'Марк Волков', avatar: 'МВ', match: 81, program: 'ИИ в промышленности · 2 курс', gpa: 4.55, strong: ['Python', 'BERT', 'Pandas'], gaps: ['Airflow', 'Docker'], status: 'review', why: 'Высокое совпадение по BERT и Pandas. Нет опыта с Airflow и Docker, но базовые навыки позволяют быстро освоить в рамках проекта.' },
-{ id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', match: 76, program: 'ИИ в промышленности · 2 курс', gpa: 4.9, strong: ['Python', 'NLP', 'Docker'], gaps: ['BERT'], status: 'invited', why: 'Отличный GPA и опыт с Docker и NLP. Не работала напрямую с BERT, но сильный фундамент позволяет закрыть этот пробел в короткий срок.' },
-{ id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', match: 72, program: 'ИИ в промышленности · 1 курс', gpa: 4.3, strong: ['Python', 'scikit-learn'], gaps: ['NLP', 'BERT'], status: 'review', why: 'Хорошая ML-база, активно изучает NLP по открытым курсам. Нет прямого опыта с BERT — потребуется онбординг по теме.' },
-{ id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', match: 64, program: 'ИИ в промышленности · 1 курс', gpa: 4.8, strong: ['Python', 'Pandas'], gaps: ['NLP', 'scikit-learn'], status: 'new', why: 'Сильная математическая подготовка и опыт с Pandas. Нет специализации в NLP — проект может стать первым практическим погружением.' },
-{ id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', match: 58, program: 'ИИ в промышленности · 1 курс', gpa: 4.1, strong: ['Python'], gaps: ['NLP', 'scikit-learn', 'BERT'], status: 'new', why: 'Базовые навыки Python, но нет опыта с ML-библиотеками и NLP. Рекомендован как кандидат с потенциалом при высокой мотивации к обучению.' },
-{ id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', match: 49, program: 'ИИ в промышленности · 2 курс', gpa: 4.4, strong: ['SQL'], gaps: ['Python', 'NLP'], status: 'new', why: 'Специализация не совпадает с профилем проекта. Сильна в аналитике и SQL, но отсутствует необходимый ML-стек.' }];
+{ id: 'st-001', name: 'Анна Дятлова', avatar: 'АЯ', match: 88, program: 'ИИ в промышленности 2 курс', gpa: 4.72, strong: ['Python', 'NLP', 'scikit-learn'], gaps: ['Airflow'], status: 'interview', why: 'Сильное совпадение по NLP-стеку и тематике курсового проекта по классификации обращений. Студентка уже работала с BERT и scikit-learn в схожей задаче.' },
+{ id: 'st-024', name: 'Марк Волков', avatar: 'МВ', match: 81, program: 'ИИ в промышленности 2 курс', gpa: 4.55, strong: ['Python', 'BERT', 'Pandas'], gaps: ['Airflow', 'Docker'], status: 'review', why: 'Высокое совпадение по BERT и Pandas. Нет опыта с Airflow и Docker, но базовые навыки позволяют быстро освоить в рамках проекта.' },
+{ id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', match: 76, program: 'ИИ в промышленности 2 курс', gpa: 4.9, strong: ['Python', 'NLP', 'Docker'], gaps: ['BERT'], status: 'invited', why: 'Отличный GPA и опыт с Docker и NLP. Не работала напрямую с BERT, но сильный фундамент позволяет закрыть этот пробел в короткий срок.' },
+{ id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', match: 72, program: 'ИИ в промышленности 1 курс', gpa: 4.3, strong: ['Python', 'scikit-learn'], gaps: ['NLP', 'BERT'], status: 'review', why: 'Хорошая ML-база, активно изучает NLP по открытым курсам. Нет прямого опыта с BERT — потребуется онбординг по теме.' },
+{ id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', match: 64, program: 'ИИ в промышленности 1 курс', gpa: 4.8, strong: ['Python', 'Pandas'], gaps: ['NLP', 'scikit-learn'], status: 'new', why: 'Сильная математическая подготовка и опыт с Pandas. Нет специализации в NLP — проект может стать первым практическим погружением.' },
+{ id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', match: 58, program: 'ИИ в промышленности 1 курс', gpa: 4.1, strong: ['Python'], gaps: ['NLP', 'scikit-learn', 'BERT'], status: 'new', why: 'Базовые навыки Python, но нет опыта с ML-библиотеками и NLP. Рекомендован как кандидат с потенциалом при высокой мотивации к обучению.' },
+{ id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', match: 49, program: 'ИИ в промышленности 2 курс', gpa: 4.4, strong: ['SQL'], gaps: ['Python', 'NLP'], status: 'new', why: 'Специализация не совпадает с профилем проекта. Сильна в аналитике и SQL, но отсутствует необходимый ML-стек.' }];
 
 
 // Coordinator-side KPIs
@@ -945,7 +947,7 @@ function StudentHome({ onNav, toast }) {
           </div>
         }
         <div style={{ position: 'relative', maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
-          <span className="pill pill-accent" style={{ marginBottom: 20 }}>ВЕСЕННИЙ СЕМЕСТР · 2026</span>
+          <span className="pill pill-accent" style={{ marginBottom: 20 }}>ВЕСЕННИЙ СЕМЕСТР 2026</span>
           <h1 className="display tight" style={{
             fontSize: 'clamp(44px, 6vw, 84px)',
             lineHeight: 0.92,
@@ -959,7 +961,7 @@ function StudentHome({ onNav, toast }) {
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <button className="btn btn-accent btn-lg" onClick={() => onNav('match')}>Найти проект</button>
-            <button className="btn btn-ghost btn-lg" onClick={() => onNav('profile')}>Дозаполнить профиль · {Math.round(STUDENT_ME.completion * 100)}%</button>
+            <button className="btn btn-ghost btn-lg" onClick={() => onNav('profile')}>Дозаполнить профиль {Math.round(STUDENT_ME.completion * 100)}%</button>
           </div>
         </div>
       </div>
@@ -978,7 +980,7 @@ function StudentHome({ onNav, toast }) {
                 <h3 className="display" style={{ fontSize: 24, margin: '8px 0 14px', lineHeight: 1.05 }}>{activeProject.title}</h3>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, color: '#c4ccdc', fontSize: 13 }}>
                   <Avatar initials={activeProject.mentor.avatar} size={28} />
-                  <span><strong>{activeProject.mentor.name}</strong> · {activeProject.mentor.role}</span>
+                  <span><strong>{activeProject.mentor.name}</strong> {activeProject.mentor.role}</span>
                 </div>
                 <div style={{
                   padding: '16px 20px',
@@ -1041,7 +1043,7 @@ function ProjectCard({ project: p, compact = false, onOpen, onApply }) {
     <div className="card card-hover" style={{ padding: compact ? 22 : 28, display: 'flex', flexDirection: 'column', gap: 14, cursor: 'pointer' }} onClick={onOpen}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14 }}>
         <div style={{ flex: 1 }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.08em', color: '#8892a8', marginBottom: 6, textTransform: 'uppercase' }}>{p.id.toUpperCase()} · {p.unit}</div>
+          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.08em', color: '#8892a8', marginBottom: 6, textTransform: 'uppercase' }}>{p.id.toUpperCase()} {p.unit}</div>
           <h3 className="display tight" style={{ fontSize: compact ? 17 : 20, lineHeight: 1.1, margin: 0 }}>{p.title}</h3>
         </div>
         <MatchDonut score={p.match} size={compact ? 52 : 62} />
@@ -1059,7 +1061,7 @@ function ProjectCard({ project: p, compact = false, onOpen, onApply }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#8892a8', flex: 1, minWidth: 0 }}>
           <Avatar initials={p.mentor.avatar} size={24} />
           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.mentor.name}</span>
-          <span style={{ flexShrink: 0 }}>·</span>
+          <span style={{ flexShrink: 0 }}></span>
           <FormatIcon format={p.format} />
           <span style={{ whiteSpace: 'nowrap' }}>{p.format}</span>
         </div>
@@ -1151,7 +1153,7 @@ function ProjectModal({ project: p, applied, onApply, onClose }) {
       <div className="card anim-in" style={{ maxWidth: 880, width: '100%', padding: 40, maxHeight: '92vh', overflowY: 'auto' }} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 20, marginBottom: 20 }}>
           <div style={{ flex: 1 }}>
-            <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{p.id.toUpperCase()} · {p.unit}</div>
+            <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{p.id.toUpperCase()} {p.unit}</div>
             <h2 className="display tight" style={{ fontSize: 30, lineHeight: 1.05, margin: '0 0 14px' }}>{p.title}</h2>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <span className="chip"><FormatIcon format={p.format} /> {p.format}</span>
@@ -1365,7 +1367,7 @@ function StudentProfile({ toast }) {
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8892a8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                     </svg>
-                    <span style={{ fontSize: 13, color: '#8892a8' }}>Загрузить резюме <span style={{ color: '#5a6278' }}>· PDF, DOC, DOCX</span></span>
+                    <span style={{ fontSize: 13, color: '#8892a8' }}>Загрузить резюме <span style={{ color: '#5a6278' }}> PDF, DOC, DOCX</span></span>
                   </div>
                 </label>
               }
@@ -1425,7 +1427,7 @@ function StudentApplications() {
       <div key={a.projectId} className="card" style={{ padding: 28, marginBottom: 16 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 32, alignItems: 'start' }}>
             <div>
-              <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{a.project.id.toUpperCase()} · {a.project.unit}</div>
+              <div className="mono" style={{ fontSize: 11, color: '#8892a8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{a.project.id.toUpperCase()} {a.project.unit}</div>
               <h3 className="display" style={{ fontSize: 22, margin: '0 0 12px', lineHeight: 1.1 }}>{a.project.title}</h3>
               <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
                 <span className="pill pill-warn"><span className="dot dot-warn" /> {a.statusLabel}</span>
@@ -1506,8 +1508,8 @@ function StudentDocuments({ toast }) {
     <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
       <div style={{ marginBottom: 28 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Документы</div>
-        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>Один кабинет на весь цикл</h1>
-        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Все документы практики, инструкции и примеры — в одном месте.</p>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>ДОКУМЕНТООБОРОТ</h1>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Все документы практики, инструкции и примеры в одном месте</p>
       </div>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
@@ -1721,7 +1723,7 @@ function StudentChat({ toast }) {
             <Avatar initials={thread.with.avatar} size={42} />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 15, fontWeight: 700 }}>{thread.with.name}</div>
-              <div style={{ fontSize: 12, color: '#8892a8' }}>{thread.with.role} · {thread.project}</div>
+              <div style={{ fontSize: 12, color: '#8892a8' }}>{thread.with.role}{thread.project ? ` · ${thread.project}` : ''}</div>
             </div>
             <button className="btn btn-ghost btn-sm">Видеозвонок</button>
           </div>
@@ -1872,14 +1874,14 @@ function MentorCandidates({ toast }) {
     <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '48px 32px' }}>
       <div style={{ marginBottom: 32 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Кандидаты</div>
-        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>АВТОКЛАССИФИКАЦИЯ ИНЦИДЕНТОВ ИТ-ПОДДЕРЖКИ · P‑024</h1>
+        <h1 className="display tight" style={{ fontSize: 'clamp(36px, 4.5vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>АВТОКЛАССИФИКАЦИЯ ИНЦИДЕНТОВ ИТ-ПОДДЕРЖКИ P‑024</h1>
         <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Отсортировано по совпадению алгоритма мэтчинга. Навыки сверены с обязательными требованиями проекта.</p>
       </div>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         {filters.map(([k, l, n]) =>
         <button key={k} className={`btn btn-sm ${tab === k ? 'btn-accent' : 'btn-ghost'}`} onClick={() => setTab(k)}>
-            {l} <span style={{ opacity: 0.7, fontWeight: 500 }}>· {n}</span>
+            {l} <span style={{ opacity: 0.7, fontWeight: 500 }}> {n}</span>
           </button>
         )}
       </div>
@@ -1896,7 +1898,7 @@ function MentorProject({ toast }) {
     <div className="anim-in" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px' }}>
       <div style={{ marginBottom: 32 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Профиль проекта</div>
-        <h1 className="display tight" style={{ fontSize: 'clamp(34px, 4vw, 46px)', lineHeight: 0.95, margin: '0 0 10px' }}> ОПИСАНИЕ</h1>
+        <h1 className="display tight" style={{ fontSize: 'clamp(34px, 4vw, 46px)', lineHeight: 0.95, margin: '0 0 10px' }}>ОПИСАНИЕ</h1>
         <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Чем подробнее требования, тем точнее сработает мэтчинг</p>
       </div>
 
@@ -1908,7 +1910,7 @@ function MentorProject({ toast }) {
           </label>
           <label className="field">
             <span className="lbl">Подразделение</span>
-            <input className="input" defaultValue="ДИТАТ · Центр эксплуатации" />
+            <input className="input" defaultValue="ДИТАТ Центр эксплуатации" />
           </label>
         </div>
         <label className="field" style={{ marginBottom: 20 }}>
@@ -2004,7 +2006,156 @@ function MentorProject({ toast }) {
 
 }
 
-Object.assign(window, { MentorDashboard, MentorCandidates, MentorProject, MentorDocuments });
+const MENTOR_CHAT_THREADS = [
+{
+  id: 'mc1',
+  with: { name: 'Анна Дятлова', role: 'Студент · ИИ в промышленности · 2 курс', avatar: 'АЯ' },
+  project: 'Автоклассификация инцидентов',
+  unread: 2,
+  lastAt: '11:47',
+  messages: [
+  { from: 'them', text: 'Екатерина Дмитриевна, добрый день! Я изучила описание проекта — очень интересная задача. У меня есть опыт с классификаторами на scikit-learn, хотелось бы обсудить детали.', at: '11:31' },
+  { from: 'me', text: 'Анна, добрый день! Рада слышать. Расскажите подробнее — с какими объёмами данных работали?', at: '11:39' },
+  { from: 'them', text: 'В курсовом проекте — около 40 тыс. записей, мультиклассовая классификация. ROC-AUC вышел 0.94.', at: '11:45' },
+  { from: 'them', text: 'Могу поделиться ноутбуком, если нужно.', at: '11:47' }]
+
+},
+{
+  id: 'mc2',
+  with: { name: 'Марк Волков', role: 'Студент · ИИ в промышленности · 2 курс', avatar: 'МВ' },
+  project: 'Автоклассификация инцидентов',
+  unread: 1,
+  lastAt: '10:03',
+  messages: [
+  { from: 'them', text: 'Здравствуйте! Подал заявку на ваш проект. Работал с BERT-based моделями, есть опыт в NLP-пайплайнах.', at: '09:58' },
+  { from: 'them', text: 'Когда можно ожидать обратную связь?', at: '10:03' }]
+
+},
+{
+  id: 'mc3',
+  with: { name: 'Тимур Асанов', role: 'Студент · ИИ в промышленности · 1 курс', avatar: 'ТА' },
+  project: 'Автоклассификация инцидентов',
+  unread: 0,
+  lastAt: 'вчера',
+  messages: [
+  { from: 'them', text: 'Добрый день! Хочу узнать — стажировка будет очно или можно удалённо?', at: 'вчера' },
+  { from: 'me', text: 'Тимур, формат гибридный: 2–3 дня в офисе ГПН, остальное удалённо. Дополнительные вопросы есть?', at: 'вчера' },
+  { from: 'them', text: 'Понял, спасибо! Меня устраивает.', at: 'вчера' }]
+
+},
+{
+  id: 'mc4',
+  with: { name: 'Елизавета Орлова', role: 'Координатор · ИТМО × ГПН', avatar: 'ЕО' },
+  project: null,
+  unread: 0,
+  lastAt: '18 янв',
+  messages: [
+  { from: 'them', text: 'Екатерина, напоминаю: финальный дедлайн по заданиям на практику — 5 февраля.', at: '18 янв' },
+  { from: 'me', text: 'Елизавета, спасибо! Уже готовлю документ для Анны Дятловой.', at: '18 янв' }]
+
+}];
+
+
+function MentorChat({ toast }) {
+  const [active, setActive] = useStateM(MENTOR_CHAT_THREADS[0].id);
+  const [text, setText] = useStateM('');
+  const [threads, setThreads] = useStateM(MENTOR_CHAT_THREADS);
+  const thread = threads.find((t) => t.id === active);
+
+  const send = () => {
+    if (!text.trim()) return;
+    setThreads(threads.map((t) => t.id === active ? {
+      ...t,
+      unread: 0,
+      messages: [...t.messages, { from: 'me', text, at: 'сейчас' }]
+    } : t));
+    setText('');
+    toast('Сообщение отправлено');
+  };
+
+  const totalUnread = threads.reduce((s, t) => s + t.unread, 0);
+
+  return (
+    <div className="anim-in" style={{ maxWidth: 1320, margin: '0 auto', padding: '32px 32px' }}>
+      <div style={{ marginBottom: 24 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Наставник</div>
+        <h1 className="display tight" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 0.95, margin: '0 0 6px' }}>ЧАТЫ</h1>
+        {totalUnread > 0 && <div style={{ fontSize: 13, color: '#8892a8' }}>{totalUnread} непрочитанных сообщения</div>}
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 20, height: '70vh', minHeight: 540 }}>
+        {/* Thread list */}
+        <div className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: 16, borderBottom: '1px solid #1a2438' }}>
+            <input className="input" placeholder="Поиск" style={{ fontSize: 13 }} />
+          </div>
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+            {threads.map((t) =>
+            <div key={t.id} onClick={() => setActive(t.id)} style={{
+              padding: 16,
+              borderBottom: '1px solid #131e33',
+              cursor: 'pointer',
+              background: active === t.id ? 'rgba(255,122,26,0.08)' : 'transparent',
+              borderLeft: active === t.id ? '3px solid #ff7a1a' : '3px solid transparent',
+              display: 'flex', gap: 12, alignItems: 'flex-start'
+            }}>
+                <Avatar initials={t.with.avatar} size={40} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 2 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.with.name}</div>
+                    <div className="mono" style={{ fontSize: 10, color: '#8892a8', flexShrink: 0 }}>{t.lastAt}</div>
+                  </div>
+                  {t.project && <div style={{ fontSize: 11, color: '#8892a8', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.project}</div>}
+                  <div style={{ fontSize: 12, color: '#c4ccdc', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.messages[t.messages.length - 1].text}</div>
+                </div>
+                {t.unread > 0 && <div style={{ background: '#ff7a1a', color: '#fff', fontSize: 10, fontWeight: 800, padding: '2px 7px', borderRadius: 999, flexShrink: 0 }}>{t.unread}</div>}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Active thread */}
+        <div className="card" style={{ padding: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <div style={{ padding: '16px 22px', borderBottom: '1px solid #1a2438', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Avatar initials={thread.with.avatar} size={42} />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 15, fontWeight: 700 }}>{thread.with.name}</div>
+              <div style={{ fontSize: 12, color: '#8892a8' }}>{thread.with.role}{thread.project ? ` ${thread.project}` : ''}</div>
+            </div>
+            {thread.with.role.startsWith('Студент') &&
+            <button className="btn btn-ghost btn-sm" onClick={() => toast('Профиль кандидата открыт')}>Профиль</button>
+            }
+          </div>
+
+          <div style={{ flex: 1, overflowY: 'auto', padding: 22, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {thread.messages.map((m, i) =>
+            <div key={i} style={{
+              alignSelf: m.from === 'me' ? 'flex-end' : 'flex-start',
+              maxWidth: '70%',
+              background: m.from === 'me' ? 'linear-gradient(180deg,#ffa24a,#ff7a1a)' : '#131e33',
+              color: m.from === 'me' ? '#fff' : '#eef2f9',
+              padding: '10px 14px',
+              borderRadius: m.from === 'me' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+              fontSize: 13, lineHeight: 1.5,
+              boxShadow: m.from === 'me' ? '0 4px 20px rgba(255,122,26,0.3)' : 'none'
+            }}>
+                <div>{m.text}</div>
+                <div className="mono" style={{ fontSize: 9, opacity: 0.6, marginTop: 4, textAlign: 'right' }}>{m.at}</div>
+              </div>
+            )}
+          </div>
+
+          <div style={{ padding: 16, borderTop: '1px solid #1a2438', display: 'flex', gap: 10 }}>
+            <input className="input" value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && send()} placeholder="Написать сообщение… (Enter)" />
+            <button className="btn btn-accent" onClick={send}>↗</button>
+          </div>
+        </div>
+      </div>
+    </div>);
+
+}
+
+Object.assign(window, { MentorDashboard, MentorCandidates, MentorProject, MentorDocuments, MentorChat });
 
 
 // ========== src/coordinator.jsx ==========
@@ -2059,24 +2210,24 @@ const MOCK_PAIRS = [
 { student: 'Алиса Гончарова', sAvatar: 'АГ', mentor: 'Сергей Ильин', mAvatar: 'СИ', project: 'Сегментация керна', status: 'matched', date: '21 января' }];
 
 const STUDENT_APPLICATIONS = [
-{ id: 'st-001', name: 'Анна Дятлова', avatar: 'АЯ', program: 'ИИ в промышленности · 2к', applications: [
+{ id: 'st-001', name: 'Анна Дятлова', avatar: 'АЯ', program: 'ИИ в промышленности 2к', applications: [
   { project: 'Автоклассификация инцидентов', mentor: 'Екатерина Новикова', match: 88, status: 'interview' },
   { project: 'LLM-ассистент по НТД', mentor: 'Илья Козлов', match: 74, status: 'review' }]
 },
-{ id: 'st-024', name: 'Марк Волков', avatar: 'МВ', program: 'ИИ в промышленности · 2к', applications: [
+{ id: 'st-024', name: 'Марк Волков', avatar: 'МВ', program: 'ИИ в промышленности 2к', applications: [
   { project: 'LLM-ассистент по НТД', mentor: 'Илья Козлов', match: 81, status: 'review' },
   { project: 'Детекция аномалий', mentor: 'Александр Берг', match: 65, status: 'review' }]
 },
-{ id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', program: 'ИИ в промышленности · 2к', applications: [
+{ id: 'st-013', name: 'София Лаптева', avatar: 'СЛ', program: 'ИИ в промышленности 2к', applications: [
   { project: 'Автогенерация SQL', mentor: 'Дмитрий Воронов', match: 91, status: 'matched' }]
 },
-{ id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', program: 'ИИ в промышленности · 1к', applications: [
+{ id: 'st-047', name: 'Тимур Асанов', avatar: 'ТА', program: 'ИИ в промышленности 1к', applications: [
   { project: 'Детекция аномалий', mentor: 'Александр Берг', match: 72, status: 'interview' },
   { project: 'Сегментация керна', mentor: 'Сергей Ильин', match: 58, status: 'review' }]
 },
-{ id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', program: 'ИИ в промышленности · 1к', applications: [] },
-{ id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', program: 'ИИ в промышленности · 1к', applications: [] },
-{ id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', program: 'ИИ в промышленности · 2к', applications: [
+{ id: 'st-055', name: 'Юлия Керн', avatar: 'ЮК', program: 'ИИ в промышленности 1к', applications: [] },
+{ id: 'st-062', name: 'Игорь Петров', avatar: 'ИП', program: 'ИИ в промышленности 1к', applications: [] },
+{ id: 'st-071', name: 'Алиса Гончарова', avatar: 'АГ', program: 'ИИ в промышленности 2к', applications: [
   { project: 'Сегментация керна', mentor: 'Сергей Ильин', match: 76, status: 'matched' },
   { project: 'Детекция аномалий', mentor: 'Александр Берг', match: 61, status: 'review' }]
 }];
@@ -2212,7 +2363,7 @@ function CoordinatorStudents({ toast }) {
                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: st.color, flexShrink: 0 }} />
                       <div>
                         <div style={{ fontSize: 12, fontWeight: 600, color: '#eef2f9' }}>{a.project}</div>
-                        <div style={{ fontSize: 11, color: '#8892a8' }}>{a.mentor} · <span className="mono" style={{ color: '#ffb347' }}>{a.match}%</span> · <span style={{ color: st.color }}>{st.label}</span></div>
+                        <div style={{ fontSize: 11, color: '#8892a8' }}>{a.mentor} <span className="mono" style={{ color: '#ffb347' }}>{a.match}%</span> <span style={{ color: st.color }}>{st.label}</span></div>
                       </div>
                     </div>);
 
@@ -2261,7 +2412,7 @@ function CoordinatorProjects({ toast }) {
             <div key={p.id} className="card" style={{ padding: '20px 24px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto auto', gap: 20, alignItems: 'center', marginBottom: apps.length ? 16 : 0 }}>
                 <div>
-                  <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 4, textTransform: 'uppercase' }}>{p.id.toUpperCase()} · {p.unit}</div>
+                  <div className="mono" style={{ fontSize: 10, color: '#8892a8', marginBottom: 4, textTransform: 'uppercase' }}>{p.id.toUpperCase()} {p.unit}</div>
                   <div style={{ fontSize: 15, fontWeight: 700, lineHeight: 1.3 }}>{p.title}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -2289,7 +2440,7 @@ function CoordinatorProjects({ toast }) {
                         <Avatar initials={a.avatar} size={24} />
                         <div>
                           <div style={{ fontSize: 12, fontWeight: 600, color: '#eef2f9' }}>{a.name}</div>
-                          <div style={{ fontSize: 11, color: '#8892a8' }}><span className="mono" style={{ color: '#ffb347' }}>{a.match}%</span> · <span style={{ color: st.color }}>{st.label}</span></div>
+                          <div style={{ fontSize: 11, color: '#8892a8' }}><span className="mono" style={{ color: '#ffb347' }}>{a.match}%</span> <span style={{ color: st.color }}>{st.label}</span></div>
                         </div>
                       </div>);
 
@@ -2393,7 +2544,7 @@ function CoordinatorDocs({ toast }) {
       <div style={{ marginBottom: 28 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: '#ff7a1a', marginBottom: 10, fontWeight: 600, textTransform: 'uppercase' }}>Координатор</div>
         <h1 className="display tight" style={{ fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 0.95, margin: '0 0 10px' }}>Документооборот</h1>
-        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Статусы всех документов по каждому студенту.</p>
+        <p style={{ color: '#c4ccdc', fontSize: 15, margin: 0 }}>Статусы всех документов по каждому студенту</p>
       </div>
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ display: 'grid', gridTemplateColumns: `240px repeat(7, 1fr)`, padding: '12px 20px', borderBottom: '1px solid #1a2438', background: 'rgba(255,255,255,0.02)', gap: 8, alignItems: 'end' }}>
@@ -2459,7 +2610,8 @@ const SCREENS_BY_ROLE = {
   { key: 'home', label: 'Обзор' },
   { key: 'candidates', label: 'Кандидаты', badge: 2 },
   { key: 'project', label: 'Проект' },
-  { key: 'mentor-docs', label: 'Документы' }],
+  { key: 'mentor-docs', label: 'Документы' },
+  { key: 'mentor-chat', label: 'Чаты', badge: 3 }],
 
   coordinator: [
   { key: 'home', label: 'Дашборд' },
@@ -2571,7 +2723,8 @@ function App() {
     if (screen === 'home') content = <MentorDashboard onNav={setScreen} toast={toast} />;else
     if (screen === 'candidates') content = <MentorCandidates toast={toast} />;else
     if (screen === 'project') content = <MentorProject toast={toast} />;else
-    if (screen === 'mentor-docs') content = <MentorDocuments toast={toast} />;
+    if (screen === 'mentor-docs') content = <MentorDocuments toast={toast} />;else
+    if (screen === 'mentor-chat') content = <MentorChat toast={toast} />;
   } else {
     if (screen === 'home') content = <CoordinatorDashboard toast={toast} />;else
     if (screen === 'coord-students') content = <CoordinatorStudents toast={toast} />;else
@@ -2588,8 +2741,8 @@ function App() {
       {/* Footer */}
       <footer style={{ borderTop: '1px solid #1a2438', marginTop: 80, padding: '32px', color: '#5a6278', fontSize: 12 }}>
         <div style={{ maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
-          <div>© 2026 · MVP цифровой платформы организации практик · ИТМО × ПАО «Газпром нефть» · Сделано Анастасией Дехтеревой, ФТМИ ИТМО</div>
-          <div className="mono" style={{ letterSpacing: '0.08em' }}>v0.4.1 · демо‑прототип</div>
+          <div>© 2026 MVP цифровой платформы организации практик ИТМО × ПАО «Газпром нефть» Сделано Анастасией Дехтеревой, ФТМИ ИТМО</div>
+          <div className="mono" style={{ letterSpacing: '0.08em' }}>v0.4.1 демо‑прототип</div>
         </div>
       </footer>
 
